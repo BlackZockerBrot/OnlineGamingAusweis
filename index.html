@@ -215,7 +215,6 @@
 </head>
 <body class="p-4 md:p-8 flex items-center justify-center relative">
 
-    <!-- ARBEITSBLATT DRUCK BEREICH (Unsichtbar im normalen Spiel) -->
     <div id="print-section" class="hidden absolute top-0 left-0 w-full text-black bg-white p-8"></div>
 
     <div class="w-full max-w-3xl glass-panel rounded-2xl p-6 md:p-10 relative">
@@ -235,13 +234,11 @@
             </p>
 
             <div class="w-full max-w-md mt-6 space-y-4">
-                <!-- NAME -->
                 <label for="gamertag" class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest mt-2">Dein Gamer-Tag / Vorname:</label>
                 <input type="text" id="gamertag" placeholder="z.B. ShadowHunter" autocomplete="off" maxlength="20"
                     class="w-full bg-gray-900 border border-gray-600 rounded-lg p-4 text-white text-lg focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-bold shadow-inner">
                 <p id="name-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte wähle einen angemessenen Namen!</p>
 
-                <!-- KLASSE -->
                 <label for="player-klasse" class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest mt-4">Deine Klasse:</label>
                 <select id="player-klasse" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-4 text-white text-lg focus:outline-none focus:border-cyan-400 transition-all font-bold shadow-inner">
                     <option value="">Bitte wählen...</option>
@@ -262,7 +259,6 @@
                 </select>
                 <p id="klasse-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte wähle eine Klasse aus!</p>
 
-                <!-- AVATAR -->
                 <label class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest pt-2">Wähle deinen Operator:</label>
                 <div class="flex justify-between gap-2" id="avatar-selection">
                     <button onclick="selectAvatar('fa-user-astronaut', this)" class="avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)]"><i class="fa-solid fa-user-astronaut text-cyan-400"></i></button>
@@ -278,7 +274,7 @@
             </div>
         </div>
 
-        <!-- ================= ADMIN SCREEN (DASHBOARD) ================= -->
+        <!-- ================= ADMIN SCREEN ================= -->
         <div id="admin-screen" class="hidden-view flex-col items-center text-center space-y-6 slide-up relative z-10">
             <h2 class="text-4xl font-bold tracking-wider uppercase orbitron text-orange-500 drop-shadow-[0_0_15px_#ff9900]">
                 <i class="fa-solid fa-user-shield"></i> Admin Panel
@@ -286,7 +282,6 @@
             
             <div class="w-full max-w-3xl mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 
-                <!-- Spieleinstellungen -->
                 <div class="p-5 bg-gray-800/80 border border-orange-500/50 rounded-xl shadow-[0_0_15px_rgba(255,153,0,0.1)]">
                     <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-600 pb-2"><i class="fa-solid fa-sliders text-orange-400"></i> Einstellungen</h3>
                     <label class="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Timer-Limit</label>
@@ -304,7 +299,16 @@
                     <div id="save-indicator" class="text-xs text-green-400 font-bold opacity-0 transition-opacity">✅ Gespeichert</div>
                 </div>
 
-                <!-- Tools (Print & QR) -->
+                <!-- NEU WIEDER DA: PUNKTE ERZWINGEN -->
+                <div class="p-5 bg-gray-800/80 border border-purple-500/50 rounded-xl shadow-[0_0_15px_rgba(188,19,254,0.1)]">
+                    <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-600 pb-2"><i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> Punkte erzwingen (Test)</h3>
+                    <p class="text-xs text-gray-400 mb-2">Generiert sofort einen Ausweis mit diesen Punkten und sendet Testdaten an Google Sheets.</p>
+                    <input type="number" id="force-score-input" placeholder="Punkte (z.B. 15)" max="15" min="0" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2 text-white mb-3 focus:border-purple-500">
+                    <button onclick="forceScoreAndFinish()" class="w-full bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Testlauf abschließen
+                    </button>
+                </div>
+
                 <div class="p-5 bg-gray-800/80 border border-yellow-500/50 rounded-xl shadow-[0_0_15px_rgba(255,255,0,0.1)]">
                     <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-600 pb-2"><i class="fa-solid fa-toolbox text-yellow-400"></i> Lehrer-Tools</h3>
                     <button onclick="generateQR()" class="w-full mb-3 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg text-sm font-bold transition-all border border-gray-500 flex justify-center items-center gap-2">
@@ -316,7 +320,6 @@
                     <div id="qr-container" class="mt-4 flex justify-center bg-white p-2 rounded hidden"></div>
                 </div>
 
-                <!-- Smartboard Modus -->
                 <div class="p-5 bg-gray-800/80 border border-cyan-500/50 rounded-xl shadow-[0_0_15px_rgba(0,243,255,0.1)] flex flex-col justify-between">
                     <div>
                         <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-600 pb-2"><i class="fa-solid fa-chalkboard-user text-cyan-400"></i> Smartboard Modus</h3>
@@ -327,18 +330,11 @@
                         Auf Beamer anzeigen <i class="fa-solid fa-play"></i>
                     </button>
                 </div>
-
-                <!-- Spickzettel -->
-                <div class="p-5 bg-gray-800/80 border border-green-500/50 rounded-xl shadow-[0_0_15px_rgba(0,255,102,0.1)]">
-                    <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-600 pb-2"><i class="fa-solid fa-book-open-reader text-green-400"></i> Lösungsbogen</h3>
-                    <p class="text-xs text-gray-400 mb-3">Alle 25 Fragen mit Lösungen auf einen Blick.</p>
-                    <button onclick="toggleSpickzettel()" id="spickzettel-btn" class="w-full bg-green-700 hover:bg-green-600 text-white py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-eye"></i> Lösungsbogen öffnen
-                    </button>
-                </div>
-
             </div>
             
+            <button onclick="toggleSpickzettel()" id="spickzettel-btn" class="w-full max-w-3xl mt-4 bg-green-700 hover:bg-green-600 text-white py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2">
+                <i class="fa-solid fa-eye"></i> Lösungsbogen öffnen
+            </button>
             <div id="spickzettel-container" class="w-full max-w-3xl hidden fade-in bg-gray-900 border border-green-500/30 rounded-xl p-4 text-left max-h-[400px] overflow-y-auto custom-scroll shadow-inner"></div>
 
             <button onclick="closeAdmin()" class="mt-4 text-gray-400 hover:text-white transition-colors underline flex items-center gap-2">
@@ -346,14 +342,13 @@
             </button>
         </div>
 
-        <!-- ================= SMARTBOARD SCREEN (BEAMER) ================= -->
+        <!-- ================= SMARTBOARD ================= -->
         <div id="smartboard-screen" class="hidden-view flex-col w-full relative z-10 items-center justify-center min-h-[60vh]">
             <div class="absolute top-0 right-0">
                 <button onclick="closeSmartboard()" class="bg-red-600/80 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-sm transition-all shadow-[0_0_10px_rgba(255,0,0,0.5)] flex items-center gap-2">
                     <i class="fa-solid fa-xmark"></i> Beenden
                 </button>
             </div>
-            
             <div class="w-full bg-gray-800/60 border-2 border-cyan-500/50 rounded-2xl p-8 md:p-12 mb-6 mt-10 relative shadow-[0_0_30px_rgba(0,243,255,0.2)]">
                 <div id="sb-category-badge" class="inline-block px-4 py-1 bg-cyan-900/50 text-sm rounded-full text-cyan-300 font-bold uppercase tracking-wider mb-4 border border-cyan-500/30">Kategorie</div>
                 <h2 id="sb-question-text" class="text-3xl md:text-5xl font-bold mb-8 orbitron leading-snug">Frage lädt...</h2>
@@ -372,37 +367,24 @@
                     <span id="display-name" class="truncate max-w-[100px] md:max-w-[150px]">Player</span>
                 </div>
                 
-                <!-- NEU: COMBO METER -->
                 <div id="combo-meter" class="hidden absolute left-1/2 -translate-x-1/2 top-0 text-orange-500 font-bold orbitron text-xl drop-shadow-[0_0_8px_orange] transition-all">
                     🔥 3x COMBO
                 </div>
 
-                <div class="text-lg font-bold orbitron text-purple-400" id="current-question-num">
-                    Frage 1/15
-                </div>
+                <div class="text-lg font-bold orbitron text-purple-400" id="current-question-num">Frage 1/15</div>
             </div>
 
-            <div class="progress-container mb-6">
-                <div id="progress-bar" class="progress-bar"></div>
-            </div>
+            <div class="progress-container mb-6"><div id="progress-bar" class="progress-bar"></div></div>
 
             <div id="quiz-container-inner" class="bg-gray-800/50 border border-gray-700 rounded-xl p-6 md:p-8 mb-6 relative shadow-lg transition-all duration-300">
-                <div class="timer-container" id="timer-wrapper">
-                    <div id="timer-bar" class="timer-bar"></div>
-                </div>
-
-                <div class="absolute -top-4 -left-4 w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-black font-bold orbitron shadow-[0_0_15px_#00f3ff]">
-                    <i class="fa-solid fa-question text-sm"></i>
-                </div>
+                <div class="timer-container" id="timer-wrapper"><div id="timer-bar" class="timer-bar"></div></div>
+                <div class="absolute -top-4 -left-4 w-8 h-8 bg-cyan-500 rounded-full flex items-center justify-center text-black font-bold orbitron shadow-[0_0_15px_#00f3ff]"><i class="fa-solid fa-question text-sm"></i></div>
                 <h2 id="question-text" class="text-2xl md:text-2xl font-semibold mb-2 orbitron leading-snug transition-colors">Frage lädt...</h2>
                 <div id="category-badge" class="inline-block px-3 py-1 bg-gray-700 text-xs rounded-full text-gray-300 font-bold uppercase tracking-wider mb-6">Kategorie</div>
-                
                 <div id="options-container" class="space-y-3 flex flex-col"></div>
             </div>
 
-            <div id="feedback-container" class="hidden h-auto min-h-[6rem] rounded-lg p-4 flex items-center justify-center text-center font-bold text-lg fade-in border">
-            </div>
-            
+            <div id="feedback-container" class="hidden h-auto min-h-[6rem] rounded-lg p-4 flex items-center justify-center text-center font-bold text-lg fade-in border"></div>
             <button id="next-btn" onclick="nextQuestion()" class="btn-gaming w-full py-4 rounded-lg text-xl mt-6 hidden fade-in flex justify-center items-center gap-3">
                 <span id="next-btn-text">Nächste Frage</span> <i class="fa-solid fa-arrow-right"></i>
             </button>
@@ -414,12 +396,9 @@
             <p id="result-message" class="text-xl text-gray-300 mb-8 text-center max-w-xl">Ergebnis wird berechnet...</p>
 
             <div id="license-wrapper" class="w-full max-w-md hidden fade-in mb-8">
-                <!-- Ausweis HTML bleibt exakt gleich -->
                 <div class="license-card w-full shadow-[0_0_30px_rgba(0,243,255,0.15)] transform transition-transform hover:scale-105">
                     <div class="license-inner overflow-hidden relative">
-                        <div class="absolute -right-12 -bottom-12 text-[180px] text-cyan-500 opacity-[0.03] pointer-events-none rotate-12">
-                            <i class="fa-solid fa-globe"></i>
-                        </div>
+                        <div class="absolute -right-12 -bottom-12 text-[180px] text-cyan-500 opacity-[0.03] pointer-events-none rotate-12"><i class="fa-solid fa-globe"></i></div>
                         <div class="flex justify-between items-start border-b border-cyan-800/60 pb-3 relative z-10">
                             <div>
                                 <h3 class="orbitron text-cyan-400 font-bold text-xl uppercase tracking-widest drop-shadow-[0_0_5px_rgba(0,243,255,0.3)]">Offizieller</h3>
@@ -442,22 +421,10 @@
                                     <div id="license-name" class="font-bold text-xl md:text-2xl orbitron text-white truncate drop-shadow-[0_0_3px_rgba(255,255,255,0.5)]">Name</div>
                                 </div>
                                 <div class="grid grid-cols-2 gap-x-2 gap-y-2">
-                                    <div>
-                                        <div class="text-[9px] text-gray-500 uppercase font-bold">Leistung</div>
-                                        <div id="license-score" class="font-bold text-cyan-400 text-sm">100%</div>
-                                    </div>
-                                    <div>
-                                        <div class="text-[9px] text-gray-500 uppercase font-bold">Schulklasse</div>
-                                        <div id="license-klasse" class="font-bold text-purple-400 text-sm">--</div>
-                                    </div>
-                                    <div>
-                                        <div class="text-[9px] text-gray-500 uppercase font-bold">Rang</div>
-                                        <div class="font-bold text-green-400 text-sm flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> S-Tier</div>
-                                    </div>
-                                    <div>
-                                        <div class="text-[9px] text-gray-500 uppercase font-bold">Ausgestellt</div>
-                                        <div id="license-date" class="font-bold text-gray-300 text-sm font-mono">--.--.----</div>
-                                    </div>
+                                    <div><div class="text-[9px] text-gray-500 uppercase font-bold">Leistung</div><div id="license-score" class="font-bold text-cyan-400 text-sm">100%</div></div>
+                                    <div><div class="text-[9px] text-gray-500 uppercase font-bold">Schulklasse</div><div id="license-klasse" class="font-bold text-purple-400 text-sm">--</div></div>
+                                    <div><div class="text-[9px] text-gray-500 uppercase font-bold">Rang</div><div class="font-bold text-green-400 text-sm flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> S-Tier</div></div>
+                                    <div><div class="text-[9px] text-gray-500 uppercase font-bold">Ausgestellt</div><div id="license-date" class="font-bold text-gray-300 text-sm font-mono">--.--.----</div></div>
                                 </div>
                             </div>
                         </div>
@@ -476,7 +443,6 @@
                         </div>
                     </div>
                 </div>
-                
                 <button id="download-btn" onclick="downloadLicense()" class="w-full mt-6 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3 px-4 rounded-lg text-lg font-bold orbitron tracking-wider shadow-[0_0_15px_rgba(0,243,255,0.3)] transition-all flex items-center justify-center gap-3">
                     <i class="fa-solid fa-download text-xl"></i> Ausweis speichern
                 </button>
@@ -491,18 +457,15 @@
             <button id="show-mistakes-btn" onclick="toggleMistakes()" class="hidden btn-gaming w-full max-w-md py-3 rounded-lg text-lg flex justify-center items-center gap-3 mb-4 bg-gray-800 border-gray-600 hover:border-gray-400">
                 <i class="fa-solid fa-magnifying-glass"></i> Meine Fehler ansehen
             </button>
-            
             <div id="mistakes-section" class="w-full max-w-md hidden fade-in mb-8 space-y-4 text-left"></div>
 
             <button onclick="resetQuiz()" class="btn-gaming px-8 py-4 rounded-lg text-xl flex justify-center items-center gap-3 w-full max-w-md">
                 <i class="fa-solid fa-rotate-right"></i> Hauptmenü
             </button>
         </div>
-
     </div>
 
     <script>
-        // --- SOUND ENGINE ---
         let audioCtx = null;
         function initAudio() {
             if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
@@ -521,7 +484,6 @@
             osc.start();
             osc.stop(audioCtx.currentTime + duration);
         }
-
         const sfx = {
             click: () => playTone(600, 'sine', 0.1, 0.02),
             tick: () => playTone(800, 'square', 0.05, 0.01),
@@ -529,15 +491,8 @@
             wrong: () => { playTone(200, 'sawtooth', 0.2, 0.05); setTimeout(() => playTone(150, 'sawtooth', 0.3, 0.05), 150); },
             success: () => { playTone(400, 'sine', 0.2); setTimeout(() => playTone(500, 'sine', 0.2), 200); setTimeout(() => playTone(600, 'sine', 0.6), 400); },
             fail: () => { playTone(300, 'sawtooth', 0.3); setTimeout(() => playTone(250, 'sawtooth', 0.3), 300); setTimeout(() => playTone(200, 'sawtooth', 0.6), 600); },
-            combo: (level) => {
-                let freq = 700 + (level * 50);
-                playTone(freq, 'square', 0.1, 0.04);
-                setTimeout(() => playTone(freq + 200, 'square', 0.2, 0.04), 100);
-            },
-            boss: () => {
-                playTone(150, 'sawtooth', 0.4, 0.08);
-                setTimeout(() => playTone(100, 'sawtooth', 0.8, 0.08), 400);
-            }
+            combo: (level) => { let freq = 700 + (level * 50); playTone(freq, 'square', 0.1, 0.04); setTimeout(() => playTone(freq + 200, 'square', 0.2, 0.04), 100); },
+            boss: () => { playTone(150, 'sawtooth', 0.4, 0.08); setTimeout(() => playTone(100, 'sawtooth', 0.8, 0.08), 400); }
         };
 
         const badWords = ["hurensohn", "arschloch", "fotze", "schlampe", "wichser", "ficker", "missgeburt", "bastard", "hitler", "nazi", "nutte", "spast", "pimmel", "penis", "vagina", "bitch", "pussy", "cock", "porn", "nigger", "nigga", "kanacke", "schweinehund", "arsch"];
@@ -585,43 +540,23 @@
         let timeLeft = 30;
         let timerInterval;
         let currentQuestionTimeLimit = 30;
-
-        // --- NEU: ANTI-CHEAT & COMBO Variablen ---
         let cheatCount = 0;
         let currentStreak = 0;
 
-        // --- IMMER AKTIVER ANTI-CHEAT ---
         document.addEventListener("visibilitychange", () => {
             const isQuizActive = !document.getElementById('quiz-screen').classList.contains('hidden-view');
             if (document.hidden && isQuizActive) {
-                cheatCount++;
-                sfx.fail();
-                currentStreak = 0; // Combo bricht ab bei Schummeln!
-                updateComboUI();
-                if (score > 0) score--; // 1 Punkt Abzug
-                
-                // Roter Hinweis im Quiz Screen
+                cheatCount++; sfx.fail(); currentStreak = 0; updateComboUI();
+                if (score > 0) score--;
                 showFeedback(false, "🚨 ANTI-CHEAT: TAB GEWECHSELT! (-1 Punkt) 🚨");
             }
         });
 
-        function sanitizeHTML(str) {
-            const temp = document.createElement('div');
-            temp.textContent = str;
-            return temp.innerHTML;
-        }
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
+        function sanitizeHTML(str) { const temp = document.createElement('div'); temp.textContent = str; return temp.innerHTML; }
+        function shuffleArray(array) { for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } }
 
         function selectAvatar(iconClass, btnElement) {
-            initAudio();
-            sfx.click();
-            chosenAvatar = iconClass;
+            initAudio(); sfx.click(); chosenAvatar = iconClass;
             document.querySelectorAll('.avatar-btn').forEach(btn => {
                 btn.className = 'avatar-btn p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all';
                 btn.querySelector('i').className = `fa-solid ${btn.querySelector('i').classList[1]} text-white`;
@@ -631,46 +566,31 @@
         }
 
         function startQuiz() {
-            initAudio();
-            sfx.click();
-
+            initAudio(); sfx.click();
             const inputField = document.getElementById('gamertag');
             const klasseSelect = document.getElementById('player-klasse');
-            const errorMsg = document.getElementById('name-error');
-            const klasseError = document.getElementById('klasse-error');
             const inputVal = inputField.value.trim();
             
-            errorMsg.classList.add('hidden');
-            klasseError.classList.add('hidden');
-            inputField.classList.remove('shake');
-            klasseSelect.classList.remove('shake');
+            document.getElementById('name-error').classList.add('hidden');
+            document.getElementById('klasse-error').classList.add('hidden');
+            inputField.classList.remove('shake'); klasseSelect.classList.remove('shake');
 
             if (inputVal === "2%10l&!") {
-                sfx.success();
-                openAdminPanel();
-                inputField.value = ""; 
-                klasseSelect.value = "";
-                return;
+                sfx.success(); openAdminPanel(); inputField.value = ""; klasseSelect.value = ""; return;
             }
 
             let hasError = false;
             if (inputVal !== "") {
                 const lowerInput = inputVal.toLowerCase();
                 if (badWords.some(word => lowerInput.includes(word))) {
-                    errorMsg.classList.remove('hidden');
-                    inputField.classList.add('shake');
-                    sfx.wrong();
-                    hasError = true; 
-                } else {
-                    gamerTag = sanitizeHTML(inputVal).substring(0, 15);
-                }
+                    document.getElementById('name-error').classList.remove('hidden');
+                    inputField.classList.add('shake'); sfx.wrong(); hasError = true; 
+                } else { gamerTag = sanitizeHTML(inputVal).substring(0, 15); }
             } else { gamerTag = "Commander"; }
 
             if (klasseSelect.value === "") {
-                klasseError.classList.remove('hidden');
-                klasseSelect.classList.add('shake');
-                sfx.wrong();
-                hasError = true;
+                document.getElementById('klasse-error').classList.remove('hidden');
+                klasseSelect.classList.add('shake'); sfx.wrong(); hasError = true;
             } else { playerClass = sanitizeHTML(klasseSelect.value); }
 
             if (hasError) return;
@@ -678,28 +598,17 @@
             document.getElementById('display-name').textContent = gamerTag;
             document.getElementById('header-avatar').className = `fa-solid ${chosenAvatar} text-cyan-400`;
             
-            let poolCopy = JSON.parse(JSON.stringify(masterQuizPool));
-            shuffleArray(poolCopy);
-            
+            let poolCopy = JSON.parse(JSON.stringify(masterQuizPool)); shuffleArray(poolCopy);
             currentQuiz = poolCopy.slice(0, totalQuestions);
-            currentQuiz.forEach(q => {
-                let correctText = q.options[q.correctIndex]; 
-                shuffleArray(q.options); 
-                q.correctIndex = q.options.indexOf(correctText);
-            });
+            currentQuiz.forEach(q => { let correctText = q.options[q.correctIndex]; shuffleArray(q.options); q.correctIndex = q.options.indexOf(correctText); });
             
             document.getElementById('start-screen').classList.add('hidden-view');
             document.getElementById('quiz-screen').classList.remove('hidden-view');
             
-            currentQuestionIndex = 0;
-            score = 0;
-            cheatCount = 0; // Anti-Cheat Reset
-            currentStreak = 0; // Combo Reset
-            mistakes = [];
+            currentQuestionIndex = 0; score = 0; cheatCount = 0; currentStreak = 0; mistakes = [];
             loadQuestion();
         }
 
-        // --- ADMIN FUNKTIONEN ---
         function openAdminPanel() {
             document.getElementById('start-screen').classList.add('hidden-view');
             document.getElementById('admin-screen').classList.remove('hidden-view');
@@ -709,19 +618,13 @@
             const szContainer = document.getElementById('spickzettel-container');
             if(szContainer.children.length === 0) {
                 let html = "";
-                masterQuizPool.forEach((q, i) => {
-                    html += `<div class="mb-4 pb-4 border-b border-gray-700 last:border-0"><div class="text-xs text-green-400 font-bold uppercase mb-1">Frage ${i+1} - ${q.category}</div><div class="text-sm text-white font-semibold mb-2">${q.question}</div><div class="text-sm text-green-300 bg-green-900/30 p-2 rounded mb-2 border-l-2 border-green-500">✅ ${q.options[q.correctIndex]}</div><div class="text-xs text-gray-400 italic">Erklärung: ${q.explanation}</div></div>`;
-                });
+                masterQuizPool.forEach((q, i) => { html += `<div class="mb-4 pb-4 border-b border-gray-700 last:border-0"><div class="text-xs text-green-400 font-bold uppercase mb-1">Frage ${i+1} - ${q.category}</div><div class="text-sm text-white font-semibold mb-2">${q.question}</div><div class="text-sm text-green-300 bg-green-900/30 p-2 rounded mb-2 border-l-2 border-green-500">✅ ${q.options[q.correctIndex]}</div></div>`; });
                 szContainer.innerHTML = html;
             }
 
             const sbSelect = document.getElementById('smartboard-question-select');
             if(sbSelect.options.length === 0) {
-                masterQuizPool.forEach((q, i) => {
-                    const opt = document.createElement('option');
-                    opt.value = i; opt.textContent = `${q.category}: ${q.question.substring(0, 40)}...`;
-                    sbSelect.appendChild(opt);
-                });
+                masterQuizPool.forEach((q, i) => { const opt = document.createElement('option'); opt.value = i; opt.textContent = `${q.category}: ${q.question.substring(0, 40)}...`; sbSelect.appendChild(opt); });
             }
         }
 
@@ -729,52 +632,53 @@
             globalTimeLimit = parseInt(document.getElementById('admin-timer-select').value);
             globalPassingScore = parseInt(document.getElementById('admin-score-select').value);
             const ind = document.getElementById('save-indicator');
-            ind.style.opacity = "1"; setTimeout(() => ind.style.opacity = "0", 2000);
-            sfx.click();
+            ind.style.opacity = "1"; setTimeout(() => ind.style.opacity = "0", 2000); sfx.click();
         }
 
-        // --- NEU: ARBEITSBLATT DRUCKEN ---
+        function forceScoreAndFinish() {
+            sfx.success();
+            let forced = document.getElementById('force-score-input').value;
+            if(!forced) forced = 15;
+            
+            score = parseInt(forced);
+            gamerTag = "Admin-Test";
+            playerClass = "Gast / Lehrer";
+            chosenAvatar = "fa-user-secret";
+            cheatCount = 0;
+            mistakes = [];
+            
+            document.getElementById('admin-screen').classList.add('hidden-view');
+            showResult();
+        }
+
         function printWorksheet() {
             sfx.click();
             let html = "<h1 style='text-align:center; font-family:sans-serif;'>Internet & Gaming Führerschein - Theorieprüfung</h1><br><hr><br>";
             masterQuizPool.forEach((q, i) => {
                 html += `<div style="margin-bottom: 25px; font-family:sans-serif;"><strong>${i+1}. ${q.question}</strong><br><br>`;
-                q.options.forEach(opt => {
-                    html += `<div style="margin-bottom: 8px;">[ &nbsp;&nbsp; ] ${opt}</div>`;
-                });
+                q.options.forEach(opt => { html += `<div style="margin-bottom: 8px;">[ &nbsp;&nbsp; ] ${opt}</div>`; });
                 html += `</div>`;
             });
             document.getElementById('print-section').innerHTML = html;
             window.print();
         }
 
-        // --- NEU: QR CODE FÜR BEAMER ---
         function generateQR() {
             sfx.click();
             const qrContainer = document.getElementById('qr-container');
-            qrContainer.classList.remove('hidden');
-            qrContainer.innerHTML = ""; // Altes löschen
-            new QRCode(qrContainer, {
-                text: window.location.href, // Nimmt automatisch deinen aktuellen Link
-                width: 250,
-                height: 250,
-                colorDark : "#000000",
-                colorLight : "#ffffff"
-            });
+            qrContainer.classList.remove('hidden'); qrContainer.innerHTML = "";
+            new QRCode(qrContainer, { text: window.location.href, width: 250, height: 250, colorDark : "#000000", colorLight : "#ffffff" });
         }
 
         function toggleSpickzettel() {
             sfx.click();
-            const sz = document.getElementById('spickzettel-container');
-            const btn = document.getElementById('spickzettel-btn');
+            const sz = document.getElementById('spickzettel-container'); const btn = document.getElementById('spickzettel-btn');
             if(sz.classList.contains('hidden')) { sz.classList.remove('hidden'); btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Lösungsbogen schließen'; } 
             else { sz.classList.add('hidden'); btn.innerHTML = '<i class="fa-solid fa-eye"></i> Lösungsbogen öffnen'; }
         }
 
         function closeAdmin() {
-            sfx.click();
-            document.getElementById('admin-screen').classList.add('hidden-view');
-            document.getElementById('start-screen').classList.remove('hidden-view');
+            sfx.click(); document.getElementById('admin-screen').classList.add('hidden-view'); document.getElementById('start-screen').classList.remove('hidden-view');
         }
 
         let currentSmartboardQuestion = null;
@@ -785,19 +689,16 @@
             let correctText = currentSmartboardQuestion.options[currentSmartboardQuestion.correctIndex];
             shuffleArray(currentSmartboardQuestion.options);
             currentSmartboardQuestion.correctIndex = currentSmartboardQuestion.options.indexOf(correctText);
-            document.getElementById('admin-screen').classList.add('hidden-view');
-            document.getElementById('smartboard-screen').classList.remove('hidden-view');
+            document.getElementById('admin-screen').classList.add('hidden-view'); document.getElementById('smartboard-screen').classList.remove('hidden-view');
             document.getElementById('sb-category-badge').textContent = currentSmartboardQuestion.category;
             document.getElementById('sb-question-text').textContent = currentSmartboardQuestion.question;
             document.getElementById('sb-feedback-container').classList.add('hidden');
-            const optionsContainer = document.getElementById('sb-options-container');
-            optionsContainer.innerHTML = '';
+            const optionsContainer = document.getElementById('sb-options-container'); optionsContainer.innerHTML = '';
             currentSmartboardQuestion.options.forEach((optionText, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'w-full text-left p-6 md:p-8 rounded-xl text-xl md:text-2xl font-bold bg-gray-700/50 hover:bg-gray-600/80 border border-gray-500 transition-all flex items-center justify-between shadow-md';
                 btn.innerHTML = `<span class="pr-4">${optionText}</span> <i class="fa-regular fa-circle shrink-0 text-2xl"></i>`;
-                btn.onclick = () => checkSmartboardAnswer(index, btn);
-                optionsContainer.appendChild(btn);
+                btn.onclick = () => checkSmartboardAnswer(index, btn); optionsContainer.appendChild(btn);
             });
         }
 
@@ -807,180 +708,98 @@
                 sfx.success();
                 selectedBtn.className = 'w-full text-left p-6 md:p-8 rounded-xl text-xl md:text-2xl font-bold bg-green-900/60 border-2 border-green-500 transition-all flex items-center justify-between shadow-[0_0_20px_rgba(0,255,102,0.4)] option-correct text-white';
                 selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-400');
-                const fc = document.getElementById('sb-feedback-container');
-                fc.classList.remove('hidden');
-                document.getElementById('sb-feedback-text').textContent = currentSmartboardQuestion.explanation;
+                document.getElementById('sb-feedback-container').classList.remove('hidden'); document.getElementById('sb-feedback-text').textContent = currentSmartboardQuestion.explanation;
             } else {
                 sfx.wrong();
                 selectedBtn.className = 'w-full text-left p-6 md:p-8 rounded-xl text-xl md:text-2xl font-bold bg-red-900/60 border-2 border-red-500 transition-all flex items-center justify-between shadow-[0_0_20px_rgba(255,0,85,0.4)] option-wrong text-white';
                 selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-xmark text-red-400');
             }
         }
+        function closeSmartboard() { sfx.click(); document.getElementById('smartboard-screen').classList.add('hidden-view'); document.getElementById('admin-screen').classList.remove('hidden-view'); }
 
-        function closeSmartboard() {
-            sfx.click();
-            document.getElementById('smartboard-screen').classList.add('hidden-view');
-            document.getElementById('admin-screen').classList.remove('hidden-view');
-        }
-
-        // --- REGULÄRES QUIZ ---
         function loadQuestion() {
-            document.getElementById('feedback-container').classList.add('hidden');
-            document.getElementById('next-btn').classList.add('hidden');
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
+            document.getElementById('feedback-container').classList.add('hidden'); document.getElementById('next-btn').classList.add('hidden');
+            const optionsContainer = document.getElementById('options-container'); optionsContainer.innerHTML = '';
             
             const q = currentQuiz[currentQuestionIndex];
-            document.getElementById('question-text').textContent = q.question;
-            document.getElementById('category-badge').textContent = q.category;
+            document.getElementById('question-text').textContent = q.question; document.getElementById('category-badge').textContent = q.category;
             
-            const isBoss = (currentQuestionIndex === totalQuestions - 1); // Frage 15
-            const quizBox = document.getElementById('quiz-container-inner');
-            const qNum = document.getElementById('current-question-num');
-            const qText = document.getElementById('question-text');
+            const isBoss = (currentQuestionIndex === totalQuestions - 1);
+            const quizBox = document.getElementById('quiz-container-inner'); const qNum = document.getElementById('current-question-num'); const qText = document.getElementById('question-text');
             
-            // --- NEU: ENDBOSS MODUS ---
             if (isBoss) {
-                sfx.boss();
-                quizBox.classList.add('boss-mode-box');
-                qNum.innerHTML = "💀 ENDBOSS 💀";
+                sfx.boss(); quizBox.classList.add('boss-mode-box'); qNum.innerHTML = "💀 ENDBOSS 💀";
                 qNum.className = "text-lg font-bold orbitron text-red-500 drop-shadow-[0_0_5px_red] animate-pulse";
                 qText.classList.add('text-red-300');
-                
-                // Endboss hat 40% weniger Zeit!
                 if(globalTimeLimit > 0) currentQuestionTimeLimit = Math.max(10, Math.floor(globalTimeLimit * 0.6));
             } else {
-                quizBox.classList.remove('boss-mode-box');
-                qNum.innerHTML = `Frage ${currentQuestionIndex + 1}/15`;
-                qNum.className = "text-lg font-bold orbitron text-purple-400";
-                qText.classList.remove('text-red-300');
-                
+                quizBox.classList.remove('boss-mode-box'); qNum.innerHTML = `Frage ${currentQuestionIndex + 1}/15`;
+                qNum.className = "text-lg font-bold orbitron text-purple-400"; qText.classList.remove('text-red-300');
                 currentQuestionTimeLimit = globalTimeLimit;
             }
 
-            const progressPercentage = (currentQuestionIndex / totalQuestions) * 100;
-            document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+            document.getElementById('progress-bar').style.width = `${(currentQuestionIndex / totalQuestions) * 100}%`;
             document.getElementById('next-btn-text').textContent = isBoss ? "Ergebnisse anzeigen" : "Nächste Frage";
 
             q.options.forEach((optionText, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn w-full text-left p-4 rounded-lg text-lg font-semibold flex items-center justify-between shadow-sm';
                 btn.innerHTML = `<span class="pr-2 leading-tight">${optionText}</span> <i class="fa-regular fa-circle shrink-0"></i>`;
-                btn.onclick = () => checkAnswer(index, btn);
-                optionsContainer.appendChild(btn);
+                btn.onclick = () => checkAnswer(index, btn); optionsContainer.appendChild(btn);
             });
 
-            const timerWrapper = document.getElementById('timer-wrapper');
-            if(currentQuestionTimeLimit > 0) {
-                timerWrapper.classList.remove('hidden');
-                startTimer();
-            } else {
-                timerWrapper.classList.add('hidden');
-            }
+            if(currentQuestionTimeLimit > 0) { document.getElementById('timer-wrapper').classList.remove('hidden'); startTimer(); } 
+            else { document.getElementById('timer-wrapper').classList.add('hidden'); }
         }
 
-        // --- NEU: COMBO UI UPDATE ---
         function updateComboUI() {
             const comboEl = document.getElementById('combo-meter');
             if(currentStreak >= 3) {
-                comboEl.classList.remove('hidden');
-                comboEl.textContent = `🔥 ${currentStreak}x COMBO`;
-                
-                // Kleine Animation
-                comboEl.style.transform = 'translate(-50%, -10px) scale(1.2)';
-                setTimeout(() => comboEl.style.transform = 'translate(-50%, 0) scale(1)', 200);
-            } else {
-                comboEl.classList.add('hidden');
-            }
+                comboEl.classList.remove('hidden'); comboEl.textContent = `🔥 ${currentStreak}x COMBO`;
+                comboEl.style.transform = 'translate(-50%, -10px) scale(1.2)'; setTimeout(() => comboEl.style.transform = 'translate(-50%, 0) scale(1)', 200);
+            } else { comboEl.classList.add('hidden'); }
         }
 
         function startTimer() {
-            clearInterval(timerInterval);
-            timeLeft = currentQuestionTimeLimit;
-            updateTimerUI();
-            
-            setTimeout(() => {
-                timerInterval = setInterval(() => {
-                    timeLeft--;
-                    updateTimerUI();
-                    if(timeLeft > 0 && timeLeft <= 5) sfx.tick(); 
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        handleTimeout();
-                    }
-                }, 1000);
-            }, 50);
+            clearInterval(timerInterval); timeLeft = currentQuestionTimeLimit; updateTimerUI();
+            setTimeout(() => { timerInterval = setInterval(() => {
+                timeLeft--; updateTimerUI();
+                if(timeLeft > 0 && timeLeft <= 5) sfx.tick(); 
+                if (timeLeft <= 0) { clearInterval(timerInterval); handleTimeout(); }
+            }, 1000); }, 50);
         }
 
         function updateTimerUI() {
-            const bar = document.getElementById('timer-bar');
-            const pct = (timeLeft / currentQuestionTimeLimit) * 100;
-            bar.style.width = `${pct}%`;
-            
-            if (timeLeft <= (currentQuestionTimeLimit * 0.2)) {
-                bar.style.backgroundColor = 'var(--neon-red)';
-                bar.style.boxShadow = '0 0 15px var(--neon-red)';
-            } else if (timeLeft <= (currentQuestionTimeLimit * 0.4)) {
-                bar.style.backgroundColor = 'orange';
-                bar.style.boxShadow = '0 0 10px orange';
-            } else {
-                bar.style.backgroundColor = 'var(--neon-green)';
-                bar.style.boxShadow = '0 0 8px var(--neon-green)';
-            }
+            const bar = document.getElementById('timer-bar'); const pct = (timeLeft / currentQuestionTimeLimit) * 100; bar.style.width = `${pct}%`;
+            if (timeLeft <= (currentQuestionTimeLimit * 0.2)) { bar.style.backgroundColor = 'var(--neon-red)'; bar.style.boxShadow = '0 0 15px var(--neon-red)'; } 
+            else if (timeLeft <= (currentQuestionTimeLimit * 0.4)) { bar.style.backgroundColor = 'orange'; bar.style.boxShadow = '0 0 10px orange'; } 
+            else { bar.style.backgroundColor = 'var(--neon-green)'; bar.style.boxShadow = '0 0 8px var(--neon-green)'; }
         }
 
         function handleTimeout() {
-            sfx.wrong();
-            currentStreak = 0; // Combo kaputt
-            updateComboUI();
-
+            sfx.wrong(); currentStreak = 0; updateComboUI();
             const allBtns = document.getElementById('options-container').querySelectorAll('button');
             allBtns.forEach(btn => { btn.disabled = true; btn.style.cursor = 'not-allowed'; });
-            const q = currentQuiz[currentQuestionIndex];
-            const correctBtn = allBtns[q.correctIndex];
-            correctBtn.classList.add('option-correct');
-            correctBtn.innerHTML = correctBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-500 text-xl');
-            
+            const q = currentQuiz[currentQuestionIndex]; const correctBtn = allBtns[q.correctIndex];
+            correctBtn.classList.add('option-correct'); correctBtn.innerHTML = correctBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-500 text-xl');
             mistakes.push({ question: q.question, userAnswer: "Zeit abgelaufen", correctAnswer: q.options[q.correctIndex], explanation: q.explanation });
-            showFeedback(false, "Zeit abgelaufen! " + q.explanation);
-            document.getElementById('next-btn').classList.remove('hidden');
+            showFeedback(false, "Zeit abgelaufen! " + q.explanation); document.getElementById('next-btn').classList.remove('hidden');
         }
 
         function checkAnswer(selectedIndex, selectedBtn) {
             if(currentQuestionTimeLimit > 0) clearInterval(timerInterval); 
-            
             const allBtns = document.getElementById('options-container').querySelectorAll('button');
             allBtns.forEach(btn => { btn.disabled = true; btn.style.cursor = 'not-allowed'; });
-
-            const q = currentQuiz[currentQuestionIndex];
-            const isCorrect = (selectedIndex === q.correctIndex);
+            const q = currentQuiz[currentQuestionIndex]; const isCorrect = (selectedIndex === q.correctIndex);
 
             if (isCorrect) {
-                currentStreak++; // Combo wächst
-                updateComboUI();
-                
-                if(currentStreak >= 3) {
-                    sfx.combo(currentStreak);
-                } else {
-                    sfx.correct();
-                }
-
-                selectedBtn.classList.add('option-correct');
-                selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-500 text-xl');
-                score++;
-                showFeedback(true, "Richtig! " + q.explanation);
+                currentStreak++; updateComboUI(); if(currentStreak >= 3) { sfx.combo(currentStreak); } else { sfx.correct(); }
+                selectedBtn.classList.add('option-correct'); selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-500 text-xl');
+                score++; showFeedback(true, "Richtig! " + q.explanation);
             } else {
-                currentStreak = 0; // Combo kaputt
-                updateComboUI();
-                sfx.wrong();
-
-                selectedBtn.classList.add('option-wrong');
-                selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-xmark text-red-500 text-xl');
-                
-                const correctBtn = allBtns[q.correctIndex];
-                correctBtn.classList.add('option-correct');
-                correctBtn.innerHTML = correctBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-500 text-xl');
-                
+                currentStreak = 0; updateComboUI(); sfx.wrong();
+                selectedBtn.classList.add('option-wrong'); selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-xmark text-red-500 text-xl');
+                const correctBtn = allBtns[q.correctIndex]; correctBtn.classList.add('option-correct'); correctBtn.innerHTML = correctBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-500 text-xl');
                 mistakes.push({ question: q.question, userAnswer: q.options[selectedIndex], correctAnswer: q.options[q.correctIndex], explanation: q.explanation });
                 showFeedback(false, "Leider falsch! " + q.explanation);
             }
@@ -988,25 +807,13 @@
         }
 
         function showFeedback(isCorrect, text) {
-            const fc = document.getElementById('feedback-container');
-            fc.classList.remove('hidden');
-            if(isCorrect) {
-                fc.className = "mt-4 p-4 rounded-lg text-sm md:text-base font-medium fade-in bg-green-900/40 border border-green-500/50 text-green-200 leading-snug shadow-[0_0_15px_rgba(0,255,102,0.1)]";
-            } else {
-                fc.className = "mt-4 p-4 rounded-lg text-sm md:text-base font-medium fade-in bg-red-900/40 border border-red-500/50 text-red-200 leading-snug shadow-[0_0_15px_rgba(255,0,85,0.1)]";
-            }
+            const fc = document.getElementById('feedback-container'); fc.classList.remove('hidden');
+            if(isCorrect) { fc.className = "mt-4 p-4 rounded-lg text-sm md:text-base font-medium fade-in bg-green-900/40 border border-green-500/50 text-green-200 leading-snug shadow-[0_0_15px_rgba(0,255,102,0.1)]"; } 
+            else { fc.className = "mt-4 p-4 rounded-lg text-sm md:text-base font-medium fade-in bg-red-900/40 border border-red-500/50 text-red-200 leading-snug shadow-[0_0_15px_rgba(255,0,85,0.1)]"; }
             fc.innerHTML = `<span class="font-bold mr-1">${isCorrect ? '✅' : '❌'}</span> ${text}`;
         }
 
-        function nextQuestion() {
-            sfx.click();
-            currentQuestionIndex++;
-            if (currentQuestionIndex < totalQuestions) {
-                loadQuestion();
-            } else {
-                showResult();
-            }
-        }
+        function nextQuestion() { sfx.click(); currentQuestionIndex++; if (currentQuestionIndex < totalQuestions) { loadQuestion(); } else { showResult(); } }
 
         function showResult() {
             document.getElementById('quiz-screen').classList.add('hidden-view');
@@ -1015,149 +822,79 @@
             const percent = Math.round((score / totalQuestions) * 100);
             const passed = score >= globalPassingScore;
 
-            // --- DATEN AN GOOGLE SHEETS SENDEN (inkl. Klasse & Anti-Cheat Erkennung) ---
             let finalScoreText = score.toString();
-            if (cheatCount > 0) {
-                finalScoreText = `${score} (-${cheatCount})`; // Sendet z.B. "12 (-2)"
-            }
+            if (cheatCount > 0) { finalScoreText = `${score} (-${cheatCount})`; }
 
             fetch("https://script.google.com/macros/s/AKfycbxsTQ1pBFFdQ_8bh5lp5etkJoP-MABvHhgmVSUgXxzUEJJm5ePx11RWIwYf7ufAmKN_QQ/exec", {
-                method: "POST",
-                mode: "no-cors",
-                body: JSON.stringify({
-                    name: gamerTag,
-                    klasse: playerClass, 
-                    punkte: finalScoreText, // Sendet Punktzahl + Schummler Info
-                    avatar: chosenAvatar
-                })
+                method: "POST", mode: "no-cors",
+                body: JSON.stringify({ name: gamerTag, klasse: playerClass, punkte: finalScoreText, avatar: chosenAvatar })
             }).catch(err => console.log("Fehler beim Senden:", err));
-            // ------------------------------------------
 
-            const title = document.getElementById('result-title');
-            const message = document.getElementById('result-message');
-            const licenseWrapper = document.getElementById('license-wrapper');
-            const failWrapper = document.getElementById('fail-wrapper');
-
-            licenseWrapper.classList.add('hidden');
-            failWrapper.classList.add('hidden');
+            const title = document.getElementById('result-title'); const message = document.getElementById('result-message');
+            const licenseWrapper = document.getElementById('license-wrapper'); const failWrapper = document.getElementById('fail-wrapper');
+            licenseWrapper.classList.add('hidden'); failWrapper.classList.add('hidden');
             
-            const mistakesBtn = document.getElementById('show-mistakes-btn');
-            const mistakesSection = document.getElementById('mistakes-section');
+            const mistakesBtn = document.getElementById('show-mistakes-btn'); const mistakesSection = document.getElementById('mistakes-section');
             mistakesSection.classList.add('hidden');
             
             if (mistakes.length > 0) {
-                mistakesBtn.classList.remove('hidden');
-                mistakesBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Meine Fehler ansehen';
+                mistakesBtn.classList.remove('hidden'); mistakesBtn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Meine Fehler ansehen';
                 let mistakesHTML = '<h3 class="text-2xl font-bold orbitron text-orange-400 mb-4 text-center mt-6">Einsatzauswertung</h3>';
-                mistakes.forEach((m, index) => {
-                    mistakesHTML += `<div class="bg-gray-800/80 border border-red-500/30 rounded-lg p-4 mb-3 shadow-lg"><p class="font-bold text-gray-200 text-sm md:text-base mb-3">${index + 1}. ${m.question}</p><p class="text-sm text-red-400 mb-1 leading-tight"><i class="fa-solid fa-xmark mr-1"></i> <b>Deine Antwort:</b> ${m.userAnswer}</p><p class="text-sm text-green-400 mb-3 leading-tight"><i class="fa-solid fa-check mr-1"></i> <b>Richtig:</b> ${m.correctAnswer}</p><div class="bg-black/40 p-3 rounded text-sm text-gray-300 border-l-2 border-cyan-500"><i class="fa-solid fa-circle-info text-cyan-400 mr-1"></i> ${m.explanation}</div></div>`;
-                });
+                mistakes.forEach((m, index) => { mistakesHTML += `<div class="bg-gray-800/80 border border-red-500/30 rounded-lg p-4 mb-3 shadow-lg"><p class="font-bold text-gray-200 text-sm md:text-base mb-3">${index + 1}. ${m.question}</p><p class="text-sm text-red-400 mb-1 leading-tight"><i class="fa-solid fa-xmark mr-1"></i> <b>Deine Antwort:</b> ${m.userAnswer}</p><p class="text-sm text-green-400 mb-3 leading-tight"><i class="fa-solid fa-check mr-1"></i> <b>Richtig:</b> ${m.correctAnswer}</p><div class="bg-black/40 p-3 rounded text-sm text-gray-300 border-l-2 border-cyan-500"><i class="fa-solid fa-circle-info text-cyan-400 mr-1"></i> ${m.explanation}</div></div>`; });
                 mistakesSection.innerHTML = mistakesHTML;
             } else { mistakesBtn.classList.add('hidden'); }
 
             if (passed) {
-                sfx.success();
-                if (typeof confetti === 'function') {
-                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#00f3ff', '#bc13fe', '#00ff66', '#ffffff'], zIndex: 100 });
-                }
-                title.textContent = "Mission Erfolgreich!";
-                title.className = "text-4xl md:text-5xl font-bold orbitron mb-4 text-center neon-text-blue";
+                sfx.success(); if (typeof confetti === 'function') { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#00f3ff', '#bc13fe', '#00ff66', '#ffffff'], zIndex: 100 }); }
+                title.textContent = "Mission Erfolgreich!"; title.className = "text-4xl md:text-5xl font-bold orbitron mb-4 text-center neon-text-blue";
                 
-                let extraMsg = "";
-                if (cheatCount > 0) extraMsg = "<br><span class='text-red-400 text-sm'>Achtung: Wegen Tab-Wechseln wurden Punkte abgezogen!</span>";
-
+                let extraMsg = ""; if (cheatCount > 0) extraMsg = "<br><span class='text-red-400 text-sm'>Achtung: Wegen Tab-Wechseln wurden Punkte abgezogen!</span>";
                 message.innerHTML = `Starke Leistung! Du hast <b>${score} von ${totalQuestions}</b> richtig.<br>Hier ist dein Ausweis! Lade ihn dir herunter.${extraMsg}`;
                 
-                document.getElementById('license-name').textContent = gamerTag;
-                document.getElementById('license-score').textContent = `${percent}% PUNKTE`;
-                document.getElementById('license-klasse').textContent = playerClass; 
-                document.getElementById('license-avatar').className = `fa-solid ${chosenAvatar} text-5xl text-gray-500 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]`;
+                document.getElementById('license-name').textContent = gamerTag; document.getElementById('license-score').textContent = `${percent}% PUNKTE`;
+                document.getElementById('license-klasse').textContent = playerClass; document.getElementById('license-avatar').className = `fa-solid ${chosenAvatar} text-5xl text-gray-500 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]`;
                 
-                const today = new Date();
-                document.getElementById('license-date').textContent = today.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
+                const today = new Date(); document.getElementById('license-date').textContent = today.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
                 document.getElementById('license-id').textContent = 'NET-' + Math.floor(100 + Math.random() * 900) + '-' + Math.random().toString(36).substring(2, 5).toUpperCase();
-
                 licenseWrapper.classList.remove('hidden');
             } else {
-                sfx.fail();
-                title.textContent = "Mission Gescheitert...";
-                title.className = "text-4xl md:text-5xl font-bold orbitron mb-4 text-center text-red-500 drop-shadow-[0_0_10px_#ff0055]";
+                sfx.fail(); title.textContent = "Mission Gescheitert..."; title.className = "text-4xl md:text-5xl font-bold orbitron mb-4 text-center text-red-500 drop-shadow-[0_0_10px_#ff0055]";
                 message.innerHTML = `Du hast nur <b>${score} von ${totalQuestions}</b> Fragen richtig. Um den Führerschein zu erhalten, brauchst du mindestens ${globalPassingScore} richtige Antworten.`;
                 failWrapper.classList.remove('hidden');
             }
         }
         
         function toggleMistakes() {
-            sfx.click();
-            const section = document.getElementById('mistakes-section');
-            const btn = document.getElementById('show-mistakes-btn');
-            if (section.classList.contains('hidden')) {
-                section.classList.remove('hidden');
-                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Auswertung ausblenden';
-                setTimeout(() => section.scrollIntoView({ behavior: 'smooth' }), 100);
-            } else {
-                section.classList.add('hidden');
-                btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Meine Fehler ansehen';
-            }
+            sfx.click(); const section = document.getElementById('mistakes-section'); const btn = document.getElementById('show-mistakes-btn');
+            if (section.classList.contains('hidden')) { section.classList.remove('hidden'); btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i> Auswertung ausblenden'; setTimeout(() => section.scrollIntoView({ behavior: 'smooth' }), 100); } 
+            else { section.classList.add('hidden'); btn.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Meine Fehler ansehen'; }
         }
 
         function resetQuiz() {
-            sfx.click();
-            window.scrollTo(0, 0);
-            document.getElementById('result-screen').classList.add('hidden-view');
-            
-            document.getElementById('gamertag').value = "";
-            document.getElementById('player-klasse').value = ""; 
-            document.getElementById('name-error').classList.add('hidden');
-            document.getElementById('klasse-error').classList.add('hidden');
-            document.getElementById('gamertag').classList.remove('shake');
-            document.getElementById('player-klasse').classList.remove('shake');
-            
-            // Endboss Styles zurücksetzen
-            document.getElementById('quiz-container-inner').classList.remove('boss-mode-box');
-            document.getElementById('current-question-num').classList.replace('text-red-500', 'text-purple-400');
-            document.getElementById('question-text').classList.remove('text-red-300');
-            document.getElementById('combo-meter').classList.add('hidden');
-
+            sfx.click(); window.scrollTo(0, 0); document.getElementById('result-screen').classList.add('hidden-view');
+            document.getElementById('gamertag').value = ""; document.getElementById('player-klasse').value = ""; 
+            document.getElementById('name-error').classList.add('hidden'); document.getElementById('klasse-error').classList.add('hidden');
+            document.getElementById('gamertag').classList.remove('shake'); document.getElementById('player-klasse').classList.remove('shake');
+            document.getElementById('quiz-container-inner').classList.remove('boss-mode-box'); document.getElementById('current-question-num').classList.replace('text-red-500', 'text-purple-400');
+            document.getElementById('question-text').classList.remove('text-red-300'); document.getElementById('combo-meter').classList.add('hidden');
             document.getElementById('start-screen').classList.remove('hidden-view');
         }
 
         function downloadLicense() {
-            sfx.click();
-            const btn = document.getElementById('download-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i> Generiere Bild...';
-            btn.disabled = true;
-            btn.classList.add('opacity-80', 'cursor-not-allowed');
-
+            sfx.click(); const btn = document.getElementById('download-btn'); const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xl"></i> Generiere Bild...'; btn.disabled = true; btn.classList.add('opacity-80', 'cursor-not-allowed');
             const licenseCard = document.querySelector('.license-card');
             setTimeout(() => {
                 html2canvas(licenseCard, { scale: 3, backgroundColor: null, useCORS: true }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = `Internet_Fuehrerschein_${gamerTag}.png`;
-                    link.href = canvas.toDataURL('image/png');
-                    link.click();
-                    
-                    sfx.success();
-                    btn.innerHTML = '<i class="fa-solid fa-check text-xl"></i> Erfolgreich gespeichert!';
-                    btn.classList.remove('from-cyan-600', 'to-blue-600');
-                    btn.classList.add('from-green-600', 'to-emerald-600');
-                    setTimeout(() => {
-                        btn.innerHTML = originalText;
-                        btn.classList.remove('from-green-600', 'to-emerald-600');
-                        btn.classList.add('from-cyan-600', 'to-blue-600');
-                        btn.classList.remove('opacity-80', 'cursor-not-allowed');
-                        btn.disabled = false;
-                    }, 3000);
+                    const link = document.createElement('a'); link.download = `Internet_Fuehrerschein_${gamerTag}.png`; link.href = canvas.toDataURL('image/png'); link.click();
+                    sfx.success(); btn.innerHTML = '<i class="fa-solid fa-check text-xl"></i> Erfolgreich gespeichert!';
+                    btn.classList.remove('from-cyan-600', 'to-blue-600'); btn.classList.add('from-green-600', 'to-emerald-600');
+                    setTimeout(() => { btn.innerHTML = originalText; btn.classList.remove('from-green-600', 'to-emerald-600'); btn.classList.add('from-cyan-600', 'to-blue-600'); btn.classList.remove('opacity-80', 'cursor-not-allowed'); btn.disabled = false; }, 3000);
                 }).catch(err => {
-                    console.error(err);
-                    btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-xl"></i> Fehler beim Speichern';
-                    btn.classList.remove('opacity-80', 'cursor-not-allowed');
-                    btn.disabled = false;
+                    console.error(err); btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-xl"></i> Fehler beim Speichern'; btn.classList.remove('opacity-80', 'cursor-not-allowed'); btn.disabled = false;
                 });
             }, 100);
         }
     </script>
 </body>
 </html>
-
