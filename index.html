@@ -232,8 +232,8 @@
             </p>
 
             <div class="w-full max-w-md mt-6 space-y-4">
-                <label for="gamertag" class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest mt-2">Dein Gamer-Tag / Vorname:</label>
-                <input type="text" id="gamertag" placeholder="z.B. ShadowHunter" autocomplete="off" maxlength="20"
+                <label for="gamertag" class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest mt-2">Dein Spitzname / Vorname:</label>
+                <input type="text" id="gamertag" placeholder="z.B. Max Mustermann" autocomplete="off" maxlength="20"
                     class="w-full bg-gray-900 border border-gray-600 rounded-lg p-4 text-white text-lg focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-bold shadow-inner">
                 <p id="name-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte wähle einen angemessenen Namen!</p>
 
@@ -258,12 +258,39 @@
                 <p id="klasse-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte wähle eine Klasse aus!</p>
 
                 <label class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest pt-2">Wähle deinen Operator:</label>
-                <div class="flex justify-between gap-2" id="avatar-selection">
-                    <button onclick="selectAvatar('fa-user-astronaut', this)" class="avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)]"><i class="fa-solid fa-user-astronaut text-cyan-400"></i></button>
-                    <button onclick="selectAvatar('fa-user-ninja', this)" class="avatar-btn p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all"><i class="fa-solid fa-user-ninja text-white"></i></button>
-                    <button onclick="selectAvatar('fa-robot', this)" class="avatar-btn p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all"><i class="fa-solid fa-robot text-white"></i></button>
-                    <button onclick="selectAvatar('fa-user-secret', this)" class="avatar-btn p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all"><i class="fa-solid fa-user-secret text-white"></i></button>
-                    <button onclick="selectAvatar('fa-ghost', this)" class="avatar-btn p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all"><i class="fa-solid fa-ghost text-white"></i></button>
+                <div class="grid grid-cols-6 gap-2" id="avatar-selection">
+                    <button onclick="selectAvatar('fa-user-astronaut', this)" class="avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-2 md:p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)] text-cyan-400">
+                        <i class="fa-solid fa-user-astronaut"></i>
+                    </button>
+                    <button onclick="selectAvatar('fa-user-ninja', this)" class="avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white">
+                        <i class="fa-solid fa-user-ninja"></i>
+                    </button>
+                    <button onclick="selectAvatar('fa-robot', this)" class="avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white">
+                        <i class="fa-solid fa-robot"></i>
+                    </button>
+                    <button onclick="selectAvatar('fa-user-secret', this)" class="avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white">
+                        <i class="fa-solid fa-user-secret"></i>
+                    </button>
+                    <button onclick="selectAvatar('fa-ghost', this)" class="avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white">
+                        <i class="fa-solid fa-ghost"></i>
+                    </button>
+                    <!-- NEU: Deine benutzerdefinierte Katzen-Skizze! -->
+                    <button onclick="selectAvatar('custom-cat', this)" class="avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white">
+                        <svg class="inline-block w-[1em] h-[1em]" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M26,32 L22,15 L38,22 M45,24 L55,15 L50,34" />
+                            <circle cx="35" cy="40" r="14" />
+                            <circle cx="30" cy="38" r="2" fill="currentColor" stroke="none" />
+                            <circle cx="40" cy="38" r="2" fill="currentColor" stroke="none" />
+                            <circle cx="35" cy="43" r="1.5" fill="currentColor" stroke="none" />
+                            <path d="M33,46 Q35,49 37,46" stroke-width="3" />
+                            <path d="M20,38 L5,36 M20,42 L5,42 M21,46 L8,48" stroke-width="4" />
+                            <path d="M50,38 L65,36 M50,42 L65,42 M49,46 L62,48" stroke-width="4" />
+                            <path d="M47,38 Q65,40 75,45 Q85,50 85,65" />
+                            <path d="M35,54 L32,75 L38,75 L40,60 L50,60 L50,75 L56,75 L60,55" />
+                            <path d="M43,60 L43,72 L48,72 M63,53 L63,72 L68,72" />
+                            <path d="M55,42 L52,50 M62,44 L59,52 M69,46 L66,54" />
+                        </svg>
+                    </button>
                 </div>
 
                 <button onclick="startQuiz()" class="btn-gaming w-full py-4 rounded-lg text-xl mt-6 flex justify-center items-center gap-3">
@@ -300,7 +327,7 @@
                 <div class="p-5 bg-gray-800/80 border border-purple-500/50 rounded-xl shadow-[0_0_15px_rgba(188,19,254,0.1)]">
                     <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-600 pb-2"><i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> Punkte erzwingen (Test)</h3>
                     <p class="text-xs text-gray-400 mb-2">Ausweis direkt generieren und Testdaten an Google Sheets senden.</p>
-                    <input type="text" id="force-name-input" placeholder="Name / Gamer-Tag (optional)" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2 text-white text-sm mb-2 focus:border-purple-500">
+                    <input type="text" id="force-name-input" placeholder="Spitzname (optional)" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2 text-white text-sm mb-2 focus:border-purple-500">
                     <input type="number" id="force-score-input" placeholder="Punkte (z.B. 15)" max="15" min="0" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2 text-white text-sm mb-3 focus:border-purple-500">
                     <button onclick="forceScoreAndFinish()" class="w-full bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2">
                         <i class="fa-solid fa-paper-plane"></i> Testlauf abschließen
@@ -361,7 +388,7 @@
         <div id="quiz-screen" class="hidden-view flex-col w-full relative z-10">
             <div class="flex justify-between items-center mb-6 relative">
                 <div class="text-sm font-bold text-gray-400 uppercase tracking-widest orbitron flex items-center gap-2">
-                    <i id="header-avatar" class="fa-solid fa-user-astronaut text-cyan-400"></i>
+                    <span id="header-avatar" class="text-cyan-400 text-xl"></span>
                     <span id="display-name" class="truncate max-w-[100px] md:max-w-[150px]">Player</span>
                 </div>
                 
@@ -409,13 +436,13 @@
                         </div>
                         <div class="flex gap-4 items-center pt-4 relative z-10">
                             <div class="w-24 h-28 bg-gray-900 rounded-lg border border-cyan-500/50 flex flex-col items-center justify-center relative overflow-hidden shrink-0 shadow-[inset_0_0_15px_rgba(0,243,255,0.1)]">
-                                <i id="license-avatar" class="fa-solid fa-user-astronaut text-5xl text-gray-500 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]"></i>
+                                <span id="license-avatar" class="text-5xl text-gray-500 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]"></span>
                                 <div class="scanline"></div>
                                 <div class="absolute bottom-0 w-full bg-cyan-900/80 text-center text-[9px] text-cyan-200 font-mono py-0.5 border-t border-cyan-500 tracking-wider">ID PHOTO</div>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="border-b border-gray-700/60 pb-2 mb-2">
-                                    <div class="text-[9px] text-cyan-500 uppercase font-bold tracking-wider">Gamer-Tag / Operator</div>
+                                    <div class="text-[9px] text-cyan-500 uppercase font-bold tracking-wider">Spitzname / Operator</div>
                                     <div id="license-name" class="font-bold text-xl md:text-2xl orbitron text-white truncate drop-shadow-[0_0_3px_rgba(255,255,255,0.5)]">Name</div>
                                 </div>
                                 <div class="grid grid-cols-2 gap-x-2 gap-y-2">
@@ -464,6 +491,17 @@
     </div>
 
     <script>
+        // ================= AVATAR SYSTEM =================
+        // Hier sind alle Icons hinterlegt - inklusive deiner exakten Skizzen-Katze als SVG Code!
+        const avatars = {
+            'fa-user-astronaut': '<i class="fa-solid fa-user-astronaut"></i>',
+            'fa-user-ninja': '<i class="fa-solid fa-user-ninja"></i>',
+            'fa-robot': '<i class="fa-solid fa-robot"></i>',
+            'fa-user-secret': '<i class="fa-solid fa-user-secret"></i>',
+            'fa-ghost': '<i class="fa-solid fa-ghost"></i>',
+            'custom-cat': `<svg class="inline-block w-[1em] h-[1em]" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M26,32 L22,15 L38,22 M45,24 L55,15 L50,34" /><circle cx="35" cy="40" r="14" /><circle cx="30" cy="38" r="2" fill="currentColor" stroke="none" /><circle cx="40" cy="38" r="2" fill="currentColor" stroke="none" /><circle cx="35" cy="43" r="1.5" fill="currentColor" stroke="none" /><path d="M33,46 Q35,49 37,46" stroke-width="3" /><path d="M20,38 L5,36 M20,42 L5,42 M21,46 L8,48" stroke-width="4" /><path d="M50,38 L65,36 M50,42 L65,42 M49,46 L62,48" stroke-width="4" /><path d="M47,38 Q65,40 75,45 Q85,50 85,65" /><path d="M35,54 L32,75 L38,75 L40,60 L50,60 L50,75 L56,75 L60,55" /><path d="M43,60 L43,72 L48,72 M63,53 L63,72 L68,72" /><path d="M55,42 L52,50 M62,44 L59,52 M69,46 L66,54" /></svg>`
+        };
+
         let audioCtx = null;
         function initAudio() {
             if (!audioCtx) { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); }
@@ -501,13 +539,13 @@
             { category: "Netiquette", question: "Jemand in deinem Team spielt extrem schlecht. Ein anderer beleidigt ihn heftig. Was tust du?", options: ["Ich beleidige mit, er spielt ja wirklich schlecht.", "Ich melde den Beleidiger (Report) und bleibe fair.", "Ich verlasse einfach sofort das Spiel.", "Ich poste die echten Namen der Spieler in den Chat."], correctIndex: 1, explanation: "Bleib cool, nutze die Melde-Funktion und sei fair." },
             { category: "Datenschutz", question: "Wer kann theoretisch sehen, was du in einem öffentlichen Profil (z.B. TikTok) postest?", options: ["Nur meine Freunde.", "Nur die Betreiber der App.", "Das löscht sich nach 24 Stunden sowieso komplett.", "Jeder auf der ganzen Welt, und es kann für immer im Netz bleiben."], correctIndex: 3, explanation: "Das Internet vergisst nie! Alles Öffentliche kann für immer aufbewahrt werden." },
             { category: "In-App Käufe", question: "Ein Spiel verkauft 'Lootboxen' für echtes Geld mit zufälligen Items. Das Problem?", options: ["Es ist wie Glücksspiel, bei dem man sehr viel Geld verlieren kann.", "Lootboxen machen das Handy kaputt.", "Es gibt kein Problem, man gewinnt immer etwas Gutes.", "Man wird vom Spiel gebannt."], correctIndex: 0, explanation: "Lootboxen sind reine Geldmache und eine Kostenfalle!" },
-            { category: "Cybermobbing", question: "Ein Mitschüler wird im Klassenchat ständig ausgelacht und gemobbt. Was tust du?", options: ["Ich lache mit, um nicht selbst Opfer zu werden.", "Ich ignoriere es, ist ja nicht mein Problem.", "Beweise sichern (Screenshot) und Hilfe von Erwachsenen holen.", "Ich beleidige die Mobber öffentlich zurück."], correctIndex: 2, explanation: "Wegschauen hilft nur den Tätern. Hol Erwachsene ins Boot!" },
+            { category: "Cybermobbing", question: "Ein Mitschüler wird im Klassenchat ständig ausgelacht und gemobbt. Was tust du?", options: ["Ich lache mit, um nicht selbst Opfer zu werden.", "Ich ignoriere es.", "Beweise sichern (Screenshot) und Hilfe von Erwachsenen holen.", "Ich beleidige die Mobber öffentlich zurück."], correctIndex: 2, explanation: "Wegschauen hilft nur den Tätern. Hol Erwachsene ins Boot!" },
             { category: "Bildrechte", question: "Du hast ein lustiges Foto von einem Freund gemacht, als er eingeschlafen ist. Darfst du es posten?", options: ["Ja, ich habe das Foto ja selbst gemacht.", "Nein, ich muss ihn vorher unbedingt um Erlaubnis fragen.", "Ja, solange sein Name nicht dabei steht.", "Ja, aber nur im WhatsApp-Status."], correctIndex: 1, explanation: "Jeder hat das 'Recht am eigenen Bild'." },
             { category: "Fake News", question: "Du liest auf Insta: 'Aliens in Berlin gelandet!' – Wie prüfst du das?", options: ["Wenn es viele Likes hat, muss es stimmen.", "Ich prüfe andere, seriöse Nachrichtenportale (z.B. Tagesschau).", "Wenn ein Youtuber es sagt, ist es wahr.", "Ich teile es erstmal, um zu sehen, was andere sagen."], correctIndex: 1, explanation: "Klicks bedeuten nicht Wahrheit. Prüfe seriöse Quellen." },
             { category: "Privatsphäre im Chat", question: "Ein netter Mitspieler fragt im Chat nach deinem echten Namen und deinem Wohnort. Was tust du?", options: ["Ich sage es ihm, wir sind ja jetzt befreundet.", "Ich gebe die Adresse meiner Schule an.", "Ich gebe niemals private Daten raus.", "Ich frage ihn zuerst nach seinen Daten."], correctIndex: 2, explanation: "Private Daten sind absolut tabu!" },
             { category: "Downloads / Viren", question: "Du findest eine Webseite, die ein teures PC-Spiel komplett kostenlos anbietet. Herunterladen?", options: ["Nein, das ist oft illegal und voller Viren/Trojaner.", "Ja, solange ich ein Antiviren-Programm habe.", "Klar, das spart mir viel Geld.", "Ja, aber ich spiele es nur offline."], correctIndex: 0, explanation: "Raubkopien verseuchen deinen PC oft mit Schadsoftware." },
             { category: "Urheberrecht", question: "Du packst den neuesten Chart-Hit als Hintergrundmusik in dein Video. Darfst du das?", options: ["Klar, machen doch alle so.", "Ja, wenn das Video nicht länger als 3 Minuten ist.", "Nein, außer du hast die Rechte/Lizenz für das Lied gekauft.", "Ja, solange ich den Sänger in die Beschreibung schreibe."], correctIndex: 2, explanation: "Musik ist durchs Urheberrecht geschützt." },
-            { category: "Kettenbriefe", question: "'Schicke diese Nachricht an 10 Freunde, sonst hast du 5 Jahre Pech!' Was machst du?", options: ["Ich schicke sie weiter, sicher ist sicher.", "Ihre Nachricht lösche ich einfach. Kettenbriefe sind Quatsch.", "Ich schicke sie nur an meine Eltern.", "Ich antworte dem Absender mit einer Beleidigung."], correctIndex: 1, explanation: "Kettenbriefe sollen nur Angst machen. Löschen!" },
+            { category: "Kettenbriefe", question: "'Schicke diese Nachricht an 10 Freunde, sonst hast du 5 Jahre Pech!' Was machst du?", options: ["Ich schicke sie weiter, sicher ist sicher.", "Ich lösche sie einfach. Kettenbriefe sind Quatsch.", "Ich schicke sie nur an meine Eltern.", "Ich antworte dem Absender mit einer Beleidigung."], correctIndex: 1, explanation: "Kettenbriefe sollen nur Angst machen. Löschen!" },
             { category: "2-Faktor-Auth", question: "Was bedeutet '2-Faktor-Authentifizierung' (2FA)?", options: ["Dass man zwei Accounts erstellen kann.", "Dass man nach dem Passwort noch einen Code eingeben muss.", "Dass das Passwort aus zwei Wörtern bestehen muss.", "Dass zwei Personen den Account teilen dürfen."], correctIndex: 1, explanation: "2FA ist der beste Schutz! Man braucht Passwort UND z.B. Handy." },
             { category: "Streaming", question: "Du streamst live auf Twitch aus deinem Zimmer. Worauf solltest du achten?", options: ["Dass keine privaten Dinge (Schulhefte, Ausblick) zu sehen sind.", "Dass ich laut genug schreie, damit es lustig ist.", "Dass ich meine genaue Adresse im Stream nenne.", "Dass ich meine Passwörter auf einem Zettel im Hintergrund habe."], correctIndex: 0, explanation: "Achte immer auf deinen Hintergrund (Stichwort: Doxing)." },
             { category: "In-Game Währungen", question: "Warum nutzen viele Spiele V-Bucks, Robux oder Gems statt echter Euro-Preise?", options: ["Weil Euro-Preise verboten sind.", "Damit die Spieler den Bezug zu echtem Geld verlieren.", "Weil es für die Entwickler günstiger ist.", "Weil Kinder kein echtes Geld haben."], correctIndex: 1, explanation: "Fantasiestrick! Man verliert schnell den Überblick über die echten Kosten." },
@@ -541,6 +579,26 @@
         let cheatCount = 0;
         let currentStreak = 0;
 
+        // Hilfsfunktion zur Ermittlung des Geräts für Google Sheets
+        function getDeviceFingerprint() {
+            const ua = navigator.userAgent;
+            let device = "Unbekanntes Gerät";
+            if (/android/i.test(ua)) {
+                device = "Android Smartphone";
+                let match = ua.match(/;\s([^;]+)\sBuild\//);
+                if (match && match[1]) device = "Android (" + match[1].trim() + ")";
+            } else if (/iphone|ipad|ipod/i.test(ua)) {
+                device = "Apple iOS Gerät";
+            } else if (/windows/i.test(ua)) {
+                device = "Windows PC";
+            } else if (/macintosh|mac os x/i.test(ua)) {
+                device = "Mac Computer";
+            } else if (/chromebook/i.test(ua)) {
+                device = "Chromebook";
+            }
+            return device + " (" + window.innerWidth + "x" + window.innerHeight + ")";
+        }
+
         document.addEventListener("visibilitychange", () => {
             const isQuizActive = !document.getElementById('quiz-screen').classList.contains('hidden-view');
             if (document.hidden && isQuizActive) {
@@ -556,11 +614,9 @@
         function selectAvatar(iconClass, btnElement) {
             initAudio(); sfx.click(); chosenAvatar = iconClass;
             document.querySelectorAll('.avatar-btn').forEach(btn => {
-                btn.className = 'avatar-btn p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all';
-                btn.querySelector('i').className = `fa-solid ${btn.querySelector('i').classList[1]} text-white`;
+                btn.className = 'avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white';
             });
-            btnElement.className = 'avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)]';
-            btnElement.querySelector('i').className = `fa-solid ${iconClass} text-cyan-400`;
+            btnElement.className = 'avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-2 md:p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)] text-cyan-400';
         }
 
         function startQuiz() {
@@ -583,8 +639,8 @@
                 if (badWords.some(word => lowerInput.includes(word))) {
                     document.getElementById('name-error').classList.remove('hidden');
                     inputField.classList.add('shake'); sfx.wrong(); hasError = true; 
-                } else { gamerTag = sanitizeHTML(inputVal).substring(0, 15); }
-            } else { gamerTag = "Commander"; }
+                } else { gamerTag = sanitizeHTML(inputVal).substring(0, 20); }
+            } else { gamerTag = "Anonym"; }
 
             if (klasseSelect.value === "") {
                 document.getElementById('klasse-error').classList.remove('hidden');
@@ -594,7 +650,7 @@
             if (hasError) return;
             
             document.getElementById('display-name').textContent = gamerTag;
-            document.getElementById('header-avatar').className = `fa-solid ${chosenAvatar} text-cyan-400`;
+            document.getElementById('header-avatar').innerHTML = avatars[chosenAvatar];
             
             let poolCopy = JSON.parse(JSON.stringify(masterQuizPool)); shuffleArray(poolCopy);
             currentQuiz = poolCopy.slice(0, totalQuestions);
@@ -638,7 +694,7 @@
             let nameInput = document.getElementById('force-name-input').value.trim();
             let forced = document.getElementById('force-score-input').value;
             
-            if(nameInput) { gamerTag = sanitizeHTML(nameInput).substring(0, 15); }
+            if(nameInput) { gamerTag = sanitizeHTML(nameInput).substring(0, 20); }
             else if(gamerTag === "Commander" || !gamerTag) { gamerTag = "Admin-Test"; }
 
             if(!forced) forced = 15;
@@ -829,9 +885,18 @@
             let finalScoreText = score.toString();
             if (cheatCount > 0) { finalScoreText = `${score} (-${cheatCount})`; }
 
-            fetch("https://script.google.com/macros/s/AKfycbxsTQ1pBFFdQ_8bh5lp5etkJoP-MABvHhgmVSUgXxzUEJJm5ePx11RWIwYf7ufAmKN_QQ/exec", {
+            // Automatischer Geräte-Fingerabdruck für Google Sheets
+            const detectedDevice = getDeviceFingerprint();
+
+            fetch("https://script.google.com/macros/s/AKfycbwg-ELgSRjw38vTtIOCRNQ9SXEvBKuDKt1M-zZPUK6Er0s0mK_SzssQ7KsukaT2K5Qr5Q/exec", {
                 method: "POST", mode: "no-cors",
-                body: JSON.stringify({ name: gamerTag, klasse: playerClass, punkte: finalScoreText, avatar: chosenAvatar })
+                body: JSON.stringify({ 
+                    name: gamerTag, 
+                    klasse: playerClass, 
+                    punkte: finalScoreText, 
+                    avatar: chosenAvatar,
+                    geraet: detectedDevice 
+                })
             }).catch(err => console.log("Fehler beim Senden:", err));
 
             const title = document.getElementById('result-title'); const message = document.getElementById('result-message');
@@ -855,8 +920,10 @@
                 let extraMsg = ""; if (cheatCount > 0) extraMsg = "<br><span class='text-red-400 text-sm'>Achtung: Wegen Tab-Wechseln wurden Punkte abgezogen!</span>";
                 message.innerHTML = `Starke Leistung! Du hast <b>${score} von ${totalQuestions}</b> richtig.<br>Hier ist dein Ausweis! Lade ihn dir herunter.${extraMsg}`;
                 
-                document.getElementById('license-name').textContent = gamerTag; document.getElementById('license-score').textContent = `${percent}% PUNKTE`;
-                document.getElementById('license-klasse').textContent = playerClass; document.getElementById('license-avatar').className = `fa-solid ${chosenAvatar} text-5xl text-gray-500 drop-shadow-[0_0_8px_rgba(255,255,255,0.1)]`;
+                document.getElementById('license-name').textContent = gamerTag; 
+                document.getElementById('license-score').textContent = `${percent}% PUNKTE`;
+                document.getElementById('license-klasse').textContent = playerClass; 
+                document.getElementById('license-avatar').innerHTML = avatars[chosenAvatar];
                 
                 const today = new Date(); document.getElementById('license-date').textContent = today.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
                 document.getElementById('license-id').textContent = 'NET-' + Math.floor(100 + Math.random() * 900) + '-' + Math.random().toString(36).substring(2, 5).toUpperCase();
