@@ -200,7 +200,7 @@
         .custom-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
         .custom-scroll::-webkit-scrollbar-thumb { background: var(--neon-orange); border-radius: 10px; }
         
-        select option { background-color: #1f2937; color: white; }
+        select option, select optgroup { background-color: #1f2937; color: white; }
 
         /* Druck-Modus (Arbeitsblatt) */
         @media print {
@@ -274,7 +274,6 @@
                     <button onclick="selectAvatar('fa-ghost', this)" class="avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white">
                         <i class="fa-solid fa-ghost"></i>
                     </button>
-                    <!-- NEU: Deine benutzerdefinierte Katzen-Skizze! -->
                     <button onclick="selectAvatar('custom-cat', this)" class="avatar-btn p-2 md:p-3 rounded-lg text-2xl opacity-50 hover:opacity-100 transition-all text-white">
                         <svg class="inline-block w-[1em] h-[1em]" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M26,32 L22,15 L38,22 M45,24 L55,15 L50,34" />
@@ -360,7 +359,7 @@
             <button onclick="toggleSpickzettel()" id="spickzettel-btn" class="w-full max-w-3xl mt-4 bg-green-700 hover:bg-green-600 text-white py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2">
                 <i class="fa-solid fa-eye"></i> Lösungsbogen öffnen
             </button>
-            <div id="spickzettel-container" class="w-full max-w-3xl hidden fade-in bg-gray-900 border border-green-500/30 rounded-xl p-4 text-left max-h-[400px] overflow-y-auto custom-scroll shadow-inner"></div>
+            <div id="spickzettel-container" class="w-full max-w-3xl hidden fade-in bg-gray-900 border border-green-500/30 rounded-xl p-4 text-left max-h-[500px] overflow-y-auto custom-scroll shadow-inner"></div>
 
             <button onclick="closeAdmin()" class="mt-4 text-gray-400 hover:text-white transition-colors underline flex items-center gap-2">
                 <i class="fa-solid fa-arrow-left"></i> Zurück zum Hauptmenü
@@ -492,7 +491,6 @@
 
     <script>
         // ================= AVATAR SYSTEM =================
-        // Hier sind alle Icons hinterlegt - inklusive deiner exakten Skizzen-Katze als SVG Code!
         const avatars = {
             'fa-user-astronaut': '<i class="fa-solid fa-user-astronaut"></i>',
             'fa-user-ninja': '<i class="fa-solid fa-user-ninja"></i>',
@@ -533,7 +531,9 @@
 
         const badWords = ["hurensohn", "arschloch", "fotze", "schlampe", "wichser", "ficker", "missgeburt", "bastard", "hitler", "nazi", "nutte", "spast", "pimmel", "penis", "vagina", "bitch", "pussy", "cock", "porn", "nigger", "nigga", "kanacke", "schweinehund", "arsch"];
 
-        const masterQuizPool = [
+        // ================= FRAGEN-POOLS =================
+        // JUNIOR: Klassen 5 bis 7
+        const poolJunior = [
             { category: "Passwort-Sicherheit", question: "Du möchtest dir einen neuen Account erstellen. Welches Passwort ist am sichersten?", options: ["Mein Vorname und mein Geburtsjahr", "12345678 (Leicht zu merken!)", "Ein Mix aus Buchstaben, Zahlen und Sonderzeichen", "Das Wort 'Passwort'"], correctIndex: 2, explanation: "Ein sicheres Passwort ist lang und bunt gemischt." },
             { category: "Phishing & Betrug", question: "Nachricht: 'Glückwunsch! Du hast das neue iPhone gewonnen! Klick hier!' Was tust du?", options: ["Sofort klicken und meine Adresse eingeben!", "Die Nachricht ignorieren und am besten löschen.", "Die Nachricht an alle Freunde weiterleiten.", "Klicken, aber eine falsche Adresse angeben."], correctIndex: 1, explanation: "Typisches 'Phishing'! Niemand verschenkt teure Handys." },
             { category: "Netiquette", question: "Jemand in deinem Team spielt extrem schlecht. Ein anderer beleidigt ihn heftig. Was tust du?", options: ["Ich beleidige mit, er spielt ja wirklich schlecht.", "Ich melde den Beleidiger (Report) und bleibe fair.", "Ich verlasse einfach sofort das Spiel.", "Ich poste die echten Namen der Spieler in den Chat."], correctIndex: 1, explanation: "Bleib cool, nutze die Melde-Funktion und sei fair." },
@@ -561,6 +561,35 @@
             { category: "In-Game Käufe (Pay2Win)", question: "Ein Spiel ist gratis, aber man kann für echtes Geld eine starke Waffe kaufen.", options: ["Pay-to-Win (Zahle, um zu gewinnen).", "Ein faires Geschäftsmodell.", "Eine Spende an die Entwickler.", "Einen Bug (Fehler) im Spiel."], correctIndex: 0, explanation: "Oft sehr unfair gegenüber Leuten, die kein Geld ausgeben wollen." }
         ];
 
+        // SENIOR: Klassen 8 bis 10 (und Gast / Lehrer) - Deutlich schwieriger
+        const poolSenior = [
+            { category: "Phishing", question: "Was genau ist 'Spear-Phishing' im Vergleich zum normalen Phishing?", options: ["Ein gezielter, persönlicher Angriff auf eine bestimmte Person", "Phishing mit einer extra schnellen Internetverbindung", "Ein Angriff, der nur Handys betrifft", "Das Hacken von Bank-Servern"], correctIndex: 0, explanation: "Spear-Phishing bedeutet, dass Hacker dich vorher ausspionieren und die E-Mail perfekt auf dich zuschneiden." },
+            { category: "Dark Patterns", question: "Was versteht man unter 'Dark Patterns' auf Webseiten und in Apps?", options: ["Ein dunkler Modus (Dark Mode) zur Schonung der Augen", "Illegale Codes aus dem Darknet", "Design-Tricks, die Nutzer zu ungewollten Klicks oder Käufen manipulieren", "Eine spezielle Form von Computerviren"], correctIndex: 2, explanation: "Dark Patterns sind miese Tricks. Z.B. wenn der 'Abo kündigen'-Button extrem gut versteckt ist." },
+            { category: "Hardware & Tuning", question: "Du hast deinen PC selbst zusammengebaut und möchtest den Prozessor übertakten (Overclocking) für mehr FPS. Was ist das größte Risiko dabei?", options: ["Die CPU kann überhitzen und das System instabil werden oder abstürzen", "Das Internet wird dadurch automatisch gedrosselt", "Der Monitor verliert seine Farbe", "Du wirst sofort in allen Online-Spielen gebannt"], correctIndex: 0, explanation: "Overclocking bringt Hardware ans Limit. Ohne exzellente Kühlung droht der Hitzetod oder ständige Abstürze." },
+            { category: "Urheberrecht", question: "Was bedeutet das 'CC-BY' (Creative Commons) Logo unter einem Bild im Internet?", options: ["Das Bild ist streng geschützt und darf niemals geteilt werden", "Man darf das Bild nutzen und teilen, muss aber den Namen des Urhebers nennen", "Das Bild kostet Geld pro Download", "Es ist komplett rechtefrei, niemand besitzt es"], correctIndex: 1, explanation: "BY bedeutet 'By attribution'. Du darfst es nutzen, aber musst den Künstler erwähnen." },
+            { category: "Filterblasen", question: "Warum sehen Nutzer auf TikTok oder Instagram oft immer nur Videos, die exakt ihre eigene Meinung bestätigen?", options: ["Weil alle anderen Videos von der Regierung gelöscht werden", "Wegen Algorithmen, die eine 'Filterblase' erzeugen, um die Watchtime zu erhöhen", "Weil das Internet für jeden exakt gleich ist", "Weil es gesetzlich verboten ist, andere Meinungen zu zeigen"], correctIndex: 1, explanation: "Der Algorithmus will dich in der App halten und zeigt dir deshalb nur das, was dir sowieso schon gefällt." },
+            { category: "Datenschutz", question: "Was bedeutet der Begriff 'Doxing' (oder Doxxing)?", options: ["Das Cheaten in Online-Spielen", "Das absichtliche Veröffentlichen von echten, privaten Daten (z.B. Adresse) einer Person im Netz", "Ein Virus, der Dokumente löscht", "Ein Programm zur Video-Bearbeitung"], correctIndex: 1, explanation: "Doxing ist hochgradig illegal und wird genutzt, um Menschen im echten Leben einzuschüchtern." },
+            { category: "Netzwerke", question: "Wofür wird ein VPN (Virtual Private Network) in erster Linie genutzt?", options: ["Um den PC schneller zu machen", "Um den eigenen Datenverkehr zu verschlüsseln und die IP-Adresse zu verbergen", "Um kostenlos Filme herunterladen zu können", "Um mehr FPS in Spielen zu bekommen"], correctIndex: 1, explanation: "Ein VPN verschleiert deinen echten Standort und macht dich anonymer." },
+            { category: "Jugendschutz", question: "Darf ein 14-Jähriger im Laden ein Spiel mit 'USK 18' kaufen, wenn seine Eltern ihm einen unterschriebenen Erlaubnis-Zettel mitgeben?", options: ["Ja, mit Zettel ist das immer erlaubt", "Nein, die USK-Altersfreigaben sind in Deutschland gesetzlich bindend für den Verkauf", "Ja, aber nur, wenn das Spiel im Angebot ist", "Ja, wenn der Verkäufer ihn aus dem Laden kennt"], correctIndex: 1, explanation: "Anders als bei Filmen (wo Eltern ins Kino mitkommen können), darf USK 18 niemals an Minderjährige verkauft werden." },
+            { category: "Account-Sicherheit", question: "Warum ist eine Authenticator-App für die Zwei-Faktor-Authentifizierung (2FA) sicherer als ein Code per SMS?", options: ["Weil SMS-Codes von Hackern durch 'SIM-Swapping' abgefangen werden können", "Weil die App weniger Speicherplatz braucht", "Weil die SMS Geld kostet", "Es gibt keinen Unterschied in der Sicherheit"], correctIndex: 0, explanation: "Hacker können deine Handynummer beim Provider umleiten. Eine App generiert den Code offline und direkt auf deinem Gerät." },
+            { category: "Verschlüsselung", question: "Was bedeutet 'Ende-zu-Ende-Verschlüsselung' bei Messengern wie WhatsApp?", options: ["Dass die Nachrichten sich nach 24 Stunden löschen", "Dass nur der Sender und der Empfänger die Nachricht lesen können, nicht mal die App-Betreiber", "Dass das Handy am Ende des Tages ein Backup macht", "Dass man am Ende eines Chats ein Passwort eingeben muss"], correctIndex: 1, explanation: "Die Nachricht wird auf deinem Handy verschlüsselt und erst auf dem Handy des Freundes wieder entschlüsselt." },
+            { category: "Parasoziale Beziehungen", question: "Du verfolgst einen Influencer jeden Tag und hast das Gefühl, ihr seid echte Freunde, obwohl er dich gar nicht kennt. Wie nennt man das?", options: ["Cyber-Grooming", "Eine parasoziale Beziehung", "Netzwerken", "Trolling"], correctIndex: 1, explanation: "Ein einseitiges Freundschaftsgefühl, das von Influencern oft bewusst genutzt wird, um Abos/Spenden zu generieren." },
+            { category: "Tracking", question: "Wie funktioniert ein sogenanntes 'Third-Party-Cookie'?", options: ["Es löscht Viren von Drittanbietern", "Es ist ein Keks-Rezept im Internet", "Es verfolgt dein Surfverhalten über verschiedene Webseiten hinweg, um z.B. Werbung anzupassen", "Es beschleunigt deinen Browser massiv"], correctIndex: 2, explanation: "Diese Cookies 'stalken' dich durchs Netz, weshalb dir Werbung für Schuhe angezeigt wird, nachdem du danach gesucht hast." },
+            { category: "Deepfakes", question: "Ein täuschend echtes Video zeigt einen Politiker, der Dinge sagt, die er in Wahrheit nie gesagt hat. Das ist ein...", options: ["Let's Play", "Deepfake (KI-generiertes Video)", "Glitch", "Easter Egg"], correctIndex: 1, explanation: "Künstliche Intelligenz kann heute Gesichter und Stimmen erschreckend echt fälschen." },
+            { category: "Cyber-Angriffe", question: "Ein wütender Gegenspieler droht, deinen Router mit einer 'DDoS-Attacke' offline zu nehmen. Was passiert dabei?", options: ["Dein Router wird physisch zerstört", "Dein Netzwerk wird mit so vielen sinnlosen Anfragen überflutet, dass das Internet zusammenbricht", "Er stiehlt deine Grafikkarte", "Ein Virus installiert sich auf deinem Handy"], correctIndex: 1, explanation: "Distributed Denial of Service (DDoS) blockiert deine Leitung komplett durch Spam-Anfragen." },
+            { category: "Social Engineering", question: "Ein angeblicher Microsoft-Mitarbeiter ruft an und will dir helfen, einen PC-Fehler zu beheben. Er braucht dafür Fernzugriff. Das ist...", options: ["Kostenloser Kundenservice", "Tech-Support-Betrug (Social Engineering), um Schadsoftware zu installieren", "Ein normales Update-Verfahren", "Ein Hardware-Test"], correctIndex: 1, explanation: "Echte Firmen rufen dich niemals ungefragt an und fordern Fernzugriff!" },
+            { category: "Swatting", question: "Was bedeutet der Begriff 'Swatting' in der Streaming-Szene?", options: ["Einen Streamer abonnieren", "Ein gefährlicher Streich, bei dem jemand der Polizei einen falschen, bewaffneten Notfall beim Haus des Streamers meldet", "Zusammen in einer Gruppe (Squad) spielen", "Fliegen im Spiel mit einer Klatsche jagen"], correctIndex: 1, explanation: "Swatting hat leider schon zu echten Polizeieinsätzen mit schlimmen Folgen geführt." },
+            { category: "Bildrechte", question: "Wann darfst du ein fremdes Foto auf Instagram posten, ohne den Urheber zu fragen?", options: ["Wenn ich 'Rechte beim Urheber' dazuschreibe", "Wenn das Bild auf Google Bilder zu finden ist", "Nur wenn es ausdrücklich unter einer freien Lizenz (z.B. CC0) steht oder ich die Erlaubnis habe", "Wenn mein Account privat ist"], correctIndex: 2, explanation: "Einfach 'Bild gehört nicht mir' drunter zu schreiben, schützt dich rechtlich null vor Strafen!" },
+            { category: "Psychologie in Spielen", question: "Spiele arbeiten oft mit zeitlich extrem begrenzten Battle-Passes. Welcher psychologische Effekt wird hier genutzt?", options: ["Placebo-Effekt", "FOMO (Fear of missing out / Die Angst, etwas zu verpassen)", "Mandela-Effekt", "Dunning-Kruger-Effekt"], correctIndex: 1, explanation: "FOMO zwingt dich quasi zum Weiterspielen oder Bezahlen, weil du die coolen Skins sonst für immer verpasst." },
+            { category: "Malware", question: "Wie nennt man ein Schadprogramm, das sich als nützliche Software (z.B. ein Gratis-Spiel) tarnt, aber im Hintergrund Daten klaut?", options: ["Trojaner", "Firewall", "Cookie", "Spam"], correctIndex: 0, explanation: "Wie beim Trojanischen Pferd: Außen hui, innen böse." },
+            { category: "Netzneutralität", question: "Was bedeutet 'Netzneutralität'?", options: ["Dass man im Internet keine Schimpfwörter benutzen darf", "Dass das Internet klimaneutral betrieben wird", "Dass Internetanbieter alle Datenpakete gleich schnell behandeln müssen, egal ob Netflix oder eine kleine Website", "Dass man sich neutral kleiden muss vorm PC"], correctIndex: 2, explanation: "Ohne Netzneutralität könnten Provider extra Geld von dir verlangen, nur damit YouTube flüssig lädt." },
+            { category: "Streaming-Rechte", question: "Darfst du auf Twitch live einen kompletten aktuellen Anime oder Kinofilm schauen und darauf 'reacten'?", options: ["Ja, solange ich unten im Bild zu sehen bin", "Nein, das ist eine harte Urheberrechtsverletzung und kann zu einem Strike/Bann führen", "Ja, wenn der Stream nur 2 Stunden dauert", "Ja, wenn ich vorher 'Fair Use' in den Chat schreibe"], correctIndex: 1, explanation: "Filme und Animes sind streng geschützt. Ohne Lizenz riskiert man sogar rechtliche Klagen." },
+            { category: "Monetarisierung", question: "Was ist der exakte Unterschied zwischen 'Pay-to-Win' und 'Kosmetischen Items'?", options: ["Es gibt keinen", "Pay-to-Win macht das Spiel billiger", "Kosmetische Items ändern nur das Aussehen (Skins), Pay-to-Win gibt echte spielerische Vorteile (mehr Schaden/Leben) für Geld", "Kosmetische Items kosten immer Euro, Pay2Win kostet Ingame-Währung"], correctIndex: 2, explanation: "Ein cooler Skin gibt dir keinen unfairen Vorteil im Aiming. Pay-to-Win Waffen aber schon." },
+            { category: "AGBs", question: "Du stimmst den AGBs von Instagram oder TikTok zu. Was bedeutet das rechtlich oft für deine hochgeladenen Videos?", options: ["Du gibst der Plattform weitreichende Rechte, deine Videos weltweit und kostenlos für Werbung zu verwenden", "Die Plattform muss dich für jeden View bezahlen", "Das Video gehört sofort zu 100% der Regierung", "Du darfst das Video danach nie wieder ansehen"], correctIndex: 0, explanation: "Du behältst zwar das Urheberrecht, gibst den Plattformen aber fast immer das unbegrenzte Nutzungsrecht." },
+            { category: "Cryptojacking", question: "Dein PC wird beim Surfen auf einer dubiosen Seite plötzlich extrem langsam und laut. Was könnte die Ursache sein?", options: ["Dein WLAN-Kabel ist gerissen", "Cryptojacking (Die Webseite nutzt heimlich deine PC-Leistung, um Krypto-Währung zu schürfen)", "Dein Bildschirm braucht ein Update", "Die Tastatur ist kaputt"], correctIndex: 1, explanation: "Hacker missbrauchen deine Hardware-Power durch fiese Skripte, um sich selbst zu bereichern." },
+            { category: "Open Source", question: "Was zeichnet sogenannte 'Open Source' Software aus?", options: ["Sie funktioniert nur, wenn das Gehäuse vom PC offen ist", "Der Programmcode ist öffentlich einsehbar, darf von jedem verändert und oft kostenlos genutzt werden", "Sie ist immer extrem teuer", "Sie öffnet automatisch Pop-ups auf dem Desktop"], correctIndex: 1, explanation: "Linux oder Firefox sind gute Beispiele für Open Source." }
+        ];
+
         let globalTimeLimit = 30; 
         let globalPassingScore = 12;
 
@@ -579,7 +608,6 @@
         let cheatCount = 0;
         let currentStreak = 0;
 
-        // Hilfsfunktion zur Ermittlung des Geräts für Google Sheets
         function getDeviceFingerprint() {
             const ua = navigator.userAgent;
             let device = "Unbekanntes Gerät";
@@ -652,7 +680,13 @@
             document.getElementById('display-name').textContent = gamerTag;
             document.getElementById('header-avatar').innerHTML = avatars[chosenAvatar];
             
-            let poolCopy = JSON.parse(JSON.stringify(masterQuizPool)); shuffleArray(poolCopy);
+            // LEVEL-LOGIK: Prüft, ob es Klasse 8, 9, 10 oder Gast/Lehrer ist
+            const isSenior = ['8a', '8b', '9a', '9b', '10a', '10b', 'Gast / Lehrer'].includes(playerClass);
+            
+            // Wählt den passenden Pool aus
+            let poolCopy = JSON.parse(JSON.stringify(isSenior ? poolSenior : poolJunior)); 
+            shuffleArray(poolCopy);
+            
             currentQuiz = poolCopy.slice(0, totalQuestions);
             currentQuiz.forEach(q => { let correctText = q.options[q.correctIndex]; shuffleArray(q.options); q.correctIndex = q.options.indexOf(correctText); });
             
@@ -671,14 +705,25 @@
 
             const szContainer = document.getElementById('spickzettel-container');
             if(szContainer.children.length === 0) {
-                let html = "";
-                masterQuizPool.forEach((q, i) => { html += `<div class="mb-4 pb-4 border-b border-gray-700 last:border-0"><div class="text-xs text-green-400 font-bold uppercase mb-1">Frage ${i+1} - ${q.category}</div><div class="text-sm text-white font-semibold mb-2">${q.question}</div><div class="text-sm text-green-300 bg-green-900/30 p-2 rounded mb-2 border-l-2 border-green-500">✅ ${q.options[q.correctIndex]}</div></div>`; });
+                // Spickzettel zeigt beide Kataloge an
+                let html = "<div class='text-cyan-400 font-bold mb-4 pb-2 border-b border-cyan-800 text-lg uppercase tracking-wider'><i class='fa-solid fa-graduation-cap'></i> Junior Fragen (Kl. 5-7)</div>";
+                poolJunior.forEach((q, i) => { html += `<div class="mb-4 pb-4 border-b border-gray-700"><div class="text-xs text-green-400 font-bold uppercase mb-1">Frage ${i+1} - ${q.category}</div><div class="text-sm text-white font-semibold mb-2">${q.question}</div><div class="text-sm text-green-300 bg-green-900/30 p-2 rounded border-l-2 border-green-500">✅ ${q.options[q.correctIndex]}</div></div>`; });
+                
+                html += "<div class='text-purple-400 font-bold mt-8 mb-4 pb-2 border-b border-purple-800 text-lg uppercase tracking-wider'><i class='fa-solid fa-skull'></i> Senior Fragen (Kl. 8-10)</div>";
+                poolSenior.forEach((q, i) => { html += `<div class="mb-4 pb-4 border-b border-gray-700 last:border-0"><div class="text-xs text-green-400 font-bold uppercase mb-1">Frage ${i+1} - ${q.category}</div><div class="text-sm text-white font-semibold mb-2">${q.question}</div><div class="text-sm text-green-300 bg-green-900/30 p-2 rounded border-l-2 border-green-500">✅ ${q.options[q.correctIndex]}</div></div>`; });
+                
                 szContainer.innerHTML = html;
             }
 
             const sbSelect = document.getElementById('smartboard-question-select');
             if(sbSelect.options.length === 0) {
-                masterQuizPool.forEach((q, i) => { const opt = document.createElement('option'); opt.value = i; opt.textContent = `${q.category}: ${q.question.substring(0, 40)}...`; sbSelect.appendChild(opt); });
+                const optGrpJun = document.createElement('optgroup'); optGrpJun.label = "--- Klassen 5 bis 7 ---";
+                poolJunior.forEach((q, i) => { const opt = document.createElement('option'); opt.value = "j_"+i; opt.textContent = `[5-7] ${q.category}: ${q.question.substring(0, 40)}...`; optGrpJun.appendChild(opt); });
+                sbSelect.appendChild(optGrpJun);
+                
+                const optGrpSen = document.createElement('optgroup'); optGrpSen.label = "--- Klassen 8 bis 10 ---";
+                poolSenior.forEach((q, i) => { const opt = document.createElement('option'); opt.value = "s_"+i; opt.textContent = `[8-10] ${q.category}: ${q.question.substring(0, 40)}...`; optGrpSen.appendChild(opt); });
+                sbSelect.appendChild(optGrpSen);
             }
         }
 
@@ -711,14 +756,27 @@
 
         function printWorksheet() {
             sfx.click();
-            let html = "<h1 style='text-align:center; font-size:22px; font-weight:bold; margin-bottom:10px;'>Internet & Gaming Führerschein</h1>";
-            html += "<p style='text-align:center; font-size:14px; margin-bottom:20px;'>Name: __________________________ | Klasse: _________ | Datum: ____________</p><hr style='margin-bottom:20px;'>";
+            let html = "<h1 style='text-align:center; font-size:22px; font-weight:bold; margin-bottom:5px;'>Internet & Gaming Führerschein</h1>";
+            html += "<p style='text-align:center; font-size:14px; margin-bottom:20px;'>Name: __________________________ | Klasse: _________ | Datum: ____________</p>";
+            html += "<h2 style='font-size:16px; margin-bottom:15px; border-bottom:1px solid #000; padding-bottom:5px;'>Teil 1: Klassen 5-7 (Junior-Level)</h2>";
             
-            masterQuizPool.forEach((q, i) => {
+            poolJunior.slice(0, 15).forEach((q, i) => {
                 html += `<div style="margin-bottom: 20px; page-break-inside: avoid;"><strong style="font-size:14px;">${i+1}. [${q.category}] ${q.question}</strong><div style="margin-top: 5px; margin-left: 15px; font-size:13px;">`;
                 q.options.forEach(opt => { html += `<div style="margin-bottom: 4px;">☐ ${opt}</div>`; });
                 html += `</div></div>`;
             });
+
+            html += "<div style='page-break-before: always;'></div>";
+            html += "<h1 style='text-align:center; font-size:22px; font-weight:bold; margin-bottom:5px;'>Internet & Gaming Führerschein</h1>";
+            html += "<p style='text-align:center; font-size:14px; margin-bottom:20px;'>Name: __________________________ | Klasse: _________ | Datum: ____________</p>";
+            html += "<h2 style='font-size:16px; margin-bottom:15px; border-bottom:1px solid #000; padding-bottom:5px;'>Teil 2: Klassen 8-10 (Senior-Level)</h2>";
+            
+            poolSenior.slice(0, 15).forEach((q, i) => {
+                html += `<div style="margin-bottom: 20px; page-break-inside: avoid;"><strong style="font-size:14px;">${i+1}. [${q.category}] ${q.question}</strong><div style="margin-top: 5px; margin-left: 15px; font-size:13px;">`;
+                q.options.forEach(opt => { html += `<div style="margin-bottom: 4px;">☐ ${opt}</div>`; });
+                html += `</div></div>`;
+            });
+
             document.getElementById('print-section').innerHTML = html;
             window.print();
         }
@@ -744,16 +802,22 @@
         let currentSmartboardQuestion = null;
         function startSmartboard() {
             sfx.click();
-            const qIndex = document.getElementById('smartboard-question-select').value;
-            currentSmartboardQuestion = JSON.parse(JSON.stringify(masterQuizPool[qIndex]));
+            const val = document.getElementById('smartboard-question-select').value;
+            const type = val.split("_")[0];
+            const qIndex = parseInt(val.split("_")[1]);
+            
+            currentSmartboardQuestion = JSON.parse(JSON.stringify(type === 'j' ? poolJunior[qIndex] : poolSenior[qIndex]));
+            
             let correctText = currentSmartboardQuestion.options[currentSmartboardQuestion.correctIndex];
             shuffleArray(currentSmartboardQuestion.options);
             currentSmartboardQuestion.correctIndex = currentSmartboardQuestion.options.indexOf(correctText);
+            
             document.getElementById('admin-screen').classList.add('hidden-view'); document.getElementById('smartboard-screen').classList.remove('hidden-view');
             document.getElementById('sb-category-badge').textContent = currentSmartboardQuestion.category;
             document.getElementById('sb-question-text').textContent = currentSmartboardQuestion.question;
             document.getElementById('sb-feedback-container').classList.add('hidden');
             const optionsContainer = document.getElementById('sb-options-container'); optionsContainer.innerHTML = '';
+            
             currentSmartboardQuestion.options.forEach((optionText, index) => {
                 const btn = document.createElement('button');
                 btn.className = 'w-full text-left p-6 md:p-8 rounded-xl text-xl md:text-2xl font-bold bg-gray-700/50 hover:bg-gray-600/80 border border-gray-500 transition-all flex items-center justify-between shadow-md';
@@ -885,10 +949,11 @@
             let finalScoreText = score.toString();
             if (cheatCount > 0) { finalScoreText = `${score} (-${cheatCount})`; }
 
-            // Automatischer Geräte-Fingerabdruck für Google Sheets
             const detectedDevice = getDeviceFingerprint();
 
-            fetch("https://script.google.com/macros/s/AKfycbz8Ll7Fq25KlrwcU2csLnpBjZfjyRvgQ94jICTNTx7OnyAOntjevvmaHQwgJ-MfIE9jZQ/exec", {
+            // Achtung: Wenn du bei Google Sheets einen neuen Link erstellt hast, 
+            // tausche den Link hier in der nächsten Zeile einfach wieder aus!
+            fetch("https://script.google.com/macros/s/AKfycbxsTQ1pBFFdQ_8bh5lp5etkJoP-MABvHhgmVSUgXxzUEJJm5ePx11RWIwYf7ufAmKN_QQ/exec", {
                 method: "POST", mode: "no-cors",
                 body: JSON.stringify({ 
                     name: gamerTag, 
