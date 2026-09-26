@@ -705,7 +705,6 @@
 
             const szContainer = document.getElementById('spickzettel-container');
             if(szContainer.children.length === 0) {
-                // Spickzettel zeigt beide Kataloge an
                 let html = "<div class='text-cyan-400 font-bold mb-4 pb-2 border-b border-cyan-800 text-lg uppercase tracking-wider'><i class='fa-solid fa-graduation-cap'></i> Junior Fragen (Kl. 5-7)</div>";
                 poolJunior.forEach((q, i) => { html += `<div class="mb-4 pb-4 border-b border-gray-700"><div class="text-xs text-green-400 font-bold uppercase mb-1">Frage ${i+1} - ${q.category}</div><div class="text-sm text-white font-semibold mb-2">${q.question}</div><div class="text-sm text-green-300 bg-green-900/30 p-2 rounded border-l-2 border-green-500">✅ ${q.options[q.correctIndex]}</div></div>`; });
                 
@@ -951,9 +950,7 @@
 
             const detectedDevice = getDeviceFingerprint();
 
-            // Achtung: Wenn du bei Google Sheets einen neuen Link erstellt hast, 
-            // tausche den Link hier in der nächsten Zeile einfach wieder aus!
-            fetch("https://script.google.com/macros/s/AKfycbwg-ELgSRjw38vTtIOCRNQ9SXEvBKuDKt1M-zZPUK6Er0s0mK_SzssQ7KsukaT2K5Qr5Q/exec"", {
+            fetch("https://script.google.com/macros/s/AKfycbwg-ELgSRjw38vTtIOCRNQ9SXEvBKuDKt1M-zZPUK6Er0s0mK_SzssQ7KsukaT2K5Qr5Q/exec", {
                 method: "POST", mode: "no-cors",
                 body: JSON.stringify({ 
                     name: gamerTag, 
