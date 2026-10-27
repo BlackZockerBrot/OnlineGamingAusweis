@@ -292,16 +292,82 @@
                     </button>
                 </div>
 
-                <div class="flex gap-4 mt-6">
-                    <button onclick="startQuiz()" class="btn-gaming flex-1 py-4 rounded-lg text-xl flex justify-center items-center gap-3">
-                        Mission Starten <i class="fa-solid fa-rocket"></i>
+                <div class="flex gap-3 mt-6">
+                    <button onclick="startQuiz()" class="btn-gaming flex-1 py-4 rounded-lg text-lg md:text-xl flex justify-center items-center gap-2">
+                        Starten <i class="fa-solid fa-rocket"></i>
                     </button>
-                    <!-- NEU: LEADERBOARD BUTTON -->
-                    <button onclick="showLeaderboard()" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-6 rounded-lg text-xl flex justify-center items-center transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                    <!-- LEADERBOARD BUTTON -->
+                    <button onclick="showLeaderboard()" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-4 md:px-5 rounded-lg text-xl flex justify-center items-center transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]">
                         <i class="fa-solid fa-trophy text-yellow-400 drop-shadow-[0_0_5px_#facc15]"></i>
+                    </button>
+                    <!-- NEU: INFO BUTTON (Ratgeber & Hilfe) -->
+                    <button onclick="showInfo()" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-4 md:px-5 rounded-lg text-xl flex justify-center items-center transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                        <i class="fa-solid fa-circle-info text-blue-400 drop-shadow-[0_0_5px_#60a5fa]"></i>
                     </button>
                 </div>
             </div>
+        </div>
+
+        <!-- ================= RATGEBER & HILFE SCREEN ================= -->
+        <div id="info-screen" class="hidden-view flex-col items-center w-full relative z-10 slide-up">
+            <h2 class="text-3xl md:text-4xl font-bold tracking-wider uppercase orbitron text-blue-400 drop-shadow-[0_0_15px_#3b82f6] mb-4 text-center">
+                <i class="fa-solid fa-shield-heart"></i> Ratgeber & Hilfe
+            </h2>
+            <p class="text-gray-400 mb-6 text-center text-sm md:text-base max-w-2xl">Zocken ist cool – aber nur, wenn du die Kontrolle behältst. Hier findest du Tipps zur Vorbeugung und Hilfe, wenn das Gaming zum Problem wird.</p>
+            
+            <div class="w-full max-w-3xl bg-gray-900/80 border border-gray-700 rounded-xl p-5 md:p-8 shadow-2xl max-h-[60vh] overflow-y-auto custom-scroll mb-6 text-left space-y-8">
+                
+                <!-- 1. Gaming Ampel -->
+                <div>
+                    <h3 class="text-xl font-bold text-white border-b border-gray-600 pb-2 mb-4 orbitron">
+                        <i class="fa-solid fa-traffic-light text-gray-400 mr-2"></i> Die Gaming-Ampel (Risikoskala)
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="bg-green-900/20 border-l-4 border-green-500 p-4 rounded-r-lg">
+                            <div class="font-bold text-green-400 text-lg mb-1"><i class="fa-solid fa-circle text-green-500 mr-2"></i>Grün (Gelegenheits-Gamer)</div>
+                            <p class="text-gray-300 text-sm">Zocken dient als reines Hobby und Ausgleich nach erledigten Pflichten. Schule, Hobbys, Familie und Schlaf bleiben unberührt. Spielzeiten lassen sich problemlos beenden.</p>
+                        </div>
+                        <div class="bg-yellow-900/20 border-l-4 border-yellow-500 p-4 rounded-r-lg">
+                            <div class="font-bold text-yellow-400 text-lg mb-1"><i class="fa-solid fa-circle text-yellow-500 mr-2"></i>Gelb (Gefährdet / Riskant)</div>
+                            <p class="text-gray-300 text-sm">Zocken wird oft als Flucht vor Stress (Eskapismus) genutzt. Es kommt zu ersten Streitigkeiten mit den Eltern über Bildschirmzeiten. Hausaufgaben oder echte Hobbys werden hin und wieder aufgeschoben. Gereiztheit bei Unterbrechungen.</p>
+                        </div>
+                        <div class="bg-red-900/20 border-l-4 border-red-500 p-4 rounded-r-lg">
+                            <div class="font-bold text-red-500 text-lg mb-1"><i class="fa-solid fa-circle text-red-500 mr-2"></i>Rot (Kritisch / Gaming Disorder)</div>
+                            <p class="text-gray-300 text-sm"><b>Kontrollverlust:</b> Aufhören gelingt trotz Vorsätzen nicht mehr. Gaming steht über allem. Ein starker Schulabfall, Isolation von Freunden und chronischer Schlafmangel werden ignoriert.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Handlungstipps -->
+                <div>
+                    <h3 class="text-xl font-bold text-white border-b border-gray-600 pb-2 mb-4 orbitron">
+                        <i class="fa-solid fa-lightbulb text-yellow-400 mr-2"></i> Handlungstipps im Alltag
+                    </h3>
+                    <ul class="space-y-3 text-gray-300 text-sm md:text-base">
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <div><b>Feste Zeitfenster setzen:</b> "Erst die Pflicht, dann das Spiel". Klare Zeiten vereinbaren (z. B. 1,5 Stunden) und einen Timer stellen.</div></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <div><b>Bildschirmfreie Zonen:</b> Handys und Konsolen mindestens 60 Minuten vor dem Schlafen ausschalten, um Schlafmangel zu verhindern.</div></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <div><b>Offline-Ausgleich schaffen:</b> Ein regelmäßiges analoges Hobby (Sport, Instrument, Freunde treffen) liefert Anerkennung außerhalb der digitalen Welt.</div></li>
+                        <li class="flex items-start"><i class="fa-solid fa-check text-green-500 mt-1 mr-3"></i> <div><b>Fallen im Spieldesign durchschauen:</b> Mache dir bewusst, dass Mechaniken wie Lootboxen oder tägliche Belohnungen psychologisch darauf ausgelegt sind, Angst zu erzeugen, etwas zu verpassen (FOMO).</div></li>
+                    </ul>
+                </div>
+
+                <!-- 3. Therapie & Hilfe -->
+                <div>
+                    <h3 class="text-xl font-bold text-white border-b border-gray-600 pb-2 mb-4 orbitron">
+                        <i class="fa-solid fa-hand-holding-medical text-red-400 mr-2"></i> Therapieansätze & Hilfe
+                    </h3>
+                    <ul class="space-y-3 text-gray-300 text-sm md:text-base">
+                        <li class="flex items-start"><i class="fa-solid fa-brain text-purple-400 mt-1 mr-3"></i> <div><b>Psychotherapie (KVT):</b> Die Kognitive Verhaltenstherapie gilt als Methode der Wahl. Sie deckt innere Auslöser auf und trainiert alternative Bewältigungsstrategien sowie Selbstkontrolle.</div></li>
+                        <li class="flex items-start"><i class="fa-solid fa-users text-cyan-400 mt-1 mr-3"></i> <div><b>Selbsthilfegruppen:</b> Organisationen wie <i>Online Gamers Anonymous</i> bieten Foren und Online-Meetings (12-Schritte-Programme) an.</div></li>
+                        <li class="flex items-start"><i class="fa-solid fa-phone text-blue-400 mt-1 mr-3"></i> <div><b>Niedrigschwellige Anlaufstellen:</b> Die <i>Nummer gegen Kummer (116 111)</i> oder die Plattform der BZgA <i>(ins-netz-gehen.de)</i> bieten Jugendlichen kostenlose, anonyme Hilfe und Beratung.</div></li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <button onclick="closeInfo()" class="btn-gaming w-full max-w-3xl py-3 rounded-lg text-lg flex justify-center items-center gap-3">
+                <i class="fa-solid fa-arrow-left"></i> Zurück zum Hauptmenü
+            </button>
         </div>
 
         <!-- ================= LEADERBOARD SCREEN ================= -->
@@ -589,7 +655,7 @@
             { category: "Phishing im Alltag", question: "Du bekommst eine E-Mail von 'PayPal', dass dein Konto gesperrt wird, wenn du nicht auf den Link klickst. Was tust du?", options: ["Ich gerate in Panik, klicke sofort auf den Link und logge mich ein, um das Konto zu retten.", "Ich lösche die E-Mail sofort. Seriöse Banken drohen niemals per E-Mail mit Kontosperrungen.", "Ich schreibe eine wütende E-Mail an den Support zurück und fordere eine Erklärung.", "Ich leite die E-Mail schnell an alle meine Kontakte weiter, um sie vor der Sperrung zu warnen."], correctIndex: 1, explanation: "Das ist ein klassischer Phishing-Versuch, um an deine Bankdaten zu kommen. Banken sperren keine Konten per Mail-Druck." },
             { category: "Datenschutz (Apps)", question: "Du lädst eine neue Taschenlampen-App herunter. Sie verlangt Zugriff auf deine Kontakte und deinen Standort. Was tust du?", options: ["Ich stimme zu, die App-Entwickler brauchen das sicher für eine versteckte Zusatzfunktion.", "Ich lösche die App sofort. Eine Taschenlampe braucht keinen Zugriff auf Standorte oder Kontakte.", "Ich stimme nur dem Standort-Zugriff zu, blockiere aber vorsichtshalber meine Kontaktliste.", "Ich starte mein Smartphone neu und versuche, die Berechtigungen durch einen Trick zu umgehen."], correctIndex: 1, explanation: "Eine Taschenlampe braucht nur das Kamera-Licht. Wenn Apps sinnlos Daten abgreifen wollen: Finger weg!" },
             { category: "Cyber-Grooming", question: "Ein 'gleichaltriges' Mädchen schreibt dich beim Zocken an und bittet schnell um intime Bilder. Was könnte dahinterstecken?", options: ["Das ist sogenanntes Cyber-Grooming: Erwachsene, die sich als Kinder ausgeben, um Bilder zu erzwingen.", "Das ist ein Zeichen dafür, dass sie mich wirklich sehr sympathisch und nett findet.", "Das ist ein bekannter Bug im Spiel, bei dem Chatnachrichten von anderen Servern überspringen.", "Das ist ein völlig normales Kennenlern-Gespräch, wie es unter Gamern täglich passiert."], correctIndex: 0, explanation: "Hinter anonymen Profilen können Pädokriminelle oder Erpresser stecken. Sende niemals intime Bilder an Fremde!" },
-            { category: "Fake-Shops", question: "Du suchst neue Sneaker. Auf einer unbekannten Seite gibt es sie 70% billiger als überall sonst. Du kannst aber nur per 'Vorkasse' (Überweisung) zahlen.", options: ["Ich schlage sofort zu, weil solche Mega-Angebote meistens nach wenigen Minuten ausverkauft sind.", "Ich kaufe dort nicht. Extreme Rabatte und 'nur Vorkasse' sind typische Merkmale von Fake-Shops.", "Ich rufe beim Kundenservice an, um zu verhandeln, ob ich den Preis noch weiter drücken kann.", "Ich bestelle direkt drei Paar Schuhe, um die Versandkosten durch die Vorkasse wieder reinzuholen."], correctIndex: 1, explanation: "Extrem billig + nur Vorkasse = Fast immer ein Fake-Shop. Das Geld ist weg, die Schuhe kommen nie." },
+            { category: "Fake-Shops", question: "Du search neue Sneaker. Auf einer unbekannten Seite gibt es sie 70% billiger als überall sonst. Du kannst aber nur per 'Vorkasse' (Überweisung) zahlen.", options: ["Ich schlage sofort zu, weil solche Mega-Angebote meistens nach wenigen Minuten ausverkauft sind.", "Ich kaufe dort nicht. Extreme Rabatte und 'nur Vorkasse' sind typische Merkmale von Fake-Shops.", "Ich rufe beim Kundenservice an, um zu verhandeln, ob ich den Preis noch weiter drücken kann.", "Ich bestelle direkt drei Paar Schuhe, um die Versandkosten durch die Vorkasse wieder reinzuholen."], correctIndex: 1, explanation: "Extrem billig + nur Vorkasse = Fast immer ein Fake-Shop. Das Geld ist weg, die Schuhe kommen nie." },
             { category: "Urheberrecht (Schule)", question: "Du brauchst für ein Schul-Referat Bilder. Darfst du einfach Bilder aus der Google-Bildersuche nehmen?", options: ["Ja, das ist erlaubt, da ein Schulreferat ja nicht öffentlich für alle im Internet veröffentlicht wird.", "Nein, ich muss jeden Fotografen vorher per E-Mail anschreiben und um schriftliche Erlaubnis bitten.", "Ja, solange ich mit meiner Präsentation in der Schule kein echtes Geld verdiene.", "Ich sollte nach lizenzfreien Bildern (Creative Commons) suchen und die Quelle immer korrekt angeben."], correctIndex: 3, explanation: "Auch für die Schule gilt das Urheberrecht. Nutze am besten lizenzfreie Bilderseiten (wie Pixabay) oder zitiere die Quelle korrekt." },
             { category: "Cookie-Tracking", question: "Auf jeder Webseite musst du 'Cookies' akzeptieren. Was passiert, wenn du auf 'Alle akzeptieren' klickst?", options: ["Die Webseite wird dadurch optimiert und lädt in Zukunft auf meinem Handy fast doppelt so schnell.", "Sogenannte Third-Party-Cookies verfolgen mein Surfverhalten quer durchs Netz für personalisierte Werbung.", "Mein Computer wird durch das Akzeptieren automatisch vor schädlichen Viren und Trojanern geschützt.", "Das System speichert meine Login-Daten, sodass ich nie wieder irgendwo ein Passwort eingeben muss."], correctIndex: 1, explanation: "Third-Party-Cookies verfolgen dich quer durchs Netz. Deshalb kriegst du Schuh-Werbung, nachdem du nach Schuhen gesucht hast." },
             { category: "Recht am eigenen Bild", question: "Ein Kumpel baut richtig Mist auf einer Party. Du filmst das und willst es in die Klassen-Gruppe schicken. Ist das erlaubt?", options: ["Ja, das ist vollkommen okay, weil peinliche Situationen auf Partys einfach super lustig sind.", "Ja, aber nur unter der Bedingung, dass sein Gesicht mit einem Emoji oder Filter stark verpixelt wird.", "Nein. Ohne seine ausdrückliche Erlaubnis ist das heimliche Verbreiten von Videos absolut strafbar.", "Ja, das ist erlaubt, solange die Klassengruppe privat ist und keine Lehrer mitlesen können."], correctIndex: 2, explanation: "Jeder hat das Recht an seinem eigenen Bild/Video. Das heimliche Verbreiten von peinlichen Situationen ist absolut verboten." },
@@ -629,7 +695,7 @@
         let currentQuestionTimeLimit = 30;
         let cheatCount = 0;
         let currentStreak = 0;
-        let isSeniorLevel = false; // NEU: Merkt sich, ob der Spieler ein Senior ist
+        let isSeniorLevel = false;
 
         function getDeviceFingerprint() {
             const ua = navigator.userAgent;
@@ -670,6 +736,19 @@
             btnElement.className = 'avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-2 md:p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)] text-cyan-400';
         }
 
+        // ================= NEU: INFO LOGIK =================
+        function showInfo() {
+            sfx.click();
+            document.getElementById('start-screen').classList.add('hidden-view');
+            document.getElementById('info-screen').classList.remove('hidden-view');
+        }
+
+        function closeInfo() {
+            sfx.click();
+            document.getElementById('info-screen').classList.add('hidden-view');
+            document.getElementById('start-screen').classList.remove('hidden-view');
+        }
+
         function startQuiz() {
             initAudio(); sfx.click();
             const inputField = document.getElementById('gamertag');
@@ -703,7 +782,6 @@
             document.getElementById('display-name').textContent = gamerTag;
             document.getElementById('header-avatar').innerHTML = avatars[chosenAvatar];
             
-            // LEVEL-LOGIK: Prüft, ob es Klasse 8, 9, 10 oder Gast/Lehrer ist
             isSeniorLevel = ['8a', '8b', '9a', '9b', '10a', '10b', 'Gast / Lehrer'].includes(playerClass);
             
             let poolCopy = JSON.parse(JSON.stringify(isSeniorLevel ? poolSenior : poolJunior)); 
@@ -719,7 +797,6 @@
             loadQuestion();
         }
 
-        // ================= NEU: LEADERBOARD LOGIK =================
         async function showLeaderboard() {
             sfx.click();
             document.getElementById('start-screen').classList.add('hidden-view');
@@ -729,20 +806,16 @@
             lbContainer.innerHTML = '<div class="text-center text-cyan-400 py-12"><i class="fa-solid fa-circle-notch fa-spin text-5xl"></i><p class="mt-4 font-bold tracking-wider">Lade Top-Agenten...</p></div>';
 
             try {
-                // Holt sich die Daten aus der neuen doGet-Funktion in Google Sheets
                 const response = await fetch("https://script.google.com/macros/s/AKfycbxVBfhADgzjiMQCSZgbvEfsMCbzrE6A1RSUVYrKpzYlSBMFZi2viJ5THAIzydJz8mllaw/exec");
                 const data = await response.json();
                 
-                // Filtert leere Namen raus
                 let validData = data.filter(d => d.name && d.punkte !== undefined);
                 
-                // Bereinigt die Punkte (falls jemand "15 (-1)" wegen Schummeln stehen hat, zählt nur die erste Zahl)
                 validData.forEach(d => {
                     let pStr = String(d.punkte).split(' ')[0];
                     d.scoreVal = parseInt(pStr) || 0;
                 });
 
-                // Sortiert alle Spieler nach Punkten absteigend
                 validData.sort((a, b) => b.scoreVal - a.scoreVal);
 
                 let html = '';
@@ -939,7 +1012,6 @@
             const isBoss = (currentQuestionIndex === totalQuestions - 1);
             const quizBox = document.getElementById('quiz-container-inner'); const qNum = document.getElementById('current-question-num'); const qText = document.getElementById('question-text');
             
-            // NEU: Berechnet das korrekte Zeitlimit (45s für Senioren, 30s für Junioren)
             let effectiveTimeLimit = globalTimeLimit;
             if (globalTimeLimit === 30) {
                 effectiveTimeLimit = isSeniorLevel ? 45 : 30;
