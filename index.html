@@ -300,14 +300,7 @@
                     <button onclick="showLeaderboard()" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-4 md:px-5 rounded-lg text-xl flex justify-center items-center transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]">
                         <i class="fa-solid fa-trophy text-yellow-400 drop-shadow-[0_0_5px_#facc15]"></i>
                     </button>
-                    <!-- NEU: INFO BUTTON (Ratgeber & Hilfe) -->
-                    <button onclick="showInfo()" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-4 md:px-5 rounded-lg text-xl flex justify-center items-center transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]">
-                        <i class="fa-solid fa-circle-info text-blue-400 drop-shadow-[0_0_5px_#60a5fa]"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
+                    
         <!-- ================= RATGEBER & HILFE SCREEN ================= -->
         <div id="info-screen" class="hidden-view flex-col items-center w-full relative z-10 slide-up">
             <h2 class="text-3xl md:text-4xl font-bold tracking-wider uppercase orbitron text-blue-400 drop-shadow-[0_0_15px_#3b82f6] mb-4 text-center">
@@ -570,7 +563,16 @@
                 <i class="fa-solid fa-magnifying-glass"></i> Meine Fehler ansehen
             </button>
             <div id="mistakes-section" class="w-full max-w-md hidden fade-in mb-8 space-y-4 text-left"></div>
+            
+            <!-- NEU: INFO BUTTON (Ratgeber & Hilfe) am Ende -->
+            <button onclick="showInfo()" class="btn-gaming w-full max-w-md py-3 rounded-lg text-lg flex justify-center items-center gap-3 mb-4 bg-gray-800 border-gray-600 hover:border-blue-400 text-blue-300">
+                <i class="fa-solid fa-shield-heart text-blue-400"></i> Ratgeber & Hilfe
+            </button>
 
+            <button onclick="resetQuiz()" class="btn-gaming px-8 py-4 rounded-lg text-xl flex justify-center items-center gap-3 w-full max-w-md">
+                <i class="fa-solid fa-rotate-right"></i> Hauptmenü
+            </button>
+            
             <button onclick="resetQuiz()" class="btn-gaming px-8 py-4 rounded-lg text-xl flex justify-center items-center gap-3 w-full max-w-md">
                 <i class="fa-solid fa-rotate-right"></i> Hauptmenü
             </button>
