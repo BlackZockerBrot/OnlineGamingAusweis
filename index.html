@@ -202,7 +202,6 @@
         
         select option, select optgroup { background-color: #1f2937; color: white; }
 
-        /* Druck-Modus (Arbeitsblatt) */
         @media print {
             body { background: white !important; color: black !important; display: block !important; }
             body > *:not(#print-section) { display: none !important; }
@@ -257,7 +256,7 @@
                 </select>
                 <p id="klasse-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte wähle eine Klasse aus!</p>
 
-                <label class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest pt-2">Wähle deinen Avatar:</label>
+                <label class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest pt-2">Wähle deinen Operator:</label>
                 <div class="grid grid-cols-6 gap-2" id="avatar-selection">
                     <button onclick="selectAvatar('fa-user-astronaut', this)" class="avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-2 md:p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)] text-cyan-400">
                         <i class="fa-solid fa-user-astronaut"></i>
@@ -292,15 +291,18 @@
                     </button>
                 </div>
 
-                <div class="flex gap-3 mt-6">
-                    <button onclick="startQuiz()" class="btn-gaming flex-1 py-4 rounded-lg text-lg md:text-xl flex justify-center items-center gap-2">
-                        Starten <i class="fa-solid fa-rocket"></i>
+                <div class="flex gap-4 mt-6">
+                    <button onclick="startQuiz()" class="btn-gaming flex-1 py-4 rounded-lg text-xl flex justify-center items-center gap-3">
+                        Mission Starten <i class="fa-solid fa-rocket"></i>
                     </button>
                     <!-- LEADERBOARD BUTTON -->
-                    <button onclick="showLeaderboard()" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-4 md:px-5 rounded-lg text-xl flex justify-center items-center transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                    <button onclick="showLeaderboard()" class="bg-gray-800 hover:bg-gray-700 border border-gray-600 text-white px-6 rounded-lg text-xl flex justify-center items-center transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]">
                         <i class="fa-solid fa-trophy text-yellow-400 drop-shadow-[0_0_5px_#facc15]"></i>
                     </button>
-                    
+                </div>
+            </div>
+        </div>
+
         <!-- ================= RATGEBER & HILFE SCREEN ================= -->
         <div id="info-screen" class="hidden-view flex-col items-center w-full relative z-10 slide-up">
             <h2 class="text-3xl md:text-4xl font-bold tracking-wider uppercase orbitron text-blue-400 drop-shadow-[0_0_15px_#3b82f6] mb-4 text-center">
@@ -359,7 +361,7 @@
             </div>
             
             <button onclick="closeInfo()" class="btn-gaming w-full max-w-3xl py-3 rounded-lg text-lg flex justify-center items-center gap-3">
-                <i class="fa-solid fa-arrow-left"></i> Zurück zum Hauptmenü
+                <i class="fa-solid fa-arrow-left"></i> Zurück zur Auswertung
             </button>
         </div>
 
@@ -563,16 +565,12 @@
                 <i class="fa-solid fa-magnifying-glass"></i> Meine Fehler ansehen
             </button>
             <div id="mistakes-section" class="w-full max-w-md hidden fade-in mb-8 space-y-4 text-left"></div>
-            
-            <!-- NEU: INFO BUTTON (Ratgeber & Hilfe) am Ende -->
+
+            <!-- INFO BUTTON AM ENDE (Direkt über Hauptmenü) -->
             <button onclick="showInfo()" class="btn-gaming w-full max-w-md py-3 rounded-lg text-lg flex justify-center items-center gap-3 mb-4 bg-gray-800 border-gray-600 hover:border-blue-400 text-blue-300">
                 <i class="fa-solid fa-shield-heart text-blue-400"></i> Ratgeber & Hilfe
             </button>
 
-            <button onclick="resetQuiz()" class="btn-gaming px-8 py-4 rounded-lg text-xl flex justify-center items-center gap-3 w-full max-w-md">
-                <i class="fa-solid fa-rotate-right"></i> Hauptmenü
-            </button>
-            
             <button onclick="resetQuiz()" class="btn-gaming px-8 py-4 rounded-lg text-xl flex justify-center items-center gap-3 w-full max-w-md">
                 <i class="fa-solid fa-rotate-right"></i> Hauptmenü
             </button>
@@ -622,7 +620,6 @@
         const badWords = ["hurensohn", "arschloch", "fotze", "schlampe", "wichser", "ficker", "missgeburt", "bastard", "hitler", "nazi", "nutte", "spast", "pimmel", "penis", "vagina", "bitch", "pussy", "cock", "porn", "nigger", "nigga", "kanacke", "schweinehund", "arsch"];
 
         // ================= FRAGEN-POOLS =================
-        // JUNIOR: Klassen 5 bis 7
         const poolJunior = [
             { category: "Passwort-Sicherheit", question: "Du möchtest dir einen neuen Account erstellen. Welches Passwort ist am sichersten?", options: ["Mein eigener Vorname zusammen mit meinem Geburtsjahr", "Eine leichte Zahlenreihe (z.B. 12345678) als Eselsbrücke", "Ein Mix aus Groß-/Kleinbuchstaben, Zahlen und Sonderzeichen", "Das Wort 'Passwort' rückwärts geschrieben mit einer Eins am Ende"], correctIndex: 2, explanation: "Ein sicheres Passwort ist lang und bunt gemischt." },
             { category: "Phishing & Betrug", question: "Nachricht: 'Glückwunsch! Du hast das neue iPhone gewonnen! Klick hier!' Was tust du?", options: ["Ich klicke sofort auf den Link und gebe meine Adresse für den Versand an.", "Ich ignoriere und lösche die Nachricht. Niemand verschenkt einfach so Handys.", "Ich leite die Nachricht an meine Freunde weiter, damit sie auch was gewinnen.", "Ich klicke auf den Link, nutze aber sicherheitshalber einen falschen Namen."], correctIndex: 1, explanation: "Typisches 'Phishing'! Niemand verschenkt teure Handys." },
@@ -651,13 +648,12 @@
             { category: "In-Game Käufe (Pay2Win)", question: "Ein Spiel ist gratis, aber man kann für echtes Geld eine starke Waffe kaufen.", options: ["Das nennt man Pay-to-Win, weil man sich für echtes Geld einen unfairen Spielvorteil erkauft.", "Das ist ein absolut faires Geschäftsmodell, weil das Spiel ja am Anfang kostenlos herunterladbar war.", "Das ist einfach nur eine freiwillige Spende, um die armen Entwickler des Spiels zu unterstützen.", "Das ist ein technischer Fehler im Spiel, der durch den nächsten Patch wieder behoben wird."], correctIndex: 0, explanation: "Oft sehr unfair gegenüber Leuten, die kein Geld ausgeben wollen." }
         ];
 
-        // SENIOR: Klassen 8 bis 10 (und Gast / Lehrer) - Etwas leichter, aber praxisnah!
         const poolSenior = [
             { category: "Sichere Passwörter", question: "Du willst dir all deine Passwörter nicht mehr merken müssen. Was ist die sicherste Lösung?", options: ["Ich schreibe alle Passwörter in die versteckte Notizen-App auf meinem Smartphone.", "Ich nutze ein langes, extrem komplexes Passwort für alle meine Online-Accounts gleichzeitig.", "Ich nutze einen verschlüsselten Passwort-Manager mit einem einzigen starken Master-Passwort.", "Ich speichere alle Passwörter sicher in einem privaten Chat mit mir selbst auf WhatsApp."], correctIndex: 2, explanation: "Ein Passwort-Manager verschlüsselt deine Daten sicher und du musst dir nur noch ein einziges Master-Passwort merken." },
             { category: "Phishing im Alltag", question: "Du bekommst eine E-Mail von 'PayPal', dass dein Konto gesperrt wird, wenn du nicht auf den Link klickst. Was tust du?", options: ["Ich gerate in Panik, klicke sofort auf den Link und logge mich ein, um das Konto zu retten.", "Ich lösche die E-Mail sofort. Seriöse Banken drohen niemals per E-Mail mit Kontosperrungen.", "Ich schreibe eine wütende E-Mail an den Support zurück und fordere eine Erklärung.", "Ich leite die E-Mail schnell an alle meine Kontakte weiter, um sie vor der Sperrung zu warnen."], correctIndex: 1, explanation: "Das ist ein klassischer Phishing-Versuch, um an deine Bankdaten zu kommen. Banken sperren keine Konten per Mail-Druck." },
             { category: "Datenschutz (Apps)", question: "Du lädst eine neue Taschenlampen-App herunter. Sie verlangt Zugriff auf deine Kontakte und deinen Standort. Was tust du?", options: ["Ich stimme zu, die App-Entwickler brauchen das sicher für eine versteckte Zusatzfunktion.", "Ich lösche die App sofort. Eine Taschenlampe braucht keinen Zugriff auf Standorte oder Kontakte.", "Ich stimme nur dem Standort-Zugriff zu, blockiere aber vorsichtshalber meine Kontaktliste.", "Ich starte mein Smartphone neu und versuche, die Berechtigungen durch einen Trick zu umgehen."], correctIndex: 1, explanation: "Eine Taschenlampe braucht nur das Kamera-Licht. Wenn Apps sinnlos Daten abgreifen wollen: Finger weg!" },
             { category: "Cyber-Grooming", question: "Ein 'gleichaltriges' Mädchen schreibt dich beim Zocken an und bittet schnell um intime Bilder. Was könnte dahinterstecken?", options: ["Das ist sogenanntes Cyber-Grooming: Erwachsene, die sich als Kinder ausgeben, um Bilder zu erzwingen.", "Das ist ein Zeichen dafür, dass sie mich wirklich sehr sympathisch und nett findet.", "Das ist ein bekannter Bug im Spiel, bei dem Chatnachrichten von anderen Servern überspringen.", "Das ist ein völlig normales Kennenlern-Gespräch, wie es unter Gamern täglich passiert."], correctIndex: 0, explanation: "Hinter anonymen Profilen können Pädokriminelle oder Erpresser stecken. Sende niemals intime Bilder an Fremde!" },
-            { category: "Fake-Shops", question: "Du search neue Sneaker. Auf einer unbekannten Seite gibt es sie 70% billiger als überall sonst. Du kannst aber nur per 'Vorkasse' (Überweisung) zahlen.", options: ["Ich schlage sofort zu, weil solche Mega-Angebote meistens nach wenigen Minuten ausverkauft sind.", "Ich kaufe dort nicht. Extreme Rabatte und 'nur Vorkasse' sind typische Merkmale von Fake-Shops.", "Ich rufe beim Kundenservice an, um zu verhandeln, ob ich den Preis noch weiter drücken kann.", "Ich bestelle direkt drei Paar Schuhe, um die Versandkosten durch die Vorkasse wieder reinzuholen."], correctIndex: 1, explanation: "Extrem billig + nur Vorkasse = Fast immer ein Fake-Shop. Das Geld ist weg, die Schuhe kommen nie." },
+            { category: "Fake-Shops", question: "Du suchst neue Sneaker. Auf einer unbekannten Seite gibt es sie 70% billiger als überall sonst. Du kannst aber nur per 'Vorkasse' (Überweisung) zahlen.", options: ["Ich schlage sofort zu, weil solche Mega-Angebote meistens nach wenigen Minuten ausverkauft sind.", "Ich kaufe dort nicht. Extreme Rabatte und 'nur Vorkasse' sind typische Merkmale von Fake-Shops.", "Ich rufe beim Kundenservice an, um zu verhandeln, ob ich den Preis noch weiter drücken kann.", "Ich bestelle direkt drei Paar Schuhe, um die Versandkosten durch die Vorkasse wieder reinzuholen."], correctIndex: 1, explanation: "Extrem billig + nur Vorkasse = Fast immer ein Fake-Shop. Das Geld ist weg, die Schuhe kommen nie." },
             { category: "Urheberrecht (Schule)", question: "Du brauchst für ein Schul-Referat Bilder. Darfst du einfach Bilder aus der Google-Bildersuche nehmen?", options: ["Ja, das ist erlaubt, da ein Schulreferat ja nicht öffentlich für alle im Internet veröffentlicht wird.", "Nein, ich muss jeden Fotografen vorher per E-Mail anschreiben und um schriftliche Erlaubnis bitten.", "Ja, solange ich mit meiner Präsentation in der Schule kein echtes Geld verdiene.", "Ich sollte nach lizenzfreien Bildern (Creative Commons) suchen und die Quelle immer korrekt angeben."], correctIndex: 3, explanation: "Auch für die Schule gilt das Urheberrecht. Nutze am besten lizenzfreie Bilderseiten (wie Pixabay) oder zitiere die Quelle korrekt." },
             { category: "Cookie-Tracking", question: "Auf jeder Webseite musst du 'Cookies' akzeptieren. Was passiert, wenn du auf 'Alle akzeptieren' klickst?", options: ["Die Webseite wird dadurch optimiert und lädt in Zukunft auf meinem Handy fast doppelt so schnell.", "Sogenannte Third-Party-Cookies verfolgen mein Surfverhalten quer durchs Netz für personalisierte Werbung.", "Mein Computer wird durch das Akzeptieren automatisch vor schädlichen Viren und Trojanern geschützt.", "Das System speichert meine Login-Daten, sodass ich nie wieder irgendwo ein Passwort eingeben muss."], correctIndex: 1, explanation: "Third-Party-Cookies verfolgen dich quer durchs Netz. Deshalb kriegst du Schuh-Werbung, nachdem du nach Schuhen gesucht hast." },
             { category: "Recht am eigenen Bild", question: "Ein Kumpel baut richtig Mist auf einer Party. Du filmst das und willst es in die Klassen-Gruppe schicken. Ist das erlaubt?", options: ["Ja, das ist vollkommen okay, weil peinliche Situationen auf Partys einfach super lustig sind.", "Ja, aber nur unter der Bedingung, dass sein Gesicht mit einem Emoji oder Filter stark verpixelt wird.", "Nein. Ohne seine ausdrückliche Erlaubnis ist das heimliche Verbreiten von Videos absolut strafbar.", "Ja, das ist erlaubt, solange die Klassengruppe privat ist und keine Lehrer mitlesen können."], correctIndex: 2, explanation: "Jeder hat das Recht an seinem eigenen Bild/Video. Das heimliche Verbreiten von peinlichen Situationen ist absolut verboten." },
@@ -718,12 +714,21 @@
             return device + " (" + window.innerWidth + "x" + window.innerHeight + ")";
         }
 
+        // ================= NEU: ANTI-CHEAT IMMER AKTIV =================
         document.addEventListener("visibilitychange", () => {
-            const isQuizActive = !document.getElementById('quiz-screen').classList.contains('hidden-view');
-            if (document.hidden && isQuizActive) {
-                cheatCount++; sfx.fail(); currentStreak = 0; updateComboUI();
+            if (document.hidden) {
+                cheatCount++; 
+                if (audioCtx && audioCtx.state !== 'suspended') sfx.fail(); 
+                currentStreak = 0; 
+                updateComboUI();
                 if (score > 0) score--;
-                showFeedback(false, "🚨 ANTI-CHEAT: TAB GEWECHSELT! (-1 Punkt) 🚨");
+                
+                const fc = document.getElementById('feedback-container');
+                if (fc) {
+                    fc.classList.remove('hidden');
+                    fc.className = "mt-4 p-4 rounded-lg text-sm md:text-base font-medium fade-in bg-red-900/40 border border-red-500/50 text-red-200 leading-snug shadow-[0_0_15px_rgba(255,0,85,0.1)]";
+                    fc.innerHTML = `<span class="font-bold mr-1">❌</span> 🚨 ANTI-CHEAT: TAB GEWECHSELT! (-1 Punkt) 🚨`;
+                }
             }
         });
 
@@ -738,17 +743,19 @@
             btnElement.className = 'avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-2 md:p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)] text-cyan-400';
         }
 
-        // ================= NEU: INFO LOGIK =================
+        // ================= INFO LOGIK =================
         function showInfo() {
             sfx.click();
-            document.getElementById('start-screen').classList.add('hidden-view');
+            document.getElementById('result-screen').classList.add('hidden-view');
             document.getElementById('info-screen').classList.remove('hidden-view');
+            window.scrollTo(0,0);
         }
 
         function closeInfo() {
             sfx.click();
             document.getElementById('info-screen').classList.add('hidden-view');
-            document.getElementById('start-screen').classList.remove('hidden-view');
+            document.getElementById('result-screen').classList.remove('hidden-view');
+            window.scrollTo(0,0);
         }
 
         function startQuiz() {
