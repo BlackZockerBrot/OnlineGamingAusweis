@@ -9,13 +9,14 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap');
-
         :root {
             --neon-blue: #00f3ff;
             --neon-purple: #bc13fe;
@@ -256,8 +257,8 @@
                 </select>
                 <p id="klasse-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte wähle eine Klasse aus!</p>
 
-                <label class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest pt-2">Wähle deinen Operator:</label>
-                <div class="grid grid-cols-6 gap-2" id="avatar-selection">
+                <label class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest pt-2">Wähle deinen Avatar:</label>
+                <div class="grid grid-cols-6 gap-2">
                     <button onclick="selectAvatar('fa-user-astronaut', this)" class="avatar-btn ring-2 ring-cyan-400 bg-cyan-900/40 p-2 md:p-3 rounded-lg text-2xl scale-110 transition-all shadow-[0_0_10px_rgba(0,243,255,0.3)] text-cyan-400">
                         <i class="fa-solid fa-user-astronaut"></i>
                     </button>
