@@ -125,20 +125,91 @@
         }
 
         .license-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            --rank-color: #00f3ff;
+            background: linear-gradient(135deg, var(--rank-color), #0f172a 72%);
             border-radius: 16px;
             padding: 2px;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--card-scale, 1));
+            transition: transform 120ms ease-out, box-shadow 300ms ease;
+            will-change: transform;
         }
         
         .license-card::before {
             content: '';
             position: absolute;
             top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(transparent, transparent, transparent, var(--neon-purple), var(--neon-blue), transparent);
+            background: conic-gradient(transparent, transparent, var(--rank-color), transparent, var(--rank-color), transparent);
             animation: rotate 4s linear infinite;
         }
+
+        .license-card::after {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            border-radius: 14px;
+            z-index: 15;
+            pointer-events: none;
+            opacity: 0.7;
+            background:
+                radial-gradient(ellipse at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255,255,255,0.5), transparent 38%),
+                linear-gradient(115deg, transparent 20%, rgba(255,255,255,0.08) 35%, rgba(255,255,255,0.38) 48%, rgba(0,243,255,0.14) 53%, transparent 68%);
+            background-size: auto, 240% 240%;
+            background-position: center, var(--glare-x, 50%) var(--glare-y, 50%);
+            mix-blend-mode: screen;
+            transition: opacity 180ms ease;
+        }
+
+        .license-card.rank-s { --rank-color: #facc15; box-shadow: 0 0 16px rgba(250,204,21,0.65), 0 0 38px rgba(249,115,22,0.35); }
+        .license-card.rank-diamond { --rank-color: #22d3ee; box-shadow: 0 0 16px rgba(34,211,238,0.65), 0 0 38px rgba(59,130,246,0.35); }
+        .license-card.rank-silver { --rank-color: #e5e7eb; box-shadow: 0 0 15px rgba(229,231,235,0.4), 0 0 32px rgba(156,163,175,0.25); }
+        .license-card.rank-bronze { --rank-color: #fb923c; box-shadow: 0 0 15px rgba(251,146,60,0.45), 0 0 32px rgba(194,65,12,0.25); }
+        .license-card-scene { perspective: 1100px; }
+        .license-card-scene.card-impact-shake { animation: cardImpactShake 0.55s cubic-bezier(.36,.07,.19,.97) both; }
+        .license-card.glitch-reveal { animation: cardGlitchReveal 0.65s steps(1, end) both; }
+        .license-card.rank-s .license-rank { color: #fde047; text-shadow: 0 0 8px rgba(250,204,21,0.85); }
+        .license-card.rank-diamond .license-rank { color: #67e8f9; text-shadow: 0 0 8px rgba(34,211,238,0.85); }
+        .license-card.rank-silver .license-rank { color: #f3f4f6; text-shadow: 0 0 7px rgba(229,231,235,0.6); }
+        .license-card.rank-bronze .license-rank { color: #fdba74; text-shadow: 0 0 8px rgba(251,146,60,0.75); }
+        .license-approved-stamp {
+            position: absolute;
+            z-index: 25;
+            top: 50%;
+            left: 50%;
+            padding: 0.35rem 1rem;
+            border: 5px solid #ef233c;
+            border-radius: 0.45rem;
+            color: #ef233c;
+            background: rgba(15, 23, 42, 0.82);
+            font: 900 clamp(1.6rem, 8vw, 2.5rem)/1 'Orbitron', sans-serif;
+            letter-spacing: 0.12em;
+            text-shadow: 0 0 12px rgba(239,35,60,0.8);
+            box-shadow: 0 0 0 2px rgba(239,35,60,0.35), 0 0 22px rgba(239,35,60,0.55);
+            opacity: 0;
+            pointer-events: none;
+            white-space: nowrap;
+            transform: translate(-50%, -50%) scale(3) rotate(-14deg);
+        }
+        .license-approved-stamp.stamp-hit { animation: approvedStampHit 0.62s cubic-bezier(.18,.89,.32,1.28) forwards; }
+        #decrypt-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: #020403;
+            color: #39ff14;
+            font: 700 clamp(1rem, 4vw, 1.4rem)/1.9 monospace;
+            text-shadow: 0 0 10px rgba(57,255,20,0.65);
+        }
+        #decrypt-overlay.hidden-view { display: none !important; }
+        #decrypt-lines { width: min(100%, 34rem); }
+        #decrypt-lines p { margin: 0.25rem 0; }
+        #decrypt-lines p:last-child::after { content: '▋'; animation: terminalCursor 0.7s steps(2, end) infinite; }
 
         .license-inner {
             background: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path d="M0 0h20v20H0z" fill="%230b0f19"/><path d="M0 19.5h20M19.5 0v20" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></svg>'), #0b0f19;
@@ -155,9 +226,47 @@
         .fade-in { animation: fadeIn 0.5s forwards; }
         .slide-up { animation: slideUp 0.4s ease-out forwards; }
         .shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; border-color: var(--neon-red) !important; }
+        .license-rank { opacity: 0; transform: scale(2.5) rotate(-12deg); }
+        .license-rank.stamp-hit { animation: stampHit 0.55s cubic-bezier(.18,.89,.32,1.28) forwards; }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes cardGlitchReveal {
+            0% { opacity: 0; transform: translateX(-8px) skewX(8deg); clip-path: inset(45% 0 45% 0); filter: hue-rotate(120deg) contrast(2); }
+            18% { opacity: 1; transform: translateX(7px) skewX(-5deg); clip-path: inset(15% 0 60% 0); }
+            36% { transform: translateX(-5px); clip-path: inset(65% 0 10% 0); filter: hue-rotate(-90deg) contrast(1.8); }
+            54% { transform: translateX(3px); clip-path: inset(0); filter: hue-rotate(35deg); }
+            72% { transform: translateX(-2px); }
+            100% { opacity: 1; transform: translateX(0); clip-path: inset(0); filter: none; }
+        }
+        @keyframes approvedStampHit {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(3) rotate(-14deg); }
+            62% { opacity: 1; transform: translate(-50%, -50%) scale(0.88) rotate(-9deg); }
+            78% { transform: translate(-50%, -50%) scale(1.12) rotate(-12deg); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-10deg); }
+        }
+        @keyframes terminalCursor { to { visibility: hidden; } }
+        @keyframes stampHit {
+            0% { opacity: 0; transform: scale(2.5) rotate(-12deg); }
+            65% { opacity: 1; transform: scale(0.9) rotate(-6deg); }
+            82% { transform: scale(1.08) rotate(-9deg); }
+            100% { opacity: 1; transform: scale(1) rotate(-8deg); }
+        }
+        @keyframes cardImpactShake {
+            0%, 100% { transform: translateX(0) rotate(0); }
+            15%, 85% { transform: translateX(-3px) rotate(-0.5deg); }
+            30%, 70% { transform: translateX(5px) rotate(0.5deg); }
+            45%, 55% { transform: translateX(-7px) rotate(-0.75deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .license-card, .license-card::before, .license-card.glitch-reveal, .license-card-scene.card-impact-shake,
+            .license-rank, .license-approved-stamp, #decrypt-lines p:last-child::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
+            .license-card { transition-duration: 0.01ms !important; }
+            .license-rank { opacity: 1; transform: none; }
+        }
         @keyframes shake {
             10%, 90% { transform: translate3d(-1px, 0, 0); }
             20%, 80% { transform: translate3d(2px, 0, 0); }
@@ -202,6 +311,8 @@
         .custom-scroll::-webkit-scrollbar-thumb { background: var(--neon-orange); border-radius: 10px; }
         
         select option, select optgroup { background-color: #1f2937; color: white; }
+        .admin-tab-button { border: 1px solid rgba(255,255,255,0.15); background: rgba(31,41,55,0.7); color: #d1d5db; }
+        .admin-tab-button[aria-selected="true"] { border-color: var(--neon-orange); background: rgba(124,45,18,0.5); color: #fdba74; box-shadow: 0 0 14px rgba(255,153,0,0.18); }
 
         @media print {
             body { background: white !important; color: black !important; display: block !important; }
@@ -236,6 +347,11 @@
                 <input type="text" id="gamertag" placeholder="z.B. Max Mustermann" autocomplete="off" maxlength="20"
                     class="w-full bg-gray-900 border border-gray-600 rounded-lg p-4 text-white text-lg focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-bold shadow-inner">
                 <p id="name-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte wähle einen angemessenen Namen!</p>
+
+                <label for="room-code-input" class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest mt-4">Room Code:</label>
+                <input type="text" id="room-code-input" placeholder="z.B. WINTER26" autocomplete="off" maxlength="30" required
+                    class="w-full bg-gray-900 border border-gray-600 rounded-lg p-4 text-white text-lg uppercase focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition-all font-bold shadow-inner">
+                <p id="room-code-error" class="hidden text-red-500 text-sm font-bold text-left mt-1"><i class="fa-solid fa-triangle-exclamation"></i> Bitte gib den gültigen Code für deine Klasse ein!</p>
 
                 <label for="player-klasse" class="block text-left text-sm font-semibold text-gray-400 uppercase tracking-widest mt-4">Deine Klasse:</label>
                 <select id="player-klasse" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-4 text-white text-lg focus:outline-none focus:border-cyan-400 transition-all font-bold shadow-inner">
@@ -387,7 +503,19 @@
             <h2 class="text-4xl font-bold tracking-wider uppercase orbitron text-orange-500 drop-shadow-[0_0_15px_#ff9900]">
                 <i class="fa-solid fa-user-shield"></i> Admin Panel
             </h2>
-            
+            <div class="w-full max-w-3xl grid grid-cols-1 sm:grid-cols-3 gap-3" role="tablist" aria-label="Admin-Bereiche">
+                <button id="admin-tools-tab-button" class="admin-tab-button rounded-lg py-3 px-4 font-bold transition-all" type="button" role="tab" aria-selected="true" aria-controls="admin-tools-tab" onclick="switchAdminTab('tools')">
+                    <i class="fa-solid fa-screwdriver-wrench mr-2"></i>Werkzeuge
+                </button>
+                <button id="admin-room-codes-tab-button" class="admin-tab-button rounded-lg py-3 px-4 font-bold transition-all" type="button" role="tab" aria-selected="false" aria-controls="admin-room-codes-tab" onclick="switchAdminTab('room-codes')">
+                    <i class="fa-solid fa-key mr-2"></i>Klassen-Codes
+                </button>
+                <button id="admin-changelog-tab-button" class="admin-tab-button rounded-lg py-3 px-4 font-bold transition-all" type="button" role="tab" aria-selected="false" aria-controls="admin-changelog-tab" onclick="switchAdminTab('changelog')">
+                    <i class="fa-solid fa-clock-rotate-left mr-2"></i>Änderungsprotokoll
+                </button>
+            </div>
+
+            <div id="admin-tools-tab" class="w-full max-w-3xl" role="tabpanel" aria-labelledby="admin-tools-tab-button">
             <div class="w-full max-w-3xl mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                 
                 <div class="p-5 bg-gray-800/80 border border-orange-500/50 rounded-xl shadow-[0_0_15px_rgba(255,153,0,0.1)]">
@@ -411,6 +539,8 @@
                     <h3 class="text-lg font-bold text-white mb-4 border-b border-gray-600 pb-2"><i class="fa-solid fa-wand-magic-sparkles text-purple-400"></i> Punkte erzwingen (Test)</h3>
                     <p class="text-xs text-gray-400 mb-2">Ausweis direkt generieren und Testdaten an Google Sheets senden.</p>
                     <input type="text" id="force-name-input" placeholder="Spitzname (optional)" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2 text-white text-sm mb-2 focus:border-purple-500">
+                    <input type="text" id="force-room-code-input" placeholder="Code für Gast / Lehrer" maxlength="30" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2 text-white text-sm mb-2 focus:border-purple-500">
+                    <p id="force-room-code-error" class="hidden text-red-400 text-xs font-bold mb-2">Bitte gib den gültigen Gast-/Lehrer-Code ein.</p>
                     <input type="number" id="force-score-input" placeholder="Punkte (z.B. 15)" max="15" min="0" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-2 text-white text-sm mb-3 focus:border-purple-500">
                     <button onclick="forceScoreAndFinish()" class="w-full bg-purple-700 hover:bg-purple-600 text-white py-2 rounded-lg text-sm font-bold transition-all flex items-center justify-center gap-2">
                         <i class="fa-solid fa-paper-plane"></i> Testlauf abschließen
@@ -444,7 +574,127 @@
                 <i class="fa-solid fa-eye"></i> Lösungsbogen öffnen
             </button>
             <div id="spickzettel-container" class="w-full max-w-3xl hidden fade-in bg-gray-900 border border-green-500/30 rounded-xl p-4 text-left max-h-[500px] overflow-y-auto custom-scroll shadow-inner"></div>
+            </div>
 
+            <div id="admin-room-codes-tab" class="hidden w-full max-w-3xl p-5 md:p-7 bg-gray-900/80 border border-purple-500/40 rounded-xl text-left shadow-[0_0_20px_rgba(188,19,254,0.08)]" role="tabpanel" aria-labelledby="admin-room-codes-tab-button" hidden>
+                <h3 class="text-xl md:text-2xl font-bold orbitron text-purple-300 mb-2"><i class="fa-solid fa-key mr-2"></i>Room Codes nach Klasse</h3>
+                <p class="text-sm text-gray-400 mb-5">Codes werden sicher auf dem Server gespeichert. Das Ändern der Codes schließt ein laufendes Zugangsfenster.</p>
+                <label for="room-code-admin-key" class="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">Server-Admin-Schlüssel</label>
+                <input type="password" id="room-code-admin-key" autocomplete="off" placeholder="Im Apps Script konfigurieren" class="w-full bg-gray-900 border border-gray-600 rounded-lg p-3 text-white mb-3 focus:border-purple-500">
+                <p id="room-code-admin-error" class="hidden text-red-400 text-sm font-bold mb-3"></p>
+                <button id="load-room-codes-button" type="button" onclick="loadClassRoomCodes()" class="w-full mb-3 bg-purple-800 hover:bg-purple-700 disabled:opacity-50 text-white py-2 rounded-lg text-sm font-bold transition-all">
+                    <i class="fa-solid fa-eye mr-2"></i>Klassen-Codes anzeigen
+                </button>
+                <div class="mb-5 p-4 rounded-lg bg-gray-800 border border-orange-500/40">
+                    <p id="room-code-window-status" class="text-sm font-bold text-gray-200 mb-3">Zugangsfenster wird geprüft …</p>
+                    <button id="activate-room-codes-button" type="button" onclick="activateRoomCodeWindow()" class="w-full bg-orange-700 hover:bg-orange-600 disabled:opacity-50 text-white py-2 rounded-lg text-sm font-bold transition-all">
+                        <i class="fa-solid fa-hourglass-start mr-2"></i>5-Minuten-Zugang starten
+                    </button>
+                </div>
+                <div id="admin-room-codes-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                <button id="rotate-room-codes-button" type="button" onclick="rotateClassRoomCodes()" class="w-full mt-4 bg-red-800 hover:bg-red-700 disabled:opacity-50 text-white py-2 rounded-lg text-sm font-bold transition-all">
+                    <i class="fa-solid fa-arrows-rotate mr-2"></i>Alle Klassen-Codes ändern
+                </button>
+                <p id="room-code-rotation-status" class="text-sm text-gray-400 mt-2"></p>
+                <p class="text-xs text-gray-500 mt-5">Hinweis: Diese Codes sind gemeinsame Klassen-Zugangscodes und keine persönlichen Passwörter.</p>
+            </div>
+
+            <div id="admin-changelog-tab" class="hidden w-full max-w-3xl p-5 md:p-7 bg-gray-900/80 border border-cyan-500/40 rounded-xl text-left shadow-[0_0_20px_rgba(0,243,255,0.08)]" role="tabpanel" aria-labelledby="admin-changelog-tab-button" hidden>
+                <h3 class="text-xl md:text-2xl font-bold orbitron text-cyan-300 mb-2"><i class="fa-solid fa-list-check mr-2"></i>Spiel-Änderungen</h3>
+                <p class="text-sm text-gray-400 mb-6">Vollständiger Überblick über die Entwicklung von V1 bis zur aktuellen Version.</p>
+                <div class="space-y-4">
+                    <article class="border-l-4 border-gray-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-gray-200 mb-2"><i class="fa-solid fa-code-branch mr-2"></i>Ausgangspunkt: V1</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>V1 enthielt einen festen Quizlauf mit 10 Fragen und einer Bestehensgrenze von 8 richtigen Antworten.</li>
+                            <li>Der Start bestand aus einem Namensfeld; nach Quiz und Ergebnis gab es bei Bestehen einen einfachen Web-&amp;-Gaming-Ausweis.</li>
+                            <li>Fragenfortschritt, Antworten, Erklärungen und Bestehen/Nichtbestehen bildeten bereits die Grundlage und bleiben erhalten.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-blue-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-blue-300 mb-2"><i class="fa-solid fa-layer-group mr-2"></i>Quiz-Ausbau und Spielerauswahl</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>Ein Quizlauf umfasst jetzt 15 Fragen, zufällig aus getrennten Junior- (Klassen 5–7) und Senior-Fragenpools (Klassen 8–10) ausgewählt.</li>
+                            <li>Fragenreihenfolge und Antwortoptionen werden pro Lauf gemischt; die letzte Frage ist als Endboss hervorgehoben.</li>
+                            <li>Klasse und Avatar sind auswählbar; Gamertags werden begrenzt, bereinigt und auf unangemessene Begriffe geprüft.</li>
+                            <li>Die Oberfläche wurde für kleine Bildschirme, Touch-Eingaben und sichere Display-Ränder angepasst.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-orange-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-orange-300 mb-2"><i class="fa-solid fa-stopwatch mr-2"></i>Neue Quiz- und Lernfunktionen</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>Timer mit Countdown und Zeitablauf-Feedback; im Endboss gilt ein verkürztes Zeitlimit.</li>
+                            <li>Antwort- und Fehlerauswertung mit Erklärungen sowie eine Übersicht der falsch beantworteten oder abgelaufenen Fragen.</li>
+                            <li>Combo-Anzeige für aufeinanderfolgende richtige Antworten und passende Rückmeldungen.</li>
+                            <li>Der Ratgeber ergänzt das Quiz mit Gaming-Ampel, Alltagstipps und Anlaufstellen für Hilfe.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-purple-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-purple-300 mb-2"><i class="fa-solid fa-chalkboard-user mr-2"></i>Rangliste und Lehrer-Tools</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>Admin-Bereich mit Timer-Auswahl (normal, 60 Sekunden oder deaktiviert), Bestehensgrenzen (10, 12 oder 15) sowie einem Testlauf mit erzwungener Punktzahl.</li>
+                            <li>Smartboard-Modus zeigt einzelne Fragen groß für den Beamer.</li>
+                            <li>Arbeitsblätter für beide Fragepools können gedruckt und der Lösungsbogen im Admin-Bereich eingeblendet werden.</li>
+                            <li>Ein QR-Code kann für den Aufruf des Quiz erzeugt werden.</li>
+                            <li>Ergebnisse werden an eine Google-Sheets-Web-App gesendet; die Rangliste lädt diese Ergebnisse und zeigt Platzierungen. Übertragen werden Name, Klasse, Punktestand, Avatar sowie erkannter Gerätetyp und Bildschirmgröße.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-pink-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-pink-300 mb-2"><i class="fa-solid fa-key mr-2"></i>Room Codes</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>Jede Klasse hat einen eigenen Room Code; zum Start muss der Code zur ausgewählten Klasse passen.</li>
+                            <li>Die Lehrkraft startet im Admin-Bereich ein globales 5-Minuten-Fenster; danach sind neue Quizstarts gesperrt. Bereits gestartete Quizze können beendet werden.</li>
+                            <li>Im Admin-Tab können alle Codes mit einem Server-Admin-Schlüssel angezeigt und gemeinsam neu generiert werden. Beim Ändern werden alte Codes sofort ungültig und das Zugangsfenster geschlossen.</li>
+                            <li>Die Klassen-Codes werden serverseitig gespeichert und beim Quizstart sowie beim Absenden serverseitig geprüft.</li>
+                            <li>Die Rangliste bleibt global und zeigt weiterhin alle Klassen und Room Codes gemeinsam.</li>
+                            <li>Der Testlauf im Admin-Bereich benötigt den Code für Gast / Lehrer.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-red-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-red-300 mb-2"><i class="fa-solid fa-shield-halved mr-2"></i>Audio, Fairness und Ausweis</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>Interaktive Web-Audio-Effekte für Klicks, Antworten, Timer, Combos, Endboss und Ergebnisse.</li>
+                            <li>Tabwechsel werden erkannt und gemeldet; sie setzen die Combo zurück, ändern aber nicht die korrekte Antwortzahl oder die Bestehensentscheidung.</li>
+                            <li>Der Ausweis enthält jetzt Name, Klasse, Avatar, Ausstellungsdatum, Dokument-ID, richtige Antworten und Arcade Score und kann als Bild gespeichert werden.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-yellow-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-yellow-300 mb-2"><i class="fa-solid fa-star mr-2"></i>Arcade-Punktesystem</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>Bestehen basiert weiterhin ausschließlich auf richtigen Antworten (normalerweise mindestens 12 von 15).</li>
+                            <li>Jede richtige Antwort bringt 1.000 Arcade-Punkte.</li>
+                            <li>Für richtige Antworten in unter 10 Sekunden gibt es bis zu 500 zusätzliche Punkte.</li>
+                            <li>Ab einer Serie von 3 richtigen Antworten werden Antwortpunkte verdoppelt.</li>
+                            <li>Tabwechsel setzen die Serie zurück, verändern aber nicht die Zahl richtiger Antworten.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-green-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-green-300 mb-2"><i class="fa-solid fa-trophy mr-2"></i>Rangliste</h4>
+                        <p class="text-sm text-gray-300">Die Rangliste zeigt den Arcade Score und sortiert zuerst nach richtigen Antworten; bei Gleichstand entscheidet der Arcade Score.</p>
+                    </article>
+                    <article class="border-l-4 border-cyan-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-cyan-300 mb-2"><i class="fa-solid fa-id-card mr-2"></i>Ränge und digitaler Ausweis</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>15 richtige Antworten: S-TIER mit goldener, leuchtender Umrandung.</li>
+                            <li>13–14 richtige Antworten: DIAMOND mit neonblauer Umrandung.</li>
+                            <li>12 richtige Antworten: SILVER mit weiß-silberner Umrandung.</li>
+                            <li>Der Ausweis hebt den Arcade Score hervor und zeigt die Zahl richtiger Antworten separat.</li>
+                            <li>Die Karte hat einen beweglichen Holo-Glanz und neigt sich bei Maus- oder Gerätebewegung.</li>
+                        </ul>
+                    </article>
+                    <article class="border-l-4 border-purple-400 bg-gray-800/70 rounded-r-lg p-4">
+                        <h4 class="font-bold text-purple-300 mb-2"><i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Ergebnis-Reveal</h4>
+                        <ul class="list-disc list-inside space-y-1 text-sm text-gray-300">
+                            <li>Die richtige Antwortzahl und der Arcade Score zählen mit Arcade-Tick-Sound hoch.</li>
+                            <li>Vor dem Ausweis erscheint für 2 Sekunden ein Cyberpunk-Entschlüsselungsbildschirm; anschließend folgt der Glitch-Reveal.</li>
+                            <li>Der Rang wird gestempelt, ein rotes APPROVED-Siegel schlägt auf die Karte und der Kartencontainer wackelt mit BAM-Sound.</li>
+                            <li>Konfetti startet erst nach dem Check, dem Zähler und dem Stempel.</li>
+                            <li>Der Ausweis-Download wird erst nach Ende der Animation freigegeben.</li>
+                        </ul>
+                    </article>
+                </div>
+            </div>
+            
             <button onclick="closeAdmin()" class="mt-4 text-gray-400 hover:text-white transition-colors underline flex items-center gap-2">
                 <i class="fa-solid fa-arrow-left"></i> Zurück zum Hauptmenü
             </button>
@@ -500,17 +750,28 @@
 
         <!-- ================= RESULT SCREEN ================= -->
         <div id="result-screen" class="hidden-view flex-col items-center w-full relative z-10">
+            <div id="decrypt-overlay" class="hidden-view" role="status" aria-live="polite">
+                <div id="decrypt-lines">
+                    <p>&gt; Decrypting data...</p>
+                    <p class="hidden">&gt; Firewall breached...</p>
+                    <p class="hidden">&gt; Identity confirmed.</p>
+                </div>
+            </div>
             <h2 id="result-title" class="text-4xl md:text-5xl font-bold orbitron mb-4 text-center">Auswertung</h2>
             <p id="result-message" class="text-xl text-gray-300 mb-8 text-center max-w-xl">Ergebnis wird berechnet...</p>
 
             <div id="license-wrapper" class="w-full max-w-md hidden fade-in mb-8">
-                <div class="license-card w-full shadow-[0_0_30px_rgba(0,243,255,0.15)] transform transition-transform hover:scale-105">
+                <div id="license-card-scene" class="license-card-scene">
+                <div id="license-card-container" class="license-card w-full">
                     <div class="license-inner overflow-hidden relative">
                         <div class="absolute -right-12 -bottom-12 text-[180px] text-cyan-500 opacity-[0.03] pointer-events-none rotate-12"><i class="fa-solid fa-globe"></i></div>
                         <div class="flex justify-between items-start border-b border-cyan-800/60 pb-3 relative z-10">
                             <div>
                                 <h3 class="orbitron text-cyan-400 font-bold text-xl uppercase tracking-widest drop-shadow-[0_0_5px_rgba(0,243,255,0.3)]">Offizieller</h3>
                                 <div class="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest">Web & Gaming Ausweis</div>
+                                <div id="license-rank" class="license-rank mt-2 inline-flex items-center gap-1 rounded border border-current bg-black/50 px-2 py-1 font-bold text-xs tracking-widest">
+                                    <i class="fa-solid fa-medal"></i> <span id="license-rank-name">S-TIER</span>
+                                </div>
                             </div>
                             <div class="flex gap-3">
                                 <i class="fa-solid fa-wifi text-xl text-green-400 drop-shadow-[0_0_5px_#00ff66]"></i>
@@ -529,12 +790,15 @@
                                     <div id="license-name" class="font-bold text-xl md:text-2xl orbitron text-white truncate drop-shadow-[0_0_3px_rgba(255,255,255,0.5)]">Name</div>
                                 </div>
                                 <div class="grid grid-cols-2 gap-x-2 gap-y-2">
-                                    <div><div class="text-[9px] text-gray-500 uppercase font-bold">Leistung</div><div id="license-score" class="font-bold text-cyan-400 text-sm">100%</div></div>
+                                    <div><div class="text-[9px] text-gray-500 uppercase font-bold">Richtige Antworten</div><div id="license-score" class="font-bold text-cyan-400 text-sm">15/15</div></div>
                                     <div><div class="text-[9px] text-gray-500 uppercase font-bold">Schulklasse</div><div id="license-klasse" class="font-bold text-purple-400 text-sm">--</div></div>
-                                    <div><div class="text-[9px] text-gray-500 uppercase font-bold">Rang</div><div class="font-bold text-green-400 text-sm flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> S-Tier</div></div>
                                     <div><div class="text-[9px] text-gray-500 uppercase font-bold">Ausgestellt</div><div id="license-date" class="font-bold text-gray-300 text-sm font-mono">--.--.----</div></div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="pt-3 border-t border-cyan-800/60 relative z-10 text-center">
+                            <div class="text-[9px] text-cyan-400 uppercase font-bold tracking-[0.2em]">Arcade Score</div>
+                            <div class="font-black text-2xl md:text-3xl orbitron text-yellow-300 drop-shadow-[0_0_10px_rgba(253,224,71,0.6)]"><span id="license-arcade-score">0</span> <span class="text-xs text-yellow-100/70">PTS</span></div>
                         </div>
                         <div class="pt-3 border-t border-cyan-800/60 mt-4 flex justify-between items-end relative z-10">
                             <div>
@@ -550,6 +814,8 @@
                             </div>
                         </div>
                     </div>
+                    <div id="license-approved-stamp" class="license-approved-stamp" aria-label="Approved">APPROVED</div>
+                </div>
                 </div>
                 <button id="download-btn" onclick="downloadLicense()" class="w-full mt-6 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white py-3 px-4 rounded-lg text-lg font-bold orbitron tracking-wider shadow-[0_0_15px_rgba(0,243,255,0.3)] transition-all flex items-center justify-center gap-3">
                     <i class="fa-solid fa-download text-xl"></i> Ausweis speichern
@@ -611,12 +877,57 @@
             click: () => playTone(600, 'sine', 0.1, 0.02),
             tick: () => playTone(800, 'square', 0.05, 0.01),
             correct: () => { playTone(500, 'sine', 0.15, 0.05); setTimeout(() => playTone(800, 'sine', 0.3, 0.05), 100); },
+            countTick: () => playTone(1050, 'square', 0.035, 0.012),
+            stamp: () => {
+                playTone(105, 'sawtooth', 0.32, 0.25);
+                playTone(52, 'triangle', 0.42, 0.24);
+                setTimeout(() => playTone(850, 'square', 0.05, 0.06), 20);
+            },
             wrong: () => { playTone(200, 'sawtooth', 0.2, 0.05); setTimeout(() => playTone(150, 'sawtooth', 0.3, 0.05), 150); },
             success: () => { playTone(400, 'sine', 0.2); setTimeout(() => playTone(500, 'sine', 0.2), 200); setTimeout(() => playTone(600, 'sine', 0.6), 400); },
             fail: () => { playTone(300, 'sawtooth', 0.3); setTimeout(() => playTone(250, 'sawtooth', 0.3), 300); setTimeout(() => playTone(200, 'sawtooth', 0.6), 600); },
             combo: (level) => { let freq = 700 + (level * 50); playTone(freq, 'square', 0.1, 0.04); setTimeout(() => playTone(freq + 200, 'square', 0.2, 0.04), 100); },
             boss: () => { playTone(150, 'sawtooth', 0.4, 0.08); setTimeout(() => playTone(100, 'sawtooth', 0.8, 0.08), 400); }
         };
+
+        const licenseCard = document.getElementById('license-card-container');
+        let orientationPermissionRequested = false;
+        function setLicenseCardTilt(x, y) {
+            const tiltX = Math.max(-10, Math.min(10, x));
+            const tiltY = Math.max(-10, Math.min(10, y));
+            licenseCard.style.setProperty('--tilt-x', `${tiltX}deg`);
+            licenseCard.style.setProperty('--tilt-y', `${tiltY}deg`);
+            licenseCard.style.setProperty('--glare-x', `${50 + tiltY * 4}%`);
+            licenseCard.style.setProperty('--glare-y', `${50 - tiltX * 4}%`);
+            licenseCard.style.setProperty('--card-scale', '1.025');
+        }
+        function resetLicenseCardTilt() {
+            licenseCard.style.setProperty('--tilt-x', '0deg');
+            licenseCard.style.setProperty('--tilt-y', '0deg');
+            licenseCard.style.setProperty('--glare-x', '50%');
+            licenseCard.style.setProperty('--glare-y', '50%');
+            licenseCard.style.setProperty('--card-scale', '1');
+        }
+        licenseCard.addEventListener('pointermove', event => {
+            const bounds = licenseCard.getBoundingClientRect();
+            const x = (event.clientX - bounds.left) / bounds.width;
+            const y = (event.clientY - bounds.top) / bounds.height;
+            setLicenseCardTilt((0.5 - y) * 18, (x - 0.5) * 18);
+        });
+        licenseCard.addEventListener('pointerleave', resetLicenseCardTilt);
+        licenseCard.addEventListener('pointerdown', () => {
+            const orientation = window.DeviceOrientationEvent;
+            if (orientationPermissionRequested || !orientation || typeof orientation.requestPermission !== 'function') return;
+            orientationPermissionRequested = true;
+            orientation.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    window.addEventListener('deviceorientation', event => {
+                        if (event.beta === null || event.gamma === null) return;
+                        setLicenseCardTilt((event.beta / 4), (event.gamma / 4));
+                    });
+                }
+            }).catch(error => console.warn('Device orientation unavailable; use touch to tilt the card.', error));
+        });
 
         const badWords = ["hurensohn", "arschloch", "fotze", "schlampe", "wichser", "ficker", "missgeburt", "bastard", "hitler", "nazi", "nutte", "spast", "pimmel", "penis", "vagina", "bitch", "pussy", "cock", "porn", "nigger", "nigga", "kanacke", "schweinehund", "arsch"];
 
@@ -677,14 +988,20 @@
             { category: "Anonymität", question: "Bist du im Internet wirklich komplett anonym, wenn du dir einen Fantasie-Namen zulegst?", options: ["Ja, wenn man keinen echten Namen und kein eigenes Profilbild angibt, kann einen im Netz niemand mehr finden.", "Nein. Über die IP-Adresse kann die Polizei bei Straftaten beim Provider anfragen, wem der Internetanschluss gehört.", "Ja, solange man sich auf internationalen Servern befindet, gelten die deutschen Datenschutzgesetze für Anonymität.", "Nein, weil Google und andere Suchmaschinen jeden Nutzer durch die eingebaute Webcam des Laptops überwachen."], correctIndex: 1, explanation: "Auch mit Fake-Namen hinterlässt du digitale Fußspuren (IP-Adresse). Die Polizei kann diese bei Providern abfragen." }
         ];
 
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVBfhADgzjiMQCSZgbvEfsMCbzrE6A1RSUVYrKpzYlSBMFZi2viJ5THAIzydJz8mllaw/exec";
         let globalTimeLimit = 30; 
         let globalPassingScore = 12;
 
         let currentQuiz = []; 
         let currentQuestionIndex = 0;
         let score = 0;
+        let arcadeScore = 0;
         let gamerTag = "Commander";
         let playerClass = ""; 
+        let roomCode = "";
+        let roomCodeAccessToken = "";
+        let roomCodeWindowTimer = null;
+        let startValidationInProgress = false;
         let chosenAvatar = "fa-user-astronaut";
         let mistakes = []; 
         
@@ -695,6 +1012,7 @@
         let cheatCount = 0;
         let currentStreak = 0;
         let isSeniorLevel = false;
+        let questionStartedAt = 0;
 
         function getDeviceFingerprint() {
             const ua = navigator.userAgent;
@@ -722,13 +1040,12 @@
                 if (audioCtx && audioCtx.state !== 'suspended') sfx.fail(); 
                 currentStreak = 0; 
                 updateComboUI();
-                if (score > 0) score--;
                 
                 const fc = document.getElementById('feedback-container');
                 if (fc) {
                     fc.classList.remove('hidden');
                     fc.className = "mt-4 p-4 rounded-lg text-sm md:text-base font-medium fade-in bg-red-900/40 border border-red-500/50 text-red-200 leading-snug shadow-[0_0_15px_rgba(255,0,85,0.1)]";
-                    fc.innerHTML = `<span class="font-bold mr-1">❌</span> 🚨 ANTI-CHEAT: TAB GEWECHSELT! (-1 Punkt) 🚨`;
+                    fc.innerHTML = `<span class="font-bold mr-1">❌</span> 🚨 ANTI-CHEAT: TAB GEWECHSELT! Deine Komboserie wurde zurückgesetzt. 🚨`;
                 }
             }
         });
@@ -759,15 +1076,18 @@
             window.scrollTo(0,0);
         }
 
-        function startQuiz() {
+        async function startQuiz() {
+            if (startValidationInProgress) return;
             initAudio(); sfx.click();
             const inputField = document.getElementById('gamertag');
+            const roomCodeField = document.getElementById('room-code-input');
             const klasseSelect = document.getElementById('player-klasse');
             const inputVal = inputField.value.trim();
             
             document.getElementById('name-error').classList.add('hidden');
+            document.getElementById('room-code-error').classList.add('hidden');
             document.getElementById('klasse-error').classList.add('hidden');
-            inputField.classList.remove('shake'); klasseSelect.classList.remove('shake');
+            inputField.classList.remove('shake'); roomCodeField.classList.remove('shake'); klasseSelect.classList.remove('shake');
 
             if (inputVal === "2%10l&!") {
                 sfx.success(); openAdminPanel(); inputField.value = ""; klasseSelect.value = ""; return;
@@ -787,7 +1107,53 @@
                 klasseSelect.classList.add('shake'); sfx.wrong(); hasError = true;
             } else { playerClass = sanitizeHTML(klasseSelect.value); }
 
+            const roomCodeValue = roomCodeField.value.trim().toUpperCase();
+            const selectedClass = klasseSelect.value;
+            const roomCodeError = document.getElementById('room-code-error');
+            if (!roomCodeValue || !selectedClass) {
+                roomCodeError.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Bitte Klasse und Room Code eingeben!';
+                roomCodeError.classList.remove('hidden');
+                roomCodeField.classList.add('shake'); sfx.wrong(); hasError = true;
+            } else {
+                roomCode = roomCodeValue.toUpperCase();
+                roomCodeField.value = roomCode;
+            }
+
             if (hasError) return;
+
+            startValidationInProgress = true;
+            const startButton = document.querySelector('#start-screen button[onclick="startQuiz()"]');
+            startButton.disabled = true;
+            try {
+                const validationUrl = new URL(GOOGLE_SCRIPT_URL);
+                validationUrl.searchParams.set('action', 'validateStart');
+                validationUrl.searchParams.set('klasse', playerClass);
+                validationUrl.searchParams.set('roomCode', roomCode);
+                const response = await fetch(validationUrl);
+                if (!response.ok) throw new Error(`Start validation failed (${response.status}).`);
+                const validation = await response.json();
+                if (!validation || Array.isArray(validation) || typeof validation !== 'object') {
+                    throw new Error('Das Apps Script ist nicht aktuell. Bitte Code.gs einfügen und als neue Version bereitstellen.');
+                }
+                if (validation.status !== 'success' || !validation.accessToken) {
+                    const message = validation.status === 'error'
+                        ? validation.message
+                        : 'Das Apps Script ist nicht aktuell. Bitte Code.gs einfügen und als neue Version bereitstellen.';
+                    roomCodeError.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${sanitizeHTML(message || 'Das 5-Minuten-Zugangsfenster ist geschlossen.')}`;
+                    roomCodeError.classList.remove('hidden');
+                    sfx.wrong();
+                    return;
+                }
+                roomCodeAccessToken = validation.accessToken;
+            } catch (error) {
+                roomCodeError.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${sanitizeHTML(error.message || 'Zugang konnte nicht geprüft werden. Bitte prüfe die Verbindung und versuche es erneut.')}`;
+                roomCodeError.classList.remove('hidden');
+                console.error('Room code validation failed:', error);
+                return;
+            } finally {
+                startValidationInProgress = false;
+                startButton.disabled = false;
+            }
             
             document.getElementById('display-name').textContent = gamerTag;
             document.getElementById('header-avatar').innerHTML = avatars[chosenAvatar];
@@ -803,7 +1169,7 @@
             document.getElementById('start-screen').classList.add('hidden-view');
             document.getElementById('quiz-screen').classList.remove('hidden-view');
             
-            currentQuestionIndex = 0; score = 0; cheatCount = 0; currentStreak = 0; mistakes = [];
+            currentQuestionIndex = 0; score = 0; arcadeScore = 0; cheatCount = 0; currentStreak = 0; mistakes = [];
             loadQuestion();
         }
 
@@ -816,17 +1182,21 @@
             lbContainer.innerHTML = '<div class="text-center text-cyan-400 py-12"><i class="fa-solid fa-circle-notch fa-spin text-5xl"></i><p class="mt-4 font-bold tracking-wider">Lade Top-Agenten...</p></div>';
 
             try {
-                const response = await fetch("https://script.google.com/macros/s/AKfycbxVBfhADgzjiMQCSZgbvEfsMCbzrE6A1RSUVYrKpzYlSBMFZi2viJ5THAIzydJz8mllaw/exec");
+                const response = await fetch(GOOGLE_SCRIPT_URL);
                 const data = await response.json();
                 
                 let validData = data.filter(d => d.name && d.punkte !== undefined);
                 
                 validData.forEach(d => {
-                    let pStr = String(d.punkte).split(' ')[0];
-                    d.scoreVal = parseInt(pStr) || 0;
+                    const scoreParts = String(d.punkte).split("|");
+                    d.correctVal = parseInt(scoreParts[0], 10) || 0;
+                    const savedArcadeScore = Number(d.arcadeScore);
+                    d.arcadeScoreVal = Number.isFinite(savedArcadeScore) && savedArcadeScore >= 0
+                        ? savedArcadeScore
+                        : (parseInt(scoreParts[1], 10) || 0);
                 });
 
-                validData.sort((a, b) => b.scoreVal - a.scoreVal);
+                validData.sort((a, b) => b.correctVal - a.correctVal || b.arcadeScoreVal - a.arcadeScoreVal);
 
                 let html = '';
                 validData.forEach((player, idx) => {
@@ -845,10 +1215,13 @@
                             <div class="text-3xl text-cyan-400 drop-shadow-[0_0_8px_rgba(0,243,255,0.4)]">${avatars[player.avatar] || '<i class="fa-solid fa-user"></i>'}</div>
                             <div>
                                 <div class="font-bold text-white text-lg">${sanitizeHTML(player.name)}</div>
-                                <div class="text-xs font-bold text-purple-400 uppercase tracking-wider">Klasse: ${sanitizeHTML(player.klasse)}</div>
+                                <div class="inline-flex mt-1 px-2 py-0.5 rounded-full bg-purple-900/60 border border-purple-500/40 text-xs font-black text-purple-200 uppercase tracking-wider">Klasse: ${sanitizeHTML(player.klasse || 'Unbekannt')}</div>
                             </div>
                         </div>
-                        <div class="text-2xl font-black orbitron text-green-400 drop-shadow-[0_0_8px_rgba(0,255,102,0.3)]">${player.scoreVal} <span class="text-xs text-gray-500 font-sans tracking-normal">PKT</span></div>
+                        <div class="text-right">
+                            <div class="text-xl md:text-2xl font-black orbitron text-yellow-300 drop-shadow-[0_0_8px_rgba(253,224,71,0.4)]">${player.arcadeScoreVal.toLocaleString('de-DE')} <span class="text-xs text-gray-400 font-sans tracking-normal">ARCADE</span></div>
+                            <div class="text-xs text-green-400 font-bold">${player.correctVal}/15 richtig</div>
+                        </div>
                     </div>`;
                 });
 
@@ -869,9 +1242,189 @@
             document.getElementById('start-screen').classList.remove('hidden-view');
         }
 
+        function switchAdminTab(tabName) {
+            const selectedTab = ['tools', 'room-codes', 'changelog'].includes(tabName) ? tabName : 'tools';
+            const tabs = [
+                { name: 'tools', button: document.getElementById('admin-tools-tab-button'), panel: document.getElementById('admin-tools-tab') },
+                { name: 'room-codes', button: document.getElementById('admin-room-codes-tab-button'), panel: document.getElementById('admin-room-codes-tab') },
+                { name: 'changelog', button: document.getElementById('admin-changelog-tab-button'), panel: document.getElementById('admin-changelog-tab') }
+            ];
+
+            tabs.forEach(({ name, button, panel }) => {
+                const selected = name === selectedTab;
+                button.setAttribute('aria-selected', String(selected));
+                panel.hidden = !selected;
+                panel.classList.toggle('hidden', !selected);
+            });
+
+            if (selectedTab === 'room-codes') refreshRoomCodeWindowStatus();
+        }
+
+        function renderClassRoomCodes(roomCodes) {
+            const list = document.getElementById('admin-room-codes-list');
+            list.innerHTML = Object.entries(roomCodes).map(([klasse, code]) => `
+                <div class="flex items-center justify-between gap-3 p-3 rounded-lg bg-gray-800 border border-purple-500/30">
+                    <span class="font-bold text-gray-200">${sanitizeHTML(klasse)}</span>
+                    <code class="font-black tracking-wider text-cyan-300">${sanitizeHTML(code)}</code>
+                </div>
+            `).join('');
+        }
+
+        function getRoomCodeAdminKey() {
+            return document.getElementById('room-code-admin-key').value.trim();
+        }
+
+        function showRoomCodeAdminError(message) {
+            const error = document.getElementById('room-code-admin-error');
+            error.textContent = message;
+            error.classList.remove('hidden');
+        }
+
+        async function loadClassRoomCodes() {
+            const adminKey = getRoomCodeAdminKey();
+            const error = document.getElementById('room-code-admin-error');
+            const button = document.getElementById('load-room-codes-button');
+            error.classList.add('hidden');
+            button.disabled = true;
+            const list = document.getElementById('admin-room-codes-list');
+            list.replaceChildren();
+            try {
+                const url = new URL(GOOGLE_SCRIPT_URL);
+                url.searchParams.set('action', 'adminCodes');
+                url.searchParams.set('adminKey', adminKey);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Code request failed (${response.status}).`);
+                const result = await response.json();
+                if (result.status !== 'success' || !result.roomCodes) {
+                    throw new Error(result.message || 'Codes konnten nicht geladen werden.');
+                }
+                if (Object.keys(result.roomCodes).length !== 14) {
+                    throw new Error('Der Server liefert keine vollständige Codeliste. Bitte Apps Script aktualisieren.');
+                }
+                renderClassRoomCodes(result.roomCodes);
+                return true;
+            } catch (loadError) {
+                showRoomCodeAdminError(loadError.message || 'Codes konnten nicht geladen werden.');
+                console.error('Loading class room codes failed:', loadError);
+                return false;
+            } finally {
+                button.disabled = false;
+            }
+        }
+
+        async function refreshRoomCodeWindowStatus() {
+            const status = document.getElementById('room-code-window-status');
+            const button = document.getElementById('activate-room-codes-button');
+            button.disabled = true;
+            try {
+                const statusUrl = new URL(GOOGLE_SCRIPT_URL);
+                statusUrl.searchParams.set('action', 'accessStatus');
+                const response = await fetch(statusUrl);
+                if (!response.ok) throw new Error(`Access status request failed (${response.status}).`);
+                const result = await response.json();
+                if (!result || Array.isArray(result) || typeof result !== 'object' ||
+                    typeof result.active !== 'boolean' || !Number.isFinite(Number(result.activeUntil))) {
+                    throw new Error('Das Apps Script ist nicht aktuell. Bitte Code.gs einfügen und als neue Version bereitstellen.');
+                }
+                if (!result.active || !Number.isFinite(Number(result.activeUntil))) {
+                    status.textContent = 'Zugangsfenster geschlossen. Starte den Zugang, wenn die Klasse bereit ist.';
+                    button.disabled = false;
+                    if (roomCodeWindowTimer) clearInterval(roomCodeWindowTimer);
+                    return;
+                }
+
+                if (roomCodeWindowTimer) clearInterval(roomCodeWindowTimer);
+                const updateCountdown = () => {
+                    const secondsLeft = Math.max(0, Math.ceil((Number(result.activeUntil) - Date.now()) / 1000));
+                    if (secondsLeft === 0) {
+                        status.textContent = 'Zugangsfenster abgelaufen. Neue Quizstarts sind gesperrt.';
+                        button.disabled = false;
+                        clearInterval(roomCodeWindowTimer);
+                        return;
+                    }
+                    const minutes = Math.floor(secondsLeft / 60);
+                    const seconds = String(secondsLeft % 60).padStart(2, '0');
+                    status.textContent = `Zugangsfenster aktiv: ${minutes}:${seconds} Minuten verbleibend.`;
+                    button.disabled = true;
+                };
+                updateCountdown();
+                roomCodeWindowTimer = setInterval(updateCountdown, 1000);
+                return true;
+            } catch (error) {
+                status.textContent = error.message || 'Zugangsstatus konnte nicht geladen werden. Bitte Apps Script und Verbindung prüfen.';
+                button.disabled = false;
+                console.error('Room code window status failed:', error);
+                return false;
+            }
+        }
+
+        async function activateRoomCodeWindow() {
+            const status = document.getElementById('room-code-window-status');
+            const button = document.getElementById('activate-room-codes-button');
+            button.disabled = true;
+            status.textContent = '5-Minuten-Zugang wird gestartet …';
+            try {
+                const adminKey = getRoomCodeAdminKey();
+                if (!adminKey) throw new Error('Bitte zuerst den Server-Admin-Schlüssel eingeben.');
+                const url = new URL(GOOGLE_SCRIPT_URL);
+                url.searchParams.set('action', 'activateRoomCodeWindow');
+                url.searchParams.set('adminKey', adminKey);
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Zugang konnte nicht gestartet werden (${response.status}).`);
+                const result = await response.json();
+                if (result.status !== 'success') {
+                    throw new Error(result.message || 'Der Server hat das Zugangsfenster nicht bestätigt.');
+                }
+                await refreshRoomCodeWindowStatus();
+                document.getElementById('room-code-admin-error').classList.add('hidden');
+                sfx.success();
+            } catch (error) {
+                status.textContent = error.message || 'Zugang konnte nicht gestartet werden. Bitte Verbindung prüfen und erneut versuchen.';
+                button.disabled = false;
+                console.error('Room code window activation failed:', error);
+                sfx.wrong();
+            }
+        }
+
+        async function rotateClassRoomCodes() {
+            const button = document.getElementById('rotate-room-codes-button');
+            const status = document.getElementById('room-code-rotation-status');
+            const adminKey = getRoomCodeAdminKey();
+            if (!adminKey) {
+                showRoomCodeAdminError('Bitte zuerst den Server-Admin-Schlüssel eingeben.');
+                return;
+            }
+            if (!window.confirm('Alle Klassen-Codes ändern? Die bisherigen Codes funktionieren sofort nicht mehr.')) return;
+
+            button.disabled = true;
+            status.textContent = 'Neue Codes werden erstellt …';
+            document.getElementById('room-code-admin-error').classList.add('hidden');
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify({ action: 'rotateRoomCodes', adminKey: adminKey })
+                });
+                await new Promise(resolve => setTimeout(resolve, 500));
+                if (!await loadClassRoomCodes()) {
+                    throw new Error('Der Server hat die Code-Änderung nicht bestätigt. Bitte Apps Script aktualisieren.');
+                }
+                status.textContent = 'Alle Codes wurden geändert. Das Zugangsfenster ist geschlossen; starte es neu, wenn die Klasse bereit ist.';
+                await refreshRoomCodeWindowStatus();
+                sfx.success();
+            } catch (error) {
+                status.textContent = error.message || 'Codes konnten nicht geändert werden.';
+                console.error('Rotating class room codes failed:', error);
+                sfx.wrong();
+            } finally {
+                button.disabled = false;
+            }
+        }
+
         function openAdminPanel() {
             document.getElementById('start-screen').classList.add('hidden-view');
             document.getElementById('admin-screen').classList.remove('hidden-view');
+            switchAdminTab('tools');
             document.getElementById('admin-timer-select').value = globalTimeLimit;
             document.getElementById('admin-score-select').value = globalPassingScore;
 
@@ -905,18 +1458,58 @@
             ind.style.opacity = "1"; setTimeout(() => ind.style.opacity = "0", 2000); sfx.click();
         }
 
-        function forceScoreAndFinish() {
-            sfx.success();
+        async function forceScoreAndFinish() {
+            sfx.click();
             let nameInput = document.getElementById('force-name-input').value.trim();
             let forced = document.getElementById('force-score-input').value;
+            playerClass = "Gast / Lehrer";
             
             if(nameInput) { gamerTag = sanitizeHTML(nameInput).substring(0, 20); }
             else if(gamerTag === "Commander" || !gamerTag) { gamerTag = "Admin-Test"; }
 
             if(!forced) forced = 15;
             
-            score = parseInt(forced);
-            playerClass = "Gast / Lehrer";
+            const roomCodeField = document.getElementById('force-room-code-input');
+            const roomCodeError = document.getElementById('force-room-code-error');
+            const roomCodeValue = roomCodeField.value.trim().toUpperCase();
+            roomCodeError.classList.add('hidden');
+            roomCodeField.classList.remove('shake');
+            if (!roomCodeValue) {
+                roomCodeError.classList.remove('hidden');
+                roomCodeField.classList.add('shake');
+                roomCodeField.focus();
+                sfx.wrong();
+                return;
+            }
+
+            roomCode = roomCodeValue;
+            try {
+                const validationUrl = new URL(GOOGLE_SCRIPT_URL);
+                validationUrl.searchParams.set('action', 'validateStart');
+                validationUrl.searchParams.set('klasse', playerClass);
+                validationUrl.searchParams.set('roomCode', roomCode);
+                const response = await fetch(validationUrl);
+                if (!response.ok) throw new Error(`Start validation failed (${response.status}).`);
+                const validation = await response.json();
+                if (!validation || Array.isArray(validation) || typeof validation !== 'object') {
+                    throw new Error('Das Apps Script ist nicht aktuell. Bitte Code.gs einfügen und als neue Version bereitstellen.');
+                }
+                if (validation.status !== 'success' || !validation.accessToken) {
+                    throw new Error(validation.status === 'error'
+                        ? validation.message
+                        : 'Das Apps Script ist nicht aktuell. Bitte Code.gs einfügen und als neue Version bereitstellen.');
+                }
+                roomCodeAccessToken = validation.accessToken;
+            } catch (error) {
+                roomCodeError.textContent = error.message || 'Zugang konnte nicht geprüft werden.';
+                roomCodeError.classList.remove('hidden');
+                console.error('Admin test access validation failed:', error);
+                sfx.wrong();
+                return;
+            }
+
+            score = Math.max(0, Math.min(totalQuestions, parseInt(forced, 10) || 0));
+            arcadeScore = score * 1000;
             chosenAvatar = "fa-user-secret";
             cheatCount = 0;
             mistakes = [];
@@ -1018,6 +1611,7 @@
             
             const q = currentQuiz[currentQuestionIndex];
             document.getElementById('question-text').textContent = q.question; document.getElementById('category-badge').textContent = q.category;
+            questionStartedAt = performance.now();
             
             const isBoss = (currentQuestionIndex === totalQuestions - 1);
             const quizBox = document.getElementById('quiz-container-inner'); const qNum = document.getElementById('current-question-num'); const qText = document.getElementById('question-text');
@@ -1095,7 +1689,11 @@
             if (isCorrect) {
                 currentStreak++; updateComboUI(); if(currentStreak >= 3) { sfx.combo(currentStreak); } else { sfx.correct(); }
                 selectedBtn.classList.add('option-correct'); selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-check text-green-500 text-xl');
-                score++; showFeedback(true, "Richtig! " + q.explanation);
+                score++;
+                const elapsedMs = performance.now() - questionStartedAt;
+                const speedBonus = elapsedMs < 10000 ? Math.round(500 * (1 - elapsedMs / 10000)) : 0;
+                arcadeScore += (1000 + speedBonus) * (currentStreak >= 3 ? 2 : 1);
+                showFeedback(true, `Richtig! +${(1000 + speedBonus) * (currentStreak >= 3 ? 2 : 1)} Arcade-Punkte. ${q.explanation}`);
             } else {
                 currentStreak = 0; updateComboUI(); sfx.wrong();
                 selectedBtn.classList.add('option-wrong'); selectedBtn.innerHTML = selectedBtn.innerHTML.replace('fa-circle', 'fa-circle-xmark text-red-500 text-xl');
@@ -1119,20 +1717,20 @@
             document.getElementById('quiz-screen').classList.add('hidden-view');
             document.getElementById('result-screen').classList.remove('hidden-view');
 
-            const percent = Math.round((score / totalQuestions) * 100);
             const passed = score >= globalPassingScore;
-
-            let finalScoreText = score.toString();
-            if (cheatCount > 0) { finalScoreText = `${score} (-${cheatCount})`; }
 
             const detectedDevice = getDeviceFingerprint();
 
-            fetch("https://script.google.com/macros/s/AKfycbxVBfhADgzjiMQCSZgbvEfsMCbzrE6A1RSUVYrKpzYlSBMFZi2viJ5THAIzydJz8mllaw/exec", {
+            fetch(GOOGLE_SCRIPT_URL, {
                 method: "POST", mode: "no-cors",
                 body: JSON.stringify({ 
                     name: gamerTag, 
                     klasse: playerClass, 
-                    punkte: finalScoreText, 
+                    roomCode: roomCode,
+                    accessToken: roomCodeAccessToken,
+                    punkte: `${score}|${arcadeScore}`,
+                    richtige: score,
+                    arcadeScore: arcadeScore,
                     avatar: chosenAvatar,
                     geraet: detectedDevice 
                 })
@@ -1153,25 +1751,134 @@
             } else { mistakesBtn.classList.add('hidden'); }
 
             if (passed) {
-                sfx.success(); if (typeof confetti === 'function') { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#00f3ff', '#bc13fe', '#00ff66', '#ffffff'], zIndex: 100 }); }
+                sfx.success();
                 title.textContent = "Mission Erfolgreich!"; title.className = "text-4xl md:text-5xl font-bold orbitron mb-4 text-center neon-text-blue";
                 
-                let extraMsg = ""; if (cheatCount > 0) extraMsg = "<br><span class='text-red-400 text-sm'>Achtung: Wegen Tab-Wechseln wurden Punkte abgezogen!</span>";
-                message.innerHTML = `Starke Leistung! Du hast <b>${score} von ${totalQuestions}</b> richtig.<br>Hier ist dein Ausweis! Lade ihn dir herunter.${extraMsg}`;
+                let extraMsg = ""; if (cheatCount > 0) extraMsg = "<br><span class='text-red-400 text-sm'>Achtung: Tabwechsel wurden erkannt; die Wertung basiert weiterhin auf richtigen Antworten.</span>";
+                message.innerHTML = `Starke Leistung! Du hast <b><span id="result-correct-count">0</span> von ${totalQuestions}</b> richtig.<br>Dein Arcade Score: <b><span id="result-arcade-count">0</span> Punkte</b>.<br>Hier ist dein Ausweis! Lade ihn dir herunter.${extraMsg}`;
                 
                 document.getElementById('license-name').textContent = gamerTag; 
-                document.getElementById('license-score').textContent = `${percent}% PUNKTE`;
+                document.getElementById('license-score').textContent = `${score}/${totalQuestions}`;
                 document.getElementById('license-klasse').textContent = playerClass; 
                 document.getElementById('license-avatar').innerHTML = avatars[chosenAvatar];
+                const rank = getLicenseRank(score);
+                const card = document.getElementById('license-card-container');
+                card.classList.remove('rank-s', 'rank-diamond', 'rank-silver', 'rank-bronze', 'glitch-reveal');
+                card.classList.add(rank.cardClass);
+                const rankElement = document.getElementById('license-rank');
+                rankElement.classList.remove('stamp-hit');
+                rankElement.querySelector('i').className = rank.icon;
+                document.getElementById('license-rank-name').textContent = rank.name;
+                document.getElementById('license-approved-stamp').classList.remove('stamp-hit');
+                document.getElementById('license-card-scene').classList.remove('card-impact-shake');
+                document.getElementById('license-arcade-score').textContent = "0";
+                const downloadBtn = document.getElementById('download-btn');
+                downloadBtn.disabled = true;
+                downloadBtn.classList.add('opacity-60', 'cursor-not-allowed');
                 
                 const today = new Date(); document.getElementById('license-date').textContent = today.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
                 document.getElementById('license-id').textContent = 'NET-' + Math.floor(100 + Math.random() * 900) + '-' + Math.random().toString(36).substring(2, 5).toUpperCase();
-                licenseWrapper.classList.remove('hidden');
             } else {
                 sfx.fail(); title.textContent = "Mission Gescheitert..."; title.className = "text-4xl md:text-5xl font-bold orbitron mb-4 text-center text-red-500 drop-shadow-[0_0_10px_#ff0055]";
-                message.innerHTML = `Du hast nur <b>${score} von ${totalQuestions}</b> Fragen richtig. Um den Führerschein zu erhalten, brauchst du mindestens ${globalPassingScore} richtige Antworten.`;
+                message.innerHTML = `Du hast nur <b><span id="result-correct-count">0</span> von ${totalQuestions}</b> Fragen richtig. Dein Arcade Score: <b><span id="result-arcade-count">0</span> Punkte</b>.<br>Um den Führerschein zu erhalten, brauchst du mindestens ${globalPassingScore} richtige Antworten.`;
                 failWrapper.classList.remove('hidden');
             }
+
+            if (passed) {
+                startDecryptionReveal(() => {
+                    licenseWrapper.classList.remove('hidden');
+                    const card = document.getElementById('license-card-container');
+                    card.classList.add('glitch-reveal');
+                    setTimeout(() => {
+                        card.classList.remove('glitch-reveal');
+                        animateResultCounters(score, arcadeScore, () => {
+                            const rank = document.getElementById('license-rank');
+                            const stamp = document.getElementById('license-approved-stamp');
+                            const scene = document.getElementById('license-card-scene');
+                            rank.classList.remove('stamp-hit');
+                            stamp.classList.remove('stamp-hit');
+                            scene.classList.remove('card-impact-shake');
+                            void stamp.offsetWidth;
+                            rank.classList.add('stamp-hit');
+                            stamp.classList.add('stamp-hit');
+                            scene.classList.add('card-impact-shake');
+                            sfx.stamp();
+                            setTimeout(() => {
+                                if (typeof confetti === 'function') {
+                                    confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#00f3ff', '#bc13fe', '#00ff66', '#ffffff'], zIndex: 100 });
+                                }
+                                const downloadBtn = document.getElementById('download-btn');
+                                downloadBtn.disabled = false;
+                                downloadBtn.classList.remove('opacity-60', 'cursor-not-allowed');
+                            }, 650);
+                        });
+                    }, 650);
+                });
+            } else {
+                animateResultCounters(score, arcadeScore, () => {});
+            }
+        }
+
+        function getLicenseRank(correctAnswers) {
+            if (correctAnswers >= totalQuestions) return { name: 'S-TIER', cardClass: 'rank-s', icon: 'fa-solid fa-fire' };
+            if (correctAnswers >= 13) return { name: 'DIAMOND', cardClass: 'rank-diamond', icon: 'fa-solid fa-gem' };
+            if (correctAnswers === 12) return { name: 'SILVER', cardClass: 'rank-silver', icon: 'fa-solid fa-medal' };
+            return { name: 'BRONZE', cardClass: 'rank-bronze', icon: 'fa-solid fa-shield-halved' };
+        }
+
+        function startDecryptionReveal(onComplete) {
+            const overlay = document.getElementById('decrypt-overlay');
+            const lines = document.querySelectorAll('#decrypt-lines p');
+            overlay.classList.remove('hidden-view');
+            lines[1].classList.add('hidden');
+            lines[2].classList.add('hidden');
+            const revealLine = setTimeout(() => lines[1].classList.remove('hidden'), 600);
+            const revealIdentity = setTimeout(() => lines[2].classList.remove('hidden'), 1200);
+            setTimeout(() => {
+                clearTimeout(revealLine);
+                clearTimeout(revealIdentity);
+                overlay.classList.add('hidden-view');
+                onComplete();
+            }, 2000);
+        }
+
+        function animateResultCounters(correctAnswers, finalArcadeScore, onComplete) {
+            const correctCounter = document.getElementById('result-correct-count');
+            const arcadeCounter = document.getElementById('result-arcade-count');
+            const licenseArcadeCounter = document.getElementById('license-arcade-score');
+            const duration = 1100;
+            const startTime = performance.now();
+            let lastTickTime = 0;
+
+            function updateCounters(timestamp) {
+                const progress = Math.min((timestamp - startTime) / duration, 1);
+                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                const currentCorrect = Math.floor(correctAnswers * easedProgress);
+                const currentArcade = Math.floor(finalArcadeScore * easedProgress);
+
+                correctCounter.textContent = currentCorrect;
+                arcadeCounter.textContent = currentArcade.toLocaleString('de-DE');
+                licenseArcadeCounter.textContent = currentArcade.toLocaleString('de-DE');
+
+                if (timestamp - lastTickTime >= 45 && progress < 1) {
+                    sfx.countTick();
+                    lastTickTime = timestamp;
+                }
+
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounters);
+                } else {
+                    correctCounter.textContent = correctAnswers;
+                    arcadeCounter.textContent = finalArcadeScore.toLocaleString('de-DE');
+                    licenseArcadeCounter.textContent = finalArcadeScore.toLocaleString('de-DE');
+                    onComplete();
+                }
+            }
+
+            correctCounter.textContent = "0";
+            arcadeCounter.textContent = "0";
+            licenseArcadeCounter.textContent = "0";
+            requestAnimationFrame(updateCounters);
         }
         
         function toggleMistakes() {
@@ -1182,9 +1889,10 @@
 
         function resetQuiz() {
             sfx.click(); window.scrollTo(0, 0); document.getElementById('result-screen').classList.add('hidden-view');
-            document.getElementById('gamertag').value = ""; document.getElementById('player-klasse').value = ""; 
-            document.getElementById('name-error').classList.add('hidden'); document.getElementById('klasse-error').classList.add('hidden');
-            document.getElementById('gamertag').classList.remove('shake'); document.getElementById('player-klasse').classList.remove('shake');
+            document.getElementById('gamertag').value = ""; document.getElementById('room-code-input').value = ""; document.getElementById('player-klasse').value = "";
+            roomCodeAccessToken = "";
+            document.getElementById('name-error').classList.add('hidden'); document.getElementById('room-code-error').classList.add('hidden'); document.getElementById('klasse-error').classList.add('hidden');
+            document.getElementById('gamertag').classList.remove('shake'); document.getElementById('room-code-input').classList.remove('shake'); document.getElementById('player-klasse').classList.remove('shake');
             document.getElementById('quiz-container-inner').classList.remove('boss-mode-box'); document.getElementById('current-question-num').classList.replace('text-red-500', 'text-purple-400');
             document.getElementById('question-text').classList.remove('text-red-300'); document.getElementById('combo-meter').classList.add('hidden');
             document.getElementById('start-screen').classList.remove('hidden-view');
